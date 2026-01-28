@@ -20,7 +20,7 @@ export const AboutPage = () => {
       <section
         className="relative min-h-[60vh] flex items-center justify-center bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.7), rgba(92, 64, 51, 0.8)), url('https://images.unsplash.com/photo-1597524624057-0a3cba4d77b1?crop=entropy&cs=srgb&fm=jpg&q=85')`,
+          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.7), rgba(92, 64, 51, 0.8)), url('https://images.unsplash.com/photo-1597524624057-0a3cba4d77b1?w=1920&h=1080&fit=crop&crop=entropy&cs=srgb&fm=webp&q=75')`,
         }}
         data-testid="about-hero"
       >
@@ -114,7 +114,7 @@ export const AboutPage = () => {
       <section
         className="py-24 bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.5), rgba(92, 64, 51, 0.5)), url('https://images.unsplash.com/photo-1730440593401-6a83a93dacab?crop=entropy&cs=srgb&fm=jpg&q=85')`,
+          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.5), rgba(92, 64, 51, 0.5)), url('https://images.unsplash.com/photo-1730440593401-6a83a93dacab?w=1920&h=1080&fit=crop&crop=entropy&cs=srgb&fm=webp&q=75')`,
         }}
       >
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">

@@ -2,6 +2,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { ImagePreloader } from "@/components/ImagePreloader";
 import { HomePage } from "@/pages/HomePage";
 import { AboutPage } from "@/pages/AboutPage";
 import { BookPage } from "@/pages/BookPage";
@@ -16,6 +17,7 @@ function App() {
         v7_relativeSplatPath: true
       }}
     >
+      <ImagePreloader />
       <div className="App min-h-screen flex flex-col">
         <Navigation />
         <main className="flex-grow">

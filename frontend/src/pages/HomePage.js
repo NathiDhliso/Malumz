@@ -104,7 +104,7 @@ export const HomePage = () => {
       <section
         className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.7), rgba(92, 64, 51, 0.8)), url('https://images.unsplash.com/photo-1633108091790-4cfd06e8d5da?crop=entropy&cs=srgb&fm=jpg&q=85')`,
+          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.7), rgba(92, 64, 51, 0.8)), url('https://images.unsplash.com/photo-1633108091790-4cfd06e8d5da?w=1920&h=1080&fit=crop&crop=entropy&cs=srgb&fm=webp&q=75')`,
         }}
         data-testid="hero-section"
       >
@@ -312,7 +312,7 @@ export const HomePage = () => {
       <section
         className="py-24 bg-cover bg-center relative"
         style={{
-          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.9), rgba(92, 64, 51, 0.9)), url('https://images.unsplash.com/photo-1761666520005-3ffcf13e74c8?crop=entropy&cs=srgb&fm=jpg&q=85')`,
+          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.9), rgba(92, 64, 51, 0.9)), url('https://images.unsplash.com/photo-1761666520005-3ffcf13e74c8?w=1920&h=1080&fit=crop&crop=entropy&cs=srgb&fm=webp&q=75')`,
         }}
         data-testid="vision-section"
       >
