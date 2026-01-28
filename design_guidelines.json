@@ -1,0 +1,136 @@
+{
+  "project_name": "malumz.co.za",
+  "design_philosophy": {
+    "identity": "E1 - The Anti-AI Designer",
+    "core_principles": [
+      "Fusion over Imitation: Mix African heritage with modern minimalism.",
+      "Emotion First: Every pixel must convey 'Quiet Strength' and 'Ubuntu Warmth'.",
+      "Content is King: Tell the story of rebuilding and redemption.",
+      "Zoom In: Focus on faces, hands, and textures to create intimacy.",
+      "Negative Space: Use generous breathing room to reflect dignity."
+    ],
+    "anti_patterns": [
+      "No aggressive 'Alpha Male' aesthetics.",
+      "No corporate blues or generic tech gradients.",
+      "No 'Inter' for headings (Use Playfair Display).",
+      "No crowded layouts - let the content breathe."
+    ]
+  },
+  "typography": {
+    "headings": {
+      "font_family": "Playfair Display, serif",
+      "weights": ["400", "600", "700"],
+      "usage": "All section titles, hero text, and emotional statements.",
+      "classes": "font-serif tracking-tight"
+    },
+    "body": {
+      "font_family": "Inter, sans-serif",
+      "weights": ["400", "500"],
+      "usage": "Paragraphs, UI elements, forms, and data.",
+      "classes": "font-sans leading-relaxed"
+    },
+    "accents": {
+      "font_family": "Merriweather, serif",
+      "usage": "Pull quotes, testimonials, and special emphasis.",
+      "classes": "font-serif italic"
+    }
+  },
+  "colors": {
+    "palette": {
+      "primary": {
+        "name": "Burnt Orange",
+        "hex": "#CC5500",
+        "usage": "Primary CTAs, key highlights, active states."
+      },
+      "secondary": {
+        "name": "Dark Clay Brown",
+        "hex": "#5C4033",
+        "usage": "Text, borders, secondary backgrounds, footer."
+      },
+      "accent": {
+        "name": "Gold",
+        "hex": "#DAA520",
+        "usage": "Icons, success states, premium badges."
+      },
+      "background": {
+        "light": "#F9F7F2",
+        "paper": "#F0EBE0",
+        "white": "#FFFFFF"
+      },
+      "text": {
+        "primary": "#2D241E",
+        "secondary": "#5C4033",
+        "muted": "#8C7B70"
+      }
+    },
+    "theme_strategy": "Light Theme with Earthy Warmth. Avoid stark white (#FFFFFF) for main backgrounds; use Warm Off-White (#F9F7F2) to reduce eye strain and add organic feel."
+  },
+  "layout": {
+    "grid_system": {
+      "marketing": "Bento Grid (Mode A) - Asymmetrical, artistic, breathing room.",
+      "dashboard": "High Density Grid (Mode B) - Structured, data-focused (for Gap Test results)."
+    },
+    "spacing": {
+      "scale": "Tailwind Scale (p-4, p-8, p-12, p-16, p-24, p-32)",
+      "philosophy": "Generous spacing. Use 2-3x more padding than standard templates."
+    },
+    "container": {
+      "max_width": "max-w-7xl",
+      "padding": "px-4 md:px-8 lg:px-12"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#CC5500] text-white hover:bg-[#A04000] rounded-full px-8 py-3 font-medium transition-all shadow-lg hover:shadow-xl",
+      "secondary": "bg-transparent border-2 border-[#5C4033] text-[#5C4033] hover:bg-[#5C4033] hover:text-white rounded-full px-8 py-3 font-medium transition-all",
+      "ghost": "text-[#5C4033] hover:bg-[#5C4033]/10 rounded-lg px-4 py-2 transition-all"
+    },
+    "cards": {
+      "style": "bg-white border border-[#5C4033]/10 rounded-xl shadow-sm hover:shadow-md transition-all duration-300",
+      "marketing": "p-8 or p-12. Focus on typography and negative space.",
+      "feature": "p-6. Icon-driven, concise text."
+    },
+    "inputs": {
+      "style": "bg-[#F9F7F2] border border-[#5C4033]/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#CC5500] focus:border-transparent transition-all"
+    },
+    "navigation": {
+      "style": "Glassmorphism (Crystal). bg-white/80 backdrop-blur-md border-b border-[#5C4033]/5 sticky top-0 z-50"
+    }
+  },
+  "visual_enhancers": {
+    "textures": "Use subtle grain or paper textures on backgrounds to avoid 'digital flatness'.",
+    "shadows": "Soft, warm shadows (e.g., shadow-[0_10px_40px_-10px_rgba(92,64,51,0.1)]).",
+    "borders": "1px solid borders with low opacity (#5C4033/10) for structure.",
+    "icons": "Phosphor Icons (Duotone) or Lucide React (customized with Gold accent)."
+  },
+  "media": {
+    "image_style": "Authentic, candid, warm lighting. Avoid staged stock photos. Focus on connection and emotion.",
+    "image_urls": {
+      "hero_background": "https://images.unsplash.com/photo-1633108091790-4cfd06e8d5da?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "community_gathering": "https://images.unsplash.com/photo-1761666520005-3ffcf13e74c8?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "father_son": "https://images.unsplash.com/photo-1597524624057-0a3cba4d77b1?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "texture_earth": "https://images.unsplash.com/photo-1730440593401-6a83a93dacab?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "book_reading": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=srgb&fm=jpg&q=85"
+    }
+  },
+  "motion": {
+    "philosophy": "Slow, smooth, deliberate. No jerky movements.",
+    "transitions": "transition-all duration-500 ease-out",
+    "scroll": "Use Lenis for smooth scrolling momentum.",
+    "micro_interactions": "Subtle scale up (1.02) on hover for cards. Color shifts for buttons."
+  },
+  "accessibility": {
+    "contrast": "Ensure text meets APCA standards. Use dark brown text on light backgrounds.",
+    "focus_states": "Visible focus rings in Burnt Orange (#CC5500).",
+    "reduced_motion": "Respect prefers-reduced-motion media query."
+  },
+  "universal_guidelines": [
+    "Do not use generic centered layouts.",
+    "Create depth through layered design elements.",
+    "Use glass-morphism effects with backdrop filters.",
+    "Every interaction needs micro-animations.",
+    "Use 2-3x more spacing than feels comfortable.",
+    "All interactive elements MUST include data-testid attribute."
+  ],
+  "instructions_to_main_agent": "You are building a movement, not just a website. Use the provided image URLs for specific sections. Implement the 'Six Trainers' framework using the Bento Grid layout. Ensure the 'Gap Test' feels like a journey of self-discovery, not a tax form. Use the color palette strictly. Do not deviate from the 'Quiet Strength' aesthetic."
+}
