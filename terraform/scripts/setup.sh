@@ -60,13 +60,13 @@ if aws s3 ls "s3://$BUCKET_NAME" 2>&1 | grep -q 'NoSuchBucket'; then
             }
         ]
     }'
-    echo -e "${GREEN}✅ S3 bucket created: $BUCKET_NAME${NC}"
+    echo -e "${GREEN}S3 bucket created: $BUCKET_NAME${NC}"
 else
-    echo -e "${YELLOW}⚠️  S3 bucket already exists: $BUCKET_NAME${NC}"
+    echo -e "${YELLOW}WARNING: S3 bucket already exists: $BUCKET_NAME${NC}"
 fi
 
 echo ""
-echo -e "${GREEN}🎉 Setup completed!${NC}"
+echo -e "${GREEN}Setup completed!${NC}"
 echo -e "${BLUE}Next steps:${NC}"
 echo -e "${BLUE}1. Update environments/*.tfvars with your configuration${NC}"
 echo -e "${BLUE}2. Run: ./scripts/deploy.sh dev plan${NC}"

@@ -1,6 +1,6 @@
 # Deployment Guide
 
-## Pre-Deployment Checklist ✅
+## Pre-Deployment Checklist
 
 ### Code Quality
 - [x] All Emergent references and watermarks removed
@@ -28,7 +28,7 @@
 - [ ] Rate limiting (recommended for production)
 - [ ] Input validation (already implemented with Pydantic)
 
-## 🚀 AWS Deployment Architecture (Terraform)
+## AWS Deployment Architecture (Terraform)
 
 ### Complete Infrastructure as Code
 The project includes comprehensive Terraform configuration for automated AWS deployment.
@@ -57,7 +57,7 @@ The project includes comprehensive Terraform configuration for automated AWS dep
 - **State**: S3 backend with DynamoDB locking
 - **Scripts**: Automated deployment scripts
 
-## 🚀 Quick Deployment
+## Quick Deployment
 
 ### Prerequisites
 - AWS CLI configured with appropriate permissions

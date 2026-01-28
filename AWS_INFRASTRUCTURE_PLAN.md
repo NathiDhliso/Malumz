@@ -1,9 +1,9 @@
 # AWS Infrastructure Plan - Malumz Movement
 
-## 🎯 Objective
+## Objective
 Deploy Malumz Movement application on AWS using Amplify for frontend and supporting services for backend, with Terraform for infrastructure as code.
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ### Frontend (React)
 - **AWS Amplify**: Hosting, CI/CD, custom domain
@@ -31,7 +31,7 @@ Deploy Malumz Movement application on AWS using Amplify for frontend and support
 - **Secrets Manager**: Database credentials
 - **Parameter Store**: Configuration values
 
-## 📋 Resource Requirements
+## Resource Requirements
 
 ### Core Infrastructure
 1. **VPC & Networking**
@@ -94,7 +94,7 @@ Deploy Malumz Movement application on AWS using Amplify for frontend and support
 - **Assets**: Images via Amplify CDN
 - **Domain**: Custom domain via Route 53
 
-## 🚀 Deployment Strategy
+## Deployment Strategy
 
 ### Phase 1: Core Infrastructure
 1. VPC and networking
@@ -114,7 +114,7 @@ Deploy Malumz Movement application on AWS using Amplify for frontend and support
 3. End-to-end functionality testing
 4. Performance optimization
 
-## 📊 Cost Estimation (Monthly)
+## Cost Estimation (Monthly)
 
 ### Development/POC Environment
 - **Amplify**: ~$1-5 (depending on traffic)
@@ -132,7 +132,7 @@ Deploy Malumz Movement application on AWS using Amplify for frontend and support
 - **CloudWatch**: ~$5-15
 - **Total**: ~$125-405/month
 
-## 🔧 Environment Configuration
+## Environment Configuration
 
 ### Development
 - Single DocumentDB instance
@@ -146,7 +146,7 @@ Deploy Malumz Movement application on AWS using Amplify for frontend and support
 - Comprehensive monitoring
 - Production domain with CDN
 
-## 📝 Implementation Tasks
+## Implementation Tasks
 
 ### Task 1: Terraform Setup
 - [ ] Create Terraform directory structure
@@ -201,7 +201,7 @@ Deploy Malumz Movement application on AWS using Amplify for frontend and support
 - SSL/TLS for all communications
 - Regular security updates
 
-## 📈 Scalability & Performance
+## Scalability & Performance
 
 ### Auto Scaling
 - Lambda auto-scales by default

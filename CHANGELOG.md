@@ -2,7 +2,7 @@
 
 ## [1.2.0] - 2026-01-28
 
-### 🏗️ AWS Infrastructure Complete
+### AWS Infrastructure Complete
 
 ### Added - Complete Terraform Infrastructure
 - **Lambda Functions**: 4 serverless functions (gap-test, contact, mock-purchase, status)
@@ -42,9 +42,9 @@
 
 ## [1.0.0] - 2026-01-28
 
-### 🎉 Initial Clean Release
+### Initial Clean Release
 
-### ✅ Fixed Issues
+### Fixed Issues
 - **CRITICAL**: Fixed Gap Test scoring bug - was showing wrong scale (60 vs 600 points)
 - **CRITICAL**: Fixed `HandHeart` icon import error (replaced with `Heart`)
 - **CRITICAL**: Removed all Emergent references and watermarks
@@ -61,19 +61,19 @@
 - Added proper .gitignore file
 - Updated project documentation
 
-### 🚀 New Features
+### New Features
 - **In-Memory Storage**: Added temporary storage solution for testing without MongoDB
 - **Proper Scoring**: Gap Test now correctly displays scores (30/60 format for UI)
 - **Clean Architecture**: Separated concerns for future AWS deployment
 - **Comprehensive README**: Added installation and deployment instructions
 
-### 🎨 Design Improvements
+### Design Improvements
 - Updated HTML meta tags with Malumz branding
 - Added proper font loading (Playfair Display, Inter, Merriweather)
 - Maintained consistent Malumz color scheme throughout
 - Improved responsive design
 
-### 📊 Gap Test Scoring Logic
+### Gap Test Scoring Logic
 - **Raw Scores**: 0-10 per question × 10 questions × 6 trainers = 0-600 total
 - **Display Scores**: Divided by 10 for UI display (0-60 total, 0-10 per trainer)
 - **Score Ranges**:
@@ -82,19 +82,19 @@
   - 36-45: Self-Trained - Making real progress
   - 46-60: Malumz - Leading and training others
 
-### 🔧 Technical Stack
+### Technical Stack
 - **Frontend**: React 18, Tailwind CSS, React Router, Axios
 - **Backend**: FastAPI, Python 3.13, Pydantic, Uvicorn
 - **Storage**: In-memory (development), MongoDB ready (production)
 - **Build**: CRACO, npm/pip package management
 
-### 🌐 Deployment Ready
+### Deployment Ready
 - Clean codebase ready for AWS deployment
 - Environment configuration for different stages
 - Scalable architecture with separate frontend/backend
 - CORS properly configured for cross-origin requests
 
-### 📝 Documentation
+### Documentation
 - Comprehensive README with setup instructions
 - API endpoint documentation
 - Environment variable examples

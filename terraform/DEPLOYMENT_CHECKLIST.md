@@ -1,6 +1,6 @@
 # Malumz Movement - Deployment Checklist
 
-## 📋 Pre-Deployment Checklist
+## Pre-Deployment Checklist
 
 ### Prerequisites
 - [ ] AWS CLI installed and configured
@@ -22,7 +22,7 @@
 - [ ] Confirmed secrets management setup
 - [ ] Checked VPC and subnet configurations
 
-## 🚀 Deployment Steps
+## Deployment Steps
 
 ### Step 1: Initial Setup
 ```bash
@@ -59,7 +59,7 @@ cd terraform
 - [ ] SSL certificate validated
 - [ ] High availability setup verified
 
-## ✅ Post-Deployment Verification
+## Post-Deployment Verification
 
 ### Infrastructure Health
 - [ ] All Lambda functions healthy
@@ -81,7 +81,7 @@ cd terraform
 - [ ] Alarms configured (production)
 - [ ] Cost monitoring enabled
 
-## 🔧 Configuration Updates
+## Configuration Updates
 
 ### Environment Variables
 Update these in your application:
@@ -94,7 +94,7 @@ Update these in your application:
 - [ ] SSL certificate validated
 - [ ] API subdomain configured
 
-## 📊 Cost Monitoring
+## Cost Monitoring
 
 ### Expected Costs
 - **Development**: ~$55-120/month
@@ -106,7 +106,7 @@ Update these in your application:
 - [ ] Log retention periods set correctly
 - [ ] Unused resources cleaned up
 
-## 🚨 Rollback Plan
+## Rollback Plan
 
 ### If Deployment Fails
 1. Check Terraform error messages
@@ -136,7 +136,7 @@ git checkout <previous-commit>
 - Review Terraform state for resource issues
 - Verify GitHub integration for Amplify
 
-## 🎉 Success Criteria
+## Success Criteria
 
 Deployment is successful when:
 - [ ] All infrastructure resources created

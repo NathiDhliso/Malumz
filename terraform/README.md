@@ -2,7 +2,7 @@
 
 This directory contains Terraform configuration for deploying the Malumz Movement application on AWS.
 
-## 🏗️ Architecture
+## Architecture
 
 - **Frontend**: AWS Amplify (React app)
 - **Backend**: AWS Lambda + API Gateway (Python FastAPI)
@@ -33,7 +33,7 @@ terraform/
 └── README.md              # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -79,7 +79,7 @@ terraform/
    ./scripts/deploy.sh dev output
    ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Files
 
@@ -101,7 +101,7 @@ github_access_token = "ghp_your_token_here"
 domain_name = "yourdomain.com"
 ```
 
-## 📊 Environments
+## Environments
 
 ### Development (`dev`)
 - Minimal resources for cost optimization
@@ -133,7 +133,7 @@ domain_name = "yourdomain.com"
 - [ ] Enable AWS Config for compliance
 - [ ] Set up CloudTrail for auditing
 
-## 💰 Cost Optimization
+## Cost Optimization
 
 ### Development Environment (~$55-120/month)
 - Single DocumentDB instance
@@ -153,7 +153,7 @@ domain_name = "yourdomain.com"
 - Reduce `log_retention_days` for dev
 - Use reserved instances for production
 
-## 🔍 Monitoring
+## Monitoring
 
 ### CloudWatch Resources
 - Lambda function logs
@@ -170,7 +170,7 @@ aws logs tail /aws/lambda/malumz-dev-gap-test --follow
 aws logs tail /aws/apigateway/malumz-dev --follow
 ```
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 

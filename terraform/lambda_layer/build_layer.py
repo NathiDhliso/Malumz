@@ -19,7 +19,7 @@ def build_lambda_layer():
     python_dir = build_dir / "python"
     zip_file = layer_dir / "lambda_layer.zip"
     
-    print("🏗️  Building Lambda Layer...")
+    print("Building Lambda Layer...")
     
     # Clean previous build
     if build_dir.exists():
@@ -29,7 +29,7 @@ def build_lambda_layer():
     python_dir.mkdir(parents=True, exist_ok=True)
     
     # Install dependencies
-    print("📦 Installing dependencies...")
+    print("Installing dependencies...")
     subprocess.run([
         "pip", "install", 
         "-r", str(layer_dir / "requirements.txt"),
@@ -38,7 +38,7 @@ def build_lambda_layer():
     ], check=True)
     
     # Create zip file
-    print("🗜️  Creating zip file...")
+    print("Creating zip file...")
     if zip_file.exists():
         zip_file.unlink()
     
@@ -52,8 +52,8 @@ def build_lambda_layer():
     # Clean up build directory
     shutil.rmtree(build_dir)
     
-    print(f"✅ Lambda layer built: {zip_file}")
-    print(f"📊 Size: {zip_file.stat().st_size / 1024 / 1024:.2f} MB")
+    print(f"Lambda layer built: {zip_file}")
+    print(f"Size: {zip_file.stat().st_size / 1024 / 1024:.2f} MB")
 
 if __name__ == "__main__":
     build_lambda_layer()
