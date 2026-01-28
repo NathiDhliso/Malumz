@@ -35,6 +35,15 @@ async def lifespan(app: FastAPI):
 # Create the main app without a prefix
 app = FastAPI(lifespan=lifespan)
 
+# Add CORS middleware BEFORE including routers
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
@@ -216,14 +225,6 @@ async def submit_mock_purchase(submission: MockPurchaseSubmission):
 
 # Include the router in the main app
 app.include_router(api_router)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Configure logging
 logging.basicConfig(

@@ -10,7 +10,12 @@ import { GapTestPage } from "@/pages/GapTestPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true
+      }}
+    >
       <div className="App min-h-screen flex flex-col">
         <Navigation />
         <main className="flex-grow">
