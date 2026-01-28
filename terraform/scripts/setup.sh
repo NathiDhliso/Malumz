@@ -12,28 +12,28 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-echo -e "${BLUE}🔧 Malumz Movement - Initial Setup${NC}"
+echo -e "${BLUE}Malumz Movement - Initial Setup${NC}"
 echo ""
 
 # Check prerequisites
-echo -e "${YELLOW}🔍 Checking prerequisites...${NC}"
+echo -e "${YELLOW}Checking prerequisites...${NC}"
 
 if ! command -v terraform &> /dev/null; then
-    echo -e "${RED}❌ Terraform is not installed${NC}"
+    echo -e "${RED}ERROR: Terraform is not installed${NC}"
     exit 1
 fi
 
 if ! command -v aws &> /dev/null; then
-    echo -e "${RED}❌ AWS CLI is not installed${NC}"
+    echo -e "${RED}ERROR: AWS CLI is not installed${NC}"
     exit 1
 fi
 
 if ! aws sts get-caller-identity &> /dev/null; then
-    echo -e "${RED}❌ AWS credentials not configured${NC}"
+    echo -e "${RED}ERROR: AWS credentials not configured${NC}"
     exit 1
 fi
 
-echo -e "${GREEN}✅ Prerequisites check passed${NC}"
+echo -e "${GREEN}Prerequisites check passed${NC}"
 echo ""
 
 # Get AWS account info
@@ -46,7 +46,7 @@ echo ""
 
 # Create S3 bucket for Terraform state
 BUCKET_NAME="malumz-terraform-state-$ACCOUNT_ID"
-echo -e "${YELLOW}📦 Creating S3 bucket for Terraform state...${NC}"
+echo -e "${YELLOW}Creating S3 bucket for Terraform state...${NC}"
 
 if aws s3 ls "s3://$BUCKET_NAME" 2>&1 | grep -q 'NoSuchBucket'; then
     aws s3 mb "s3://$BUCKET_NAME" --region "$REGION"

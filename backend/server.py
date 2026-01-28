@@ -27,10 +27,10 @@ from contextlib import asynccontextmanager
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    print("🚀 Malumz Movement API starting up...")
+    print("Malumz Movement API starting up...")
     yield
     # Shutdown
-    print("🛑 Malumz Movement API shutting down...")
+    print("Malumz Movement API shutting down...")
 
 # Create the main app without a prefix
 app = FastAPI(lifespan=lifespan)
