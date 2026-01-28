@@ -1,5 +1,45 @@
 # Changelog
 
+## [1.2.0] - 2026-01-28
+
+### 🏗️ AWS Infrastructure Complete
+
+### Added - Complete Terraform Infrastructure
+- **Lambda Functions**: 4 serverless functions (gap-test, contact, mock-purchase, status)
+- **Lambda Layer**: Python dependencies (pymongo, boto3) for all functions
+- **API Gateway**: REST API with CORS support and proper routing
+- **DocumentDB**: MongoDB-compatible database with VPC security
+- **AWS Amplify**: Frontend hosting with automatic CI/CD
+- **CloudWatch**: Comprehensive logging and monitoring
+- **S3 Buckets**: Asset storage and backup solutions
+- **Secrets Manager**: Secure database credential management
+- **VPC**: Private networking with security groups
+
+### Infrastructure Features
+- **Environment Support**: Separate dev/prod configurations with tfvars
+- **Cost Optimization**: Development environment ~$55-120/month
+- **Security**: VPC, security groups, encrypted secrets, IAM roles
+- **Monitoring**: CloudWatch logs, metrics, and health checks
+- **Automation**: Deployment scripts and infrastructure as code
+
+### Documentation Added
+- **terraform/README.md**: Complete infrastructure documentation
+- **terraform/DEPLOYMENT_CHECKLIST.md**: Step-by-step deployment guide
+- **Environment Configs**: Dev and prod tfvars templates
+- **Deployment Scripts**: Automated setup and deployment (`deploy.sh`, `setup.sh`)
+- **Lambda Layer Build**: Automated Python dependency packaging
+
+### Lambda Functions Implemented
+- **Gap Test API**: Handles assessment submissions with DocumentDB storage
+- **Contact API**: Processes contact form submissions
+- **Mock Purchase API**: Handles book purchase simulation
+- **Status API**: System health checks and database connectivity
+
+### Updated Documentation
+- **DEPLOYMENT.md**: Updated with Terraform deployment instructions
+- **README.md**: Added infrastructure deployment section
+- **AWS_INFRASTRUCTURE_PLAN.md**: Comprehensive architecture documentation
+
 ## [1.0.0] - 2026-01-28
 
 ### 🎉 Initial Clean Release

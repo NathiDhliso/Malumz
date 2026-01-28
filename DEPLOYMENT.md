@@ -28,82 +28,166 @@
 - [ ] Rate limiting (recommended for production)
 - [ ] Input validation (already implemented with Pydantic)
 
-## AWS Deployment Architecture
+## 🚀 AWS Deployment Architecture (Terraform)
+
+### Complete Infrastructure as Code
+The project includes comprehensive Terraform configuration for automated AWS deployment.
 
 ### Frontend (React)
-- **Service**: S3 + CloudFront
-- **Domain**: Route 53
-- **SSL**: Certificate Manager
-- **Build**: `npm run build` → upload to S3
+- **Service**: AWS Amplify (with built-in CI/CD)
+- **CDN**: CloudFront (managed by Amplify)
+- **Domain**: Custom domain support with SSL
+- **Build**: Automatic builds on git push
 
-### Backend (FastAPI)
-- **Service**: ECS Fargate or Lambda
-- **Load Balancer**: Application Load Balancer
-- **Container**: Docker image with Python 3.13
-- **Environment**: Production environment variables
+### Backend (Python FastAPI → Lambda)
+- **Service**: AWS Lambda (4 functions)
+- **API**: API Gateway with CORS
+- **Functions**: gap-test, contact, mock-purchase, status
+- **Dependencies**: Lambda Layer with pymongo
 
 ### Database
-- **Service**: DocumentDB or MongoDB Atlas
+- **Service**: Amazon DocumentDB (MongoDB-compatible)
+- **Security**: VPC with private subnets
+- **Credentials**: AWS Secrets Manager
 - **Backup**: Automated daily backups
-- **Security**: VPC, Security Groups
 
 ### Infrastructure as Code
-- **Tool**: AWS CDK or Terraform
-- **CI/CD**: GitHub Actions or AWS CodePipeline
+- **Tool**: Terraform with modular configuration
+- **Environments**: dev, staging, prod configurations
+- **State**: S3 backend with DynamoDB locking
+- **Scripts**: Automated deployment scripts
+
+## 🚀 Quick Deployment
+
+### Prerequisites
+- AWS CLI configured with appropriate permissions
+- Terraform >= 1.0 installed
+- Python 3.11+ for Lambda functions
+- GitHub repository with the code
+
+### Automated Deployment
+
+1. **Navigate to terraform directory**:
+   ```bash
+   cd terraform
+   ```
+
+2. **Initial setup** (creates S3 bucket for state):
+   ```bash
+   chmod +x scripts/*.sh
+   ./scripts/setup.sh
+   ```
+
+3. **Configure environment**:
+   ```bash
+   # Edit environment configuration
+   cp environments/dev.tfvars environments/dev.tfvars.local
+   # Update with your GitHub repo URL and access token
+   ```
+
+4. **Deploy infrastructure**:
+   ```bash
+   # Plan deployment
+   ./scripts/deploy.sh dev plan
+   
+   # Apply changes
+   ./scripts/deploy.sh dev apply
+   ```
+
+5. **Get deployment outputs**:
+   ```bash
+   ./scripts/deploy.sh dev output
+   ```
+
+### What Gets Deployed
+
+- **AWS Amplify**: Frontend hosting with CI/CD
+- **AWS Lambda**: 4 serverless functions
+- **API Gateway**: REST API with CORS support
+- **DocumentDB**: MongoDB-compatible database
+- **S3 Buckets**: Asset storage and backups
+- **CloudWatch**: Logging and monitoring
+- **VPC**: Secure networking
+- **Secrets Manager**: Database credentials
+
+See `terraform/README.md` for detailed documentation.
 
 ## Environment Variables
 
-### Production Backend
+### Automatic Configuration
+The Terraform deployment automatically configures environment variables:
+
+### Frontend (Amplify)
 ```bash
-MONGO_URL=mongodb://production-cluster:27017
-DB_NAME=malumz_production
-CORS_ORIGINS=https://malumz.co.za
+REACT_APP_API_URL=https://api-gateway-url.execute-api.region.amazonaws.com/stage
 ```
 
-### Production Frontend
+### Backend (Lambda)
 ```bash
-REACT_APP_BACKEND_URL=https://api.malumz.co.za
+DOCDB_SECRET_ARN=arn:aws:secretsmanager:region:account:secret:name
+AWS_REGION=us-east-1
+ENVIRONMENT=dev|prod
+LOG_LEVEL=INFO
 ```
+
+### Manual Configuration Required
+
+1. **GitHub Integration**:
+   - Create GitHub personal access token
+   - Add repository URL to tfvars file
+
+2. **Custom Domain** (optional):
+   - Update domain_name in tfvars
+   - Configure DNS after deployment
 
 ## Build Commands
 
-### Frontend
-```bash
-cd frontend
-npm install
-npm run build
-# Upload build/ folder to S3
-```
+### Automated Builds
+- **Frontend**: Amplify automatically builds on git push
+- **Backend**: Lambda functions deployed via Terraform
+- **Dependencies**: Lambda layer built automatically
 
-### Backend
+### Manual Build (if needed)
 ```bash
-cd backend
-pip install -r requirements.txt
-# Deploy to ECS/Lambda
+# Build Lambda layer
+cd terraform/lambda_layer
+python3 build_layer.py
+
+# Validate Terraform
+cd terraform
+terraform validate
+terraform fmt -recursive
 ```
 
 ## Monitoring & Logging
-- **Frontend**: CloudWatch (via CloudFront)
-- **Backend**: CloudWatch Logs
+- **Frontend**: Amplify build logs and CloudFront metrics
+- **Backend**: CloudWatch Logs for each Lambda function
 - **Database**: DocumentDB CloudWatch metrics
-- **Uptime**: Route 53 health checks
+- **API**: API Gateway access logs and metrics
+- **Status**: `/api/status` endpoint for health checks
 
 ## Domain Configuration
-- **Primary**: malumz.co.za
-- **API**: api.malumz.co.za
-- **SSL**: Wildcard certificate (*.malumz.co.za)
+- **Primary**: Configured via Amplify (custom domain optional)
+- **API**: API Gateway provides endpoint URL
+- **SSL**: Managed by AWS (Amplify and API Gateway)
+
+## Cost Monitoring
+- **Development**: ~$55-120/month
+- **Production**: ~$125-405/month
+- **Main cost**: DocumentDB cluster (~$50-300/month)
 
 ## Post-Deployment Testing
-1. Test all pages load correctly
-2. Test Gap Test functionality end-to-end
-3. Test contact form submission
-4. Test book purchase flow
-5. Verify responsive design on mobile
-6. Check SSL certificate
-7. Test API endpoints directly
+1. Check Terraform outputs for URLs
+2. Test Amplify app deployment
+3. Test all API endpoints via API Gateway
+4. Test Gap Test functionality end-to-end
+5. Test contact form submission
+6. Test book purchase flow
+7. Verify DocumentDB connectivity
+8. Check CloudWatch logs for errors
 
 ## Rollback Plan
-1. Keep previous S3 deployment
-2. Keep previous ECS task definition
-3. Database backup before deployment
-4. DNS TTL set to 300 seconds for quick changes
+1. **Infrastructure**: `terraform destroy` and redeploy from previous state
+2. **Application**: Amplify keeps deployment history
+3. **Database**: DocumentDB automated backups
+4. **Emergency**: Use AWS Console to manually rollback resources

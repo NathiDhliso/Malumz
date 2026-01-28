@@ -96,3 +96,19 @@ jspm_packages/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/*.tfplan
+terraform/response.json
+terraform/environments/*.local.tfvars
+
+# Lambda deployment packages
+terraform/*_lambda.zip
+terraform/lambda_layer/lambda_layer.zip
+
+# Disabled files
+*.disabled

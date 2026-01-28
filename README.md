@@ -106,13 +106,29 @@ REACT_APP_BACKEND_URL=http://localhost:8000
 
 ## Deployment
 
-### AWS Deployment (Future)
-This application is designed to be deployed on AWS with:
-- **Frontend**: S3 + CloudFront
-- **Backend**: ECS or Lambda
-- **Database**: DocumentDB or MongoDB Atlas
-- **Domain**: Route 53
-- **SSL**: Certificate Manager
+### AWS Infrastructure (Terraform)
+Complete infrastructure as code for AWS deployment:
+
+```bash
+cd terraform
+./scripts/setup.sh          # Initial setup
+./scripts/deploy.sh dev plan # Plan deployment
+./scripts/deploy.sh dev apply # Deploy infrastructure
+```
+
+**What gets deployed:**
+- AWS Amplify (frontend hosting with CI/CD)
+- AWS Lambda + API Gateway (serverless backend)
+- Amazon DocumentDB (MongoDB-compatible database)
+- CloudWatch (logging and monitoring)
+- S3 (asset storage and backups)
+- VPC (secure networking)
+
+**Estimated costs:**
+- Development: ~$55-120/month
+- Production: ~$125-405/month
+
+See `terraform/README.md` and `DEPLOYMENT.md` for detailed instructions.
 
 ## Contributing
 
