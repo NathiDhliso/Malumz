@@ -1,191 +1,112 @@
 import { Link } from 'react-router-dom';
-import { Shield, Users, BookOpen, TrendingUp, Compass, Heart, ArrowRight, Target } from 'lucide-react';
+import { Shield, Users, BookOpen, TrendingUp, Compass, Heart, ArrowRight } from 'lucide-react';
 
 export const HomePage = () => {
   const sixTrainers = [
     {
       name: 'Family Trainer',
+      tagline: 'Provide, Protect, Love',
       icon: Shield,
-      score: '8/10',
       description: 'Love. Protection. Provision. Not money—stability.',
       color: 'text-malumz-orange',
     },
     {
-      name: 'Community Trainer',
-      icon: Users,
-      score: 'Ubuntu lives',
-      description: 'Find your pack. Build accountability. Stop bleeding alone.',
+      name: 'Masculine Trainer',
+      tagline: 'Strength as service',
+      icon: Heart,
+      description: 'Strength = Service, not Dominance. Provide. Protect. Love.',
       color: 'text-malumz-gold',
     },
     {
-      name: 'Academic Trainer',
-      icon: BookOpen,
-      score: 'Structure heals',
-      description: "You're not stupid. You were just never trained right.",
+      name: 'Community Trainer',
+      tagline: 'The Pack',
+      icon: Users,
+      description: 'Find your pack. Build accountability. Stop bleeding alone.',
       color: 'text-malumz-orange',
     },
     {
       name: 'Economic Trainer',
+      tagline: 'Legacy vs survival',
       icon: TrendingUp,
-      score: 'Legacy mode',
       description: 'From survival mode to legacy mode.',
       color: 'text-malumz-gold',
     },
     {
-      name: 'Identity Trainer',
-      icon: Heart,
-      score: 'Core Rule',
-      description: 'Strength = Service, not Dominance. Provide. Protect. Love.',
+      name: 'Academic Trainer',
+      tagline: 'Mental diet',
+      icon: BookOpen,
+      description: "You're not stupid. You were just never trained right.",
       color: 'text-malumz-orange',
     },
     {
       name: 'Spiritual Trainer',
+      tagline: 'The Anchor',
       icon: Compass,
-      score: 'Kingdom first',
       description: 'Your moral anchor when everything else collapses.',
       color: 'text-malumz-gold',
     },
   ];
 
-  const products = [
-    {
-      name: 'The Dog Trainer',
-      subtitle: 'Digital Book',
-      price: 'R299',
-      features: [
-        'Full book (PDF)',
-        'Free Mind the Gap Worksheet',
-        'Access to private reader community',
-      ],
-      cta: 'Buy the Book',
-      link: '/book',
-      badge: null,
-    },
-    {
-      name: '30-Day Rebuild Program',
-      subtitle: 'The Training',
-      price: 'R3,500',
-      features: [
-        'Guided daily exercises',
-        'Weekly Malumz check-ins',
-        'Private WhatsApp accountability group',
-        'Progress tracking dashboard',
-      ],
-      cta: 'Start Training',
-      link: '/book',
-      badge: 'MOST POPULAR',
-    },
-    {
-      name: 'Malumz Certification',
-      subtitle: 'The Path',
-      price: 'R15,000',
-      features: [
-        '6-month training program',
-        'Background check & verification',
-        'Official Malumz shirt + ID',
-        'Join Alumni Network',
-      ],
-      cta: 'Apply Now',
-      link: '/contact',
-      badge: null,
-    },
-  ];
-
-  const stats = [
-    { number: '100,000', label: 'Men we\'ll train by 2030' },
-    { number: '1,000', label: 'ME Centers across South Africa' },
-    { number: '30%', label: 'GBV reduction target in pilot areas' },
-    { number: 'R1 billion', label: 'Movement economy we\'re building' },
+  const pilotStats = [
+    { number: '10', label: 'Brotherhood Circles in Phase 1' },
+    { number: '200', label: 'Men in the 2026–2030 pilot' },
+    { number: '70%+', label: 'Completion rate target' },
+    { number: '6', label: 'Months per Circle' },
   ];
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section
-        className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
-        style={{
-          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.7), rgba(92, 64, 51, 0.8)), url('https://images.unsplash.com/photo-1633108091790-4cfd06e8d5da?w=1920&h=1080&fit=crop&crop=entropy&cs=srgb&fm=webp&q=75')`,
-        }}
-        data-testid="hero-section"
-      >
+      <section className="relative min-h-screen flex items-center justify-center bg-malumz-brown">
         <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12 py-32 text-center">
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
-            You're Not Broken.<br />You Were Never Trained.
+            We are building men.<br />20 at a time.
           </h1>
-          <p className="font-sans text-lg sm:text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-            From 21/60 to 37/60 in 18 months. The Six Trainers Framework that rebuilt one man—and can rebuild 100,000 more.
+          <p className="font-sans text-lg sm:text-xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed">
+            The Dog Trainer is a memoir and framework. Brotherhood Circles are how we put it into practice — 20 men, 6 months, rebuilding across all six dimensions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              to="/gap-test"
-              data-testid="hero-gap-test-cta"
+              to="/join"
               className="bg-malumz-gold text-malumz-text-primary hover:bg-malumz-gold/90 rounded-full px-8 py-4 font-semibold text-lg transition-all shadow-lg hover:shadow-xl hover:scale-105"
             >
-              Take The Gap Test (Free)
+              Start a Circle
             </Link>
             <Link
-              to="/about"
-              data-testid="hero-read-story-cta"
-              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-malumz-text-primary rounded-full px-8 py-4 font-medium text-lg transition-all"
+              to="/book"
+              className="bg-malumz-orange text-white hover:bg-malumz-orange-dark rounded-full px-8 py-4 font-semibold text-lg transition-all shadow-lg hover:shadow-xl"
             >
-              Read The Story
+              Get the Book
+            </Link>
+            <Link
+              to="/crisis"
+              className="bg-transparent border-2 border-red-400 text-red-300 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-full px-8 py-4 font-medium text-lg transition-all"
+            >
+              I Need Help Now
             </Link>
           </div>
         </div>
       </section>
 
-      {/* The Problem Section */}
-      <section className="py-24 bg-malumz-brown" data-testid="problem-section">
+      <section className="py-20 bg-malumz-cream">
         <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-4xl font-bold text-white text-center mb-16">
-            You've Felt This Before
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all">
-              <div className="text-malumz-gold mb-4">
-                <Target size={40} />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {pilotStats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-5xl font-bold text-malumz-gold mb-2">{stat.number}</div>
+                <p className="text-malumz-text-secondary text-sm">{stat.label}</p>
               </div>
-              <h3 className="font-serif text-2xl font-bold text-white mb-4">
-                Your Father Tried. The System Broke Him.
-              </h3>
-              <p className="text-white/80 leading-relaxed">
-                Migrant labor. Unemployment. No Baba to teach you how to be a man. You're not angry at him—you're lost without him.
-              </p>
-            </div>
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all">
-              <div className="text-malumz-gold mb-4">
-                <Users size={40} />
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-white mb-4">
-                Your Boys Left You Bleeding
-              </h3>
-              <p className="text-white/80 leading-relaxed">
-                The pool table pub. The eviction. The moment you needed help and no one came. The Community Trainer is dead.
-              </p>
-            </div>
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 hover:bg-white/10 transition-all">
-              <div className="text-malumz-gold mb-4">
-                <Compass size={40} />
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-white mb-4">
-                You're Performing, Not Living
-              </h3>
-              <p className="text-white/80 leading-relaxed">
-                Corporate code-switching. The velvet leash. You're successful on paper but feel like a fraud. Heritage Day in a costume.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Six Trainers Section */}
-      <section className="py-24 bg-malumz-cream" data-testid="six-trainers-section">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
           <h2 className="font-serif text-4xl font-bold text-malumz-text-primary text-center mb-4">
-            The Six Trainers That Apartheid Broke
+            The Six Trainers
           </h2>
-          <p className="text-center text-malumz-text-secondary text-lg mb-16">
-            —And How to Rebuild Them
+          <p className="text-center text-malumz-text-secondary text-lg mb-16 max-w-2xl mx-auto">
+            Six dimensions that every man needs to rebuild. Apartheid systematically destroyed them. Brotherhood Circles restore them.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {sixTrainers.map((trainer, index) => {
@@ -193,16 +114,15 @@ export const HomePage = () => {
               return (
                 <div
                   key={index}
-                  className="bg-white border border-malumz-brown/10 rounded-xl p-8 hover:shadow-lg transition-all duration-300 group hover:scale-105"
-                  data-testid={`trainer-card-${index}`}
+                  className="bg-malumz-cream border border-malumz-brown/10 rounded-xl p-8 hover:shadow-lg transition-all duration-300 group"
                 >
                   <div className={`${trainer.color} mb-4 group-hover:scale-110 transition-transform`}>
                     <Icon size={48} />
                   </div>
-                  <h3 className="font-serif text-2xl font-bold text-malumz-text-primary mb-2">
+                  <h3 className="font-serif text-2xl font-bold text-malumz-text-primary mb-1">
                     {trainer.name}
                   </h3>
-                  <p className="text-malumz-gold font-semibold mb-3">{trainer.score}</p>
+                  <p className="text-malumz-gold font-semibold mb-3 text-sm">{trainer.tagline}</p>
                   <p className="text-malumz-text-secondary leading-relaxed">
                     {trainer.description}
                   </p>
@@ -213,8 +133,7 @@ export const HomePage = () => {
         </div>
       </section>
 
-      {/* Transformation Section */}
-      <section className="py-24 bg-white" data-testid="transformation-section">
+      <section className="py-24 bg-malumz-cream">
         <div className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12">
           <h2 className="font-serif text-4xl font-bold text-malumz-text-primary text-center mb-12">
             From Wild Dog to Self-Trained Leader
@@ -230,9 +149,9 @@ export const HomePage = () => {
               <p className="text-malumz-text-secondary">After 18 months</p>
             </div>
           </div>
-          <div className="bg-malumz-paper border-l-4 border-malumz-orange p-8 rounded-lg">
+          <div className="bg-white border-l-4 border-malumz-orange p-8 rounded-lg">
             <p className="font-accent italic text-lg text-malumz-text-secondary leading-relaxed mb-4">
-              "In 2024, I scored 21/60. My father had just died. My marriage was shaky. I had no community. I was a Wild Dog—surviving, not living.
+              "In 2024, I scored 21/60. My father had just died. My marriage was shaky. I had no community. I was a Wild Dog — surviving, not living.
             </p>
             <p className="font-accent italic text-lg text-malumz-text-secondary leading-relaxed mb-4">
               18 months later: 37/60. Married. Building. Training others.
@@ -241,13 +160,12 @@ export const HomePage = () => {
               This is what systematic training looks like."
             </p>
             <p className="text-right text-malumz-text-primary font-semibold mt-6">
-              — Nathi Dhliso, Founder
+              — Nathi Dhliso, Author
             </p>
           </div>
           <div className="text-center mt-8">
             <Link
               to="/about"
-              data-testid="read-full-story-cta"
               className="bg-transparent border-2 border-malumz-orange text-malumz-orange hover:bg-malumz-orange hover:text-white rounded-full px-8 py-3 font-medium transition-all inline-block"
             >
               Read the Full Story
@@ -256,138 +174,84 @@ export const HomePage = () => {
         </div>
       </section>
 
-      {/* Products Section */}
-      <section className="py-24 bg-malumz-cream" data-testid="products-section">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-4xl font-bold text-malumz-text-primary text-center mb-16">
-            Start Your Rebuild Today
+      <section className="py-24 bg-malumz-brown">
+        <div className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12">
+          <h2 className="font-serif text-4xl font-bold text-white text-center mb-12">
+            How Brotherhood Circles Work
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {products.map((product, index) => (
-              <div
-                key={index}
-                className={`bg-white border rounded-xl p-8 flex flex-col relative ${
-                  product.badge
-                    ? 'border-malumz-orange shadow-xl scale-105'
-                    : 'border-malumz-brown/10 hover:shadow-lg'
-                } transition-all duration-300`}
-                data-testid={`product-card-${index}`}
-              >
-                {product.badge && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-malumz-orange text-white text-xs font-bold px-4 py-2 rounded-full">
-                    {product.badge}
-                  </div>
-                )}
-                <h3 className="font-serif text-2xl font-bold text-malumz-text-primary mb-2">
-                  {product.name}
-                </h3>
-                <p className="text-malumz-text-secondary mb-4">{product.subtitle}</p>
-                <div className="text-4xl font-bold text-malumz-gold mb-6">{product.price}</div>
-                <ul className="space-y-3 mb-8 flex-grow">
-                  {product.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-malumz-text-secondary">
-                      <span className="text-malumz-gold mt-1">✓</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to={product.link}
-                  data-testid={`product-cta-${index}`}
-                  className={`text-center rounded-full px-6 py-3 font-medium transition-all ${
-                    product.badge
-                      ? 'bg-malumz-orange text-white hover:bg-malumz-orange-dark'
-                      : 'bg-transparent border-2 border-malumz-orange text-malumz-orange hover:bg-malumz-orange hover:text-white'
-                  }`}
-                >
-                  {product.cta}
-                </Link>
-              </div>
-            ))}
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center">
+              <div className="text-4xl font-bold text-malumz-gold mb-4">20</div>
+              <h3 className="font-serif text-xl font-bold text-white mb-2">Men Gather</h3>
+              <p className="text-white/70 text-sm">A facilitator recruits 20 men. Ground rules are set. The cost is shared — R10/week stokvel model.</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center">
+              <div className="text-4xl font-bold text-malumz-gold mb-4">6</div>
+              <h3 className="font-serif text-xl font-bold text-white mb-2">Months of Work</h3>
+              <p className="text-white/70 text-sm">Weekly 2-hour sessions. One Trainer per month. Mind the Gap scoring. Real accountability.</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center">
+              <div className="text-4xl font-bold text-malumz-gold mb-4">3</div>
+              <h3 className="font-serif text-xl font-bold text-white mb-2">Choices at the End</h3>
+              <p className="text-white/70 text-sm">Graduate and choose: Done (walk away rebuilt), Lead (facilitate a new Circle), or Build (join the infrastructure).</p>
+            </div>
+          </div>
+          <div className="text-center">
+            <Link
+              to="/join"
+              className="bg-malumz-gold text-malumz-text-primary hover:bg-malumz-gold/90 rounded-full px-8 py-4 font-semibold text-lg transition-all inline-block"
+            >
+              Start a Circle in Your Area
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Vision Section */}
-      <section
-        className="py-24 bg-cover bg-center relative"
-        style={{
-          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.9), rgba(92, 64, 51, 0.9)), url('https://images.unsplash.com/photo-1761666520005-3ffcf13e74c8?w=1920&h=1080&fit=crop&crop=entropy&cs=srgb&fm=webp&q=75')`,
-        }}
-        data-testid="vision-section"
-      >
-        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-4xl font-bold text-white text-center mb-16">
-            This Isn't a Course. It's a Movement.
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center" data-testid={`stat-${index}`}>
-                <div className="text-5xl font-bold text-malumz-gold mb-2">{stat.number}</div>
-                <p className="text-white/80">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-white text-lg leading-relaxed mb-6">
-              "BEE failed us. R100 million tenders built one mansion while the township starved.
-            </p>
-            <p className="text-white text-lg leading-relaxed mb-6">
-              What if we took that same R100 million and trained 10,000 men instead?
-            </p>
-            <p className="text-white text-lg leading-relaxed mb-6">
-              That's 10,000 stable families. 20,000 children with fathers. 50,000 boys with Malumz.
-            </p>
-            <p className="text-white text-lg leading-relaxed mb-8 font-semibold">
-              This is how we rebuild what apartheid destroyed."
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust Section */}
-      <section className="py-24 bg-white" data-testid="trust-section">
+      <section className="py-24 bg-white">
         <div className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12">
           <h2 className="font-serif text-4xl font-bold text-malumz-text-primary text-center mb-12">
-            Version 1.0: We'll Prove It or Admit We Failed
+            We'll Prove It or Admit We Failed
           </h2>
           <div className="grid md:grid-cols-2 gap-12">
             <div>
               <h3 className="font-serif text-2xl font-bold text-malumz-orange mb-4">
-                The Promise
+                The Pilot (2026–2030)
               </h3>
               <p className="text-malumz-text-secondary leading-relaxed mb-4">
-                This isn't theory. This is a pilot program.
-              </p>
-              <p className="text-malumz-text-secondary leading-relaxed mb-4">
-                Between 2026-2028, we'll run the first ME Centers in Thokoza, Soweto, and Tembisa. We'll track completion rates, family stability metrics, and GBV reduction in pilot areas.
+                10 Brotherhood Circles. 200 men. We track completion rates, relationship improvement, and whether graduates want to lead.
               </p>
               <p className="text-malumz-text-secondary leading-relaxed">
-                In 2028, we'll publish Version 2.0 of this book with honest results. If it works, you'll see the proof. If it fails, we'll tell you why.
+                If the model meets its targets, we scale. If it fails, we publish why and revise. No spin.
               </p>
             </div>
             <div>
               <h3 className="font-serif text-2xl font-bold text-malumz-orange mb-4">
-                The Accountability
+                The Targets
               </h3>
               <ul className="space-y-3 text-malumz-text-secondary">
                 <li className="flex items-start gap-2">
-                  <span className="text-malumz-gold mt-1">•</span>
-                  Progress reports published quarterly
+                  <span className="text-malumz-gold mt-1 font-bold">70%+</span>
+                  <span>Completion rate</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-malumz-gold mt-1">•</span>
-                  Financials available on request
+                  <span className="text-malumz-gold mt-1 font-bold">50%+</span>
+                  <span>Self-reported relationship improvement</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-malumz-gold mt-1">•</span>
-                  Community oversight board (not government-controlled)
+                  <span className="text-malumz-gold mt-1 font-bold">30%+</span>
+                  <span>Graduates who choose to lead new Circles</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-malumz-gold mt-1">•</span>
-                  Contact: <a href="mailto:nkosinathi.dhliso@gmail.com" className="text-malumz-orange hover:underline">nkosinathi.dhliso@gmail.com</a>
+                  <span className="text-malumz-gold mt-1 font-bold">Zero</span>
+                  <span>Weaponisation incidents</span>
                 </li>
               </ul>
+              <Link
+                to="/results"
+                className="inline-block mt-6 text-malumz-orange font-medium hover:underline"
+              >
+                View live results dashboard →
+              </Link>
             </div>
           </div>
         </div>

@@ -17,9 +17,11 @@ export const ContactPage = () => {
   const subjectOptions = [
     'General Inquiry',
     'Book Question',
-    'Program Interest',
-    'ME Center Partnership',
+    'Brotherhood Circle Question',
+    'Research Partnership',
+    'Corporate / Government Partnership',
     'Media Request',
+    'Safety Report',
   ];
 
   const handleInputChange = (e) => {
@@ -51,7 +53,7 @@ export const ContactPage = () => {
             Get In Touch
           </h1>
           <p className="font-sans text-xl text-malumz-text-secondary max-w-2xl mx-auto">
-            Have questions about the book, programs, or ME Centers? We respond within 48 hours.
+            Have questions about the book, Brotherhood Circles, or partnerships? We respond within 48 hours.
           </p>
         </div>
       </section>
@@ -226,19 +228,13 @@ export const ContactPage = () => {
         </div>
       </section>
 
-      {/* Map Placeholder */}
-      <section
-        className="py-24 bg-cover bg-center"
-        style={{
-          backgroundImage: `linear-gradient(rgba(45, 36, 30, 0.7), rgba(92, 64, 51, 0.7)), url('https://images.unsplash.com/photo-1761666520005-3ffcf13e74c8?w=1920&h=1080&fit=crop&crop=entropy&cs=srgb&fm=webp&q=75')`,
-        }}
-      >
+      <section className="py-16 bg-malumz-brown">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
           <h3 className="font-serif text-3xl font-bold text-white mb-4">
             Building From Johannesburg, For All of South Africa
           </h3>
           <p className="text-white/90 text-lg">
-            The pilot ME Centers launch in Thokoza, Soweto, and Tembisa in 2026.
+            The pilot Brotherhood Circles launch in 2026.
           </p>
         </div>
       </section>
