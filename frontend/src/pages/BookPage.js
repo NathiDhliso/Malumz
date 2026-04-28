@@ -17,7 +17,7 @@ export const BookPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          productId: 'audiobook-the-dog-trainer', // Replace with exact product ID expected by AWS backend
+          productId: 'ebook-the-dog-trainer', // Replace with exact product ID expected by AWS backend
         }),
       });
 
@@ -149,13 +149,13 @@ export const BookPage = () => {
       <section className="py-24 bg-malumz-brown/5 border-y border-malumz-brown/10">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
           <h2 className="font-serif text-4xl font-bold text-malumz-text-primary mb-4">
-            Listen to the Audiobook
+            Get the Book & Audiobook
           </h2>
           <p className="text-malumz-text-secondary mb-8">
-            Access the complete, professionally narrated audiobook experience.
+            Buy the eBook below, or stream the complete audiobook for free.
           </p>
 
-          <div className="mb-12">
+          <div className="mb-12 flex justify-center">
             <button 
               onClick={handleCheckout}
               disabled={isCheckingOut}
@@ -166,32 +166,35 @@ export const BookPage = () => {
               ) : (
                 <ShoppingCart size={24} />
               )}
-              {isCheckingOut ? 'Opening Secure Checkout...' : 'Buy Audiobook — R99'}
+              {isCheckingOut ? 'Opening Secure Checkout...' : 'Buy the eBook — R99'}
             </button>
-            {checkoutError && (
-              <p className="text-red-500 mt-4 text-sm font-medium">{checkoutError}</p>
-            )}
-            <p className="text-malumz-text-muted text-sm mt-4 italic">
-              Payments securely processed by Yoco.
-            </p>
           </div>
+          {checkoutError && (
+            <p className="text-red-500 text-center mb-8 text-sm font-medium">{checkoutError}</p>
+          )}
 
-          <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black/5 border border-malumz-brown/10 flex items-center justify-center p-8" style={{ aspectRatio: '16/9' }}>
-            <div className="text-center">
-              <h3 className="font-serif text-2xl font-bold text-malumz-text-primary mb-2">
-                Audiobook Available
-              </h3>
-              <p className="text-malumz-text-secondary mb-4">
-                Listen on any device instantly after purchase.
-              </p>
-              <div className="text-malumz-gold">
-                <BookOpen size={64} className="mx-auto opacity-50" />
-              </div>
-            </div>
+          <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black/5 border border-malumz-brown/10 mb-8" style={{ aspectRatio: '16/9' }}>
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube-nocookie.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
+              title="The Dog Trainer Audiobook"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full bg-black"
+            ></iframe>
           </div>
-          <p className="text-malumz-text-muted text-sm mt-4 text-center">
-            * Full access granted instantly upon purchase and sent to your email.
-          </p>
+          <div className="bg-malumz-orange/10 border border-malumz-orange/20 rounded-xl p-6 text-center">
+            <h3 className="font-serif text-xl font-bold text-malumz-text-primary mb-2">Support the Mission</h3>
+            <p className="text-malumz-text-secondary text-sm mb-4 max-w-2xl mx-auto">
+              We make this audiobook available for free because this message needs to be heard. 
+              If you found value in it, please consider donating. 100% of donations go directly towards running transformative camps for boys and men through the Malumz Movement.
+            </p>
+            <a href="https://pay.yoco.com/malumz-movement" target="_blank" rel="noreferrer" className="text-malumz-orange font-bold hover:underline">
+              Donate via Yoco →
+            </a>
+          </div>
         </div>
       </section>
 

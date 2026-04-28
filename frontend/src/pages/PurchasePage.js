@@ -60,7 +60,7 @@ export const PurchasePage = () => {
           sessionStorage.removeItem('checkoutId');
           sessionStorage.removeItem('checkoutTimestamp');
           setStatus('success');
-          setMessage('Purchase successful! Your audiobook is now unlocked.');
+          setMessage('Purchase successful! Your eBook is now ready to download.');
         } else if (data.status === 'pending') {
           if (attempts >= maxAttempts) {
             setStatus('error');
@@ -112,30 +112,16 @@ export const PurchasePage = () => {
               Payment Successful!
             </h2>
             <p className="text-malumz-text-secondary mb-8 text-lg font-medium">
-              You can now listen to the full audiobook below. We highly recommend bookmarking this page or saving the playlist link so you don't lose access!
+              Thank you for your purchase. Please download your eBook below. A securely linked copy should also be arriving in your email.
             </p>
             
-            <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black/5 border border-malumz-brown/10 mb-8" style={{ aspectRatio: '16/9' }}>
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube-nocookie.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
-                title="The Dog Trainer Audiobook"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full bg-black"
-              ></iframe>
-            </div>
-
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center mt-4">
               <a
-                href="https://www.youtube.com/playlist?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-malumz-orange text-white hover:bg-malumz-orange-dark rounded-full px-8 py-3 font-semibold transition-all"
+                href="/The_Dog_Trainer.epub"
+                className="bg-malumz-gold text-malumz-text-primary hover:bg-malumz-gold/90 rounded-full px-10 py-5 font-bold text-xl inline-flex items-center gap-3 transition-transform shadow-lg hover:scale-105"
+                download
               >
-                Save YouTube Link
+                Download eBook (ePub)
               </a>
               <button
                 onClick={() => navigate('/book')}

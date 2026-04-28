@@ -136,17 +136,29 @@ export const HomePage = () => {
       <section className="py-24 bg-malumz-brown/5 border-y border-malumz-brown/10">
         <div className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 text-center">
           <h2 className="font-serif text-4xl font-bold text-malumz-text-primary mb-6">
-            Listen to the Audiobook
+            Get the Audiobook & eBook
           </h2>
           <p className="text-malumz-text-secondary mb-12 text-lg">
-            "The Dog Trainer" is vividly narrated and fully available to stream anytime.
+            Stream the entire "The Dog Trainer" audiobook for free, or support the movement by buying the eBook.
           </p>
-          <div className="mt-12">
+          <div className="w-full rounded-2xl overflow-hidden shadow-2xl bg-black/5 border border-malumz-brown/20" style={{ aspectRatio: '16/9' }}>
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube-nocookie.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
+              title="The Dog Trainer Audiobook"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full bg-black"
+            ></iframe>
+          </div>
+          <div className="mt-12 flex justify-center gap-6">
             <Link
               to="/book"
-              className="bg-malumz-orange text-white hover:bg-malumz-orange/90 rounded-full px-8 py-4 font-semibold text-lg transition-all shadow-lg hover:shadow-xl inline-block"
+              className="bg-malumz-gold text-malumz-text-primary hover:bg-malumz-gold/90 rounded-full px-8 py-4 font-bold text-lg transition-all shadow-lg hover:shadow-xl hover:scale-105 inline-block"
             >
-              Get the Audiobook
+              Support the Mission (R99 eBook)
             </Link>
           </div>
         </div>
