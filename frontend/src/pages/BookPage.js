@@ -71,8 +71,6 @@ export const BookPage = () => {
 
   const purchaseLinks = [
     { name: 'Amazon KDP', url: '#', description: 'Print & Kindle' },
-    { name: 'Takealot', url: '#', description: 'South African delivery' },
-    { name: 'Gumroad', url: '#', description: 'Direct PDF download' },
   ];
 
   return (
