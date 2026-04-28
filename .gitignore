@@ -112,3 +112,7 @@ terraform/lambda_layer/lambda_layer.zip
 
 # Disabled files
 *.disabled
+
+Dog_Trainer-AudioBook/
+*.mp3
+*.mp4

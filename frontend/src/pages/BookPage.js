@@ -104,6 +104,29 @@ export const BookPage = () => {
         </div>
       </section>
 
+      <section className="py-24 bg-malumz-brown/5 border-y border-malumz-brown/10">
+        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
+          <h2 className="font-serif text-4xl font-bold text-malumz-text-primary mb-4">
+            Listen to the Audiobook
+          </h2>
+          <p className="text-malumz-text-secondary mb-8">
+            Stream the entire audiobook for free directly from our YouTube channel.
+          </p>
+          <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black/5 border border-malumz-brown/10" style={{ aspectRatio: '16/9' }}>
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
+              title="The Dog Trainer Audiobook"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full bg-black"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
       <section className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
           <h2 className="font-serif text-4xl font-bold text-malumz-text-primary text-center mb-4">
