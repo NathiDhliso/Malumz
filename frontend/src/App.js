@@ -39,7 +39,6 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/vision" element={<VisionPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/purchase" element={<PurchasePage />} />
           </Routes>
         </main>
         <Footer />
