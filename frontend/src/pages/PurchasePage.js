@@ -131,7 +131,6 @@ export const PurchasePage = () => {
               </button>
             </div>
           </div>
-          </div>
         ) : (
           <div className="flex flex-col items-center">
             <AlertCircle size={64} className="text-red-500 mb-6" />
