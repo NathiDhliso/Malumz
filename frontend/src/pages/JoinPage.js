@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Users, Download, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
 
@@ -147,12 +146,11 @@ export const JoinPage = () => {
             <p className="text-malumz-text-secondary mb-6">
               Printable worksheets, ground rules template, crisis numbers, and 6-month curriculum overview.
             </p>
-            <a
-              href="#"
+            <button
               className="bg-malumz-orange text-white hover:bg-malumz-orange-dark rounded-full px-8 py-3 font-semibold transition-all inline-block"
             >
               Download Starter Pack (PDF)
-            </a>
+            </button>
           </div>
         </div>
       </section>

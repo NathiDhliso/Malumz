@@ -69,12 +69,11 @@ export const ResourcesPage = () => {
                     <p className="text-malumz-text-muted text-sm">{prompt.duration}</p>
                   </div>
                 </div>
-                <a
-                  href="#"
+                <button
                   className="text-malumz-orange font-medium text-sm hover:underline flex-shrink-0"
                 >
                   Download MP3
-                </a>
+                </button>
               </div>
             ))}
           </div>
@@ -104,12 +103,11 @@ export const ResourcesPage = () => {
                 <p className="text-malumz-text-secondary text-sm mb-4">
                   {pdf.description}
                 </p>
-                <a
-                  href="#"
+                <button
                   className="text-malumz-orange font-medium text-sm hover:underline"
                 >
                   Download PDF →
-                </a>
+                </button>
               </div>
             ))}
           </div>
@@ -136,12 +134,11 @@ export const ResourcesPage = () => {
                   <p className="text-malumz-text-secondary text-sm mb-4">
                     {guide.description}
                   </p>
-                  <a
-                    href="#"
+                  <button
                     className="text-malumz-orange font-medium text-sm hover:underline"
                   >
                     Download PDF →
-                  </a>
+                  </button>
                 </div>
               );
             })}

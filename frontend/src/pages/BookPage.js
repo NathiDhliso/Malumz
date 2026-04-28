@@ -135,12 +135,11 @@ export const BookPage = () => {
                 <p className="text-malumz-text-secondary text-sm mb-3">
                   Mind the Gap Worksheet (Appendix A) — the self-diagnosis tool from the book.
                 </p>
-                <a
-                  href="#"
+                <button
                   className="text-malumz-orange font-medium text-sm hover:underline"
                 >
                   Download PDF →
-                </a>
+                </button>
               </div>
             </div>
           </div>
