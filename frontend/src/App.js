@@ -15,6 +15,7 @@ import { SystemDetailPage } from "@/pages/SystemDetailPage";
 import { SafetyPage } from "@/pages/SafetyPage";
 import { ResultsPage } from "@/pages/ResultsPage";
 import { VisionPage } from "@/pages/VisionPage";
+import { PurchasePage } from "@/pages/PurchasePage";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
             <Route path="/vision" element={<VisionPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/gap-test" element={<GapTestPage />} />
+            <Route path="/purchase" element={<PurchasePage />} />
           </Routes>
         </main>
         <Footer />

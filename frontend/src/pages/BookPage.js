@@ -1,7 +1,50 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, ExternalLink, Download, FileText } from 'lucide-react';
+import { BookOpen, ExternalLink, Download, FileText, ShoppingCart, Loader2 } from 'lucide-react';
 
 export const BookPage = () => {
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
+
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    setCheckoutError('');
+
+    try {
+      const response = await fetch('https://public-api.proprofile.co.za/public/malumz/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: 'audiobook-the-dog-trainer', // Replace with exact product ID expected by AWS backend
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Could not initialize checkout');
+      }
+
+      const data = await response.json();
+      
+      if (data.checkoutUrl && data.checkoutId) {
+        // Store session details
+        sessionStorage.setItem('checkoutId', data.checkoutId);
+        sessionStorage.setItem('checkoutTimestamp', Date.now().toString());
+        
+        // Redirect to Yoco payment gate
+        window.location.href = data.checkoutUrl;
+      } else {
+        throw new Error('Invalid checkout response format');
+      }
+
+    } catch (err) {
+      console.error(err);
+      setCheckoutError('Failed to initialize secure checkout. Please try again.');
+      setIsCheckingOut(false);
+    }
+  };
+
   const narrativeChapters = [
     { num: 0, title: 'The Birthday Card' },
     { num: 1, title: 'The Bantu Kennel' },
@@ -110,20 +153,45 @@ export const BookPage = () => {
             Listen to the Audiobook
           </h2>
           <p className="text-malumz-text-secondary mb-8">
-            Stream the entire audiobook for free directly from our YouTube channel.
+            Access the complete, professionally narrated audiobook experience.
           </p>
+
+          <div className="mb-12">
+            <button 
+              onClick={handleCheckout}
+              disabled={isCheckingOut}
+              className="bg-malumz-gold text-malumz-text-primary hover:bg-malumz-gold/90 rounded-full px-10 py-5 font-bold text-xl inline-flex items-center gap-3 transition-transform shadow-lg hover:scale-105 disabled:opacity-75 disabled:scale-100"
+            >
+              {isCheckingOut ? (
+                <Loader2 size={24} className="animate-spin" />
+              ) : (
+                <ShoppingCart size={24} />
+              )}
+              {isCheckingOut ? 'Opening Secure Checkout...' : 'Buy Audiobook — R250'}
+            </button>
+            {checkoutError && (
+              <p className="text-red-500 mt-4 text-sm font-medium">{checkoutError}</p>
+            )}
+            <p className="text-malumz-text-muted text-sm mt-4 italic">
+              Payments securely processed by Yoco.
+            </p>
+          </div>
+
           <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black/5 border border-malumz-brown/10" style={{ aspectRatio: '16/9' }}>
             <iframe
               width="100%"
               height="100%"
               src="https://www.youtube.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
-              title="The Dog Trainer Audiobook"
+              title="The Dog Trainer Audiobook Free Preview"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               className="w-full h-full bg-black"
             ></iframe>
           </div>
+          <p className="text-malumz-text-muted text-sm mt-4 text-left">
+            * Sample preview available above. Full access granted instantly upon purchase.
+          </p>
         </div>
       </section>
 
