@@ -14,7 +14,6 @@ import { SystemDetailPage } from "@/pages/SystemDetailPage";
 import { SafetyPage } from "@/pages/SafetyPage";
 import { ResultsPage } from "@/pages/ResultsPage";
 import { VisionPage } from "@/pages/VisionPage";
-import { PurchasePage } from "@/pages/PurchasePage";
 
 function App() {
   return (
