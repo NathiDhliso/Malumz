@@ -139,26 +139,14 @@ export const HomePage = () => {
             Listen to the Audiobook
           </h2>
           <p className="text-malumz-text-secondary mb-12 text-lg">
-            Stream the entire "The Dog Trainer" audiobook for free, directly from our YouTube channel.
+            "The Dog Trainer" is vividly narrated and fully available to stream anytime.
           </p>
-          <div className="w-full rounded-2xl overflow-hidden shadow-2xl bg-black/5 border border-malumz-brown/20" style={{ aspectRatio: '16/9' }}>
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
-              title="The Dog Trainer Audiobook"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full bg-black"
-            ></iframe>
-          </div>
           <div className="mt-12">
             <Link
               to="/book"
               className="bg-malumz-orange text-white hover:bg-malumz-orange/90 rounded-full px-8 py-4 font-semibold text-lg transition-all shadow-lg hover:shadow-xl inline-block"
             >
-              Learn More About the Book
+              Get the Audiobook
             </Link>
           </div>
         </div>

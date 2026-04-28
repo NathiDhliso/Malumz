@@ -176,20 +176,21 @@ export const BookPage = () => {
             </p>
           </div>
 
-          <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black/5 border border-malumz-brown/10" style={{ aspectRatio: '16/9' }}>
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
-              title="The Dog Trainer Audiobook Free Preview"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full bg-black"
-            ></iframe>
+          <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black/5 border border-malumz-brown/10 flex items-center justify-center p-8" style={{ aspectRatio: '16/9' }}>
+            <div className="text-center">
+              <h3 className="font-serif text-2xl font-bold text-malumz-text-primary mb-2">
+                Audiobook Available
+              </h3>
+              <p className="text-malumz-text-secondary mb-4">
+                Listen on any device instantly after purchase.
+              </p>
+              <div className="text-malumz-gold">
+                <BookOpen size={64} className="mx-auto opacity-50" />
+              </div>
+            </div>
           </div>
-          <p className="text-malumz-text-muted text-sm mt-4 text-left">
-            * Sample preview available above. Full access granted instantly upon purchase.
+          <p className="text-malumz-text-muted text-sm mt-4 text-center">
+            * Full access granted instantly upon purchase and sent to your email.
           </p>
         </div>
       </section>
