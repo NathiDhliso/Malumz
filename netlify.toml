@@ -1,0 +1,16 @@
+[build]
+  # Set the base directory to the frontend folder
+  base = "frontend"
+  # The directory containing the production build
+  publish = "build"
+  # Set CI to an empty string so warnings don't break the build
+  command = "CI= npm run build"
+
+[build.environment]
+  CI = "false"
+
+# This rewrite rule ensures React Router handles routing natively
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
