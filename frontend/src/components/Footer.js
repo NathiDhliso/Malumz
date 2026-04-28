@@ -22,7 +22,6 @@ export const Footer = () => {
           <div>
             <h3 className="font-serif text-lg font-bold mb-4 text-malumz-gold">Learn</h3>
             <ul className="space-y-2">
-              <li><Link to="/gap-test" className="text-white/80 hover:text-malumz-gold transition-colors text-sm">Mind the Gap Test</Link></li>
               <li><Link to="/resources" className="text-white/80 hover:text-malumz-gold transition-colors text-sm">Resources</Link></li>
               <li><Link to="/systems" className="text-white/80 hover:text-malumz-gold transition-colors text-sm">System Guides</Link></li>
               <li><Link to="/results" className="text-white/80 hover:text-malumz-gold transition-colors text-sm">Results</Link></li>

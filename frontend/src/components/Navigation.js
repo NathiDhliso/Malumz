@@ -121,12 +121,6 @@ export const Navigation = () => {
               >
                 I Need Help Now
               </Link>
-              <Link
-                to="/gap-test"
-                className="bg-malumz-orange text-white hover:bg-malumz-orange-dark rounded-full px-5 py-2 text-sm font-medium transition-all"
-              >
-                Gap Test
-              </Link>
             </div>
 
             <button
@@ -195,12 +189,6 @@ export const Navigation = () => {
                     className="block bg-red-600 text-white text-center rounded-full px-6 py-3 font-medium"
                   >
                     I Need Help Now
-                  </Link>
-                  <Link
-                    to="/gap-test"
-                    className="block bg-malumz-orange text-white text-center rounded-full px-6 py-3 font-medium"
-                  >
-                    Take the Gap Test
                   </Link>
                 </div>
               </div>

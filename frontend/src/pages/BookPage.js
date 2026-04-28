@@ -3,48 +3,6 @@ import { Link } from 'react-router-dom';
 import { BookOpen, ExternalLink, Download, FileText, ShoppingCart, Loader2 } from 'lucide-react';
 
 export const BookPage = () => {
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [checkoutError, setCheckoutError] = useState('');
-
-  const handleCheckout = async () => {
-    setIsCheckingOut(true);
-    setCheckoutError('');
-
-    try {
-      const response = await fetch('/api/malumz/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          productId: 'ebook-the-dog-trainer', // Replace with exact product ID expected by AWS backend
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Could not initialize checkout');
-      }
-
-      const data = await response.json();
-      
-      if (data.checkoutUrl && data.checkoutId) {
-        // Store session details
-        sessionStorage.setItem('checkoutId', data.checkoutId);
-        sessionStorage.setItem('checkoutTimestamp', Date.now().toString());
-        
-        // Redirect to Yoco payment gate
-        window.location.href = data.checkoutUrl;
-      } else {
-        throw new Error('Invalid checkout response format');
-      }
-
-    } catch (err) {
-      console.error(err);
-      setCheckoutError('Failed to initialize secure checkout. Please try again.');
-      setIsCheckingOut(false);
-    }
-  };
-
   const narrativeChapters = [
     { num: 0, title: 'The Birthday Card' },
     { num: 1, title: 'The Bantu Kennel' },
@@ -147,29 +105,11 @@ export const BookPage = () => {
       <section className="py-24 bg-malumz-brown/5 border-y border-malumz-brown/10">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
           <h2 className="font-serif text-4xl font-bold text-malumz-text-primary mb-4">
-            Get the Book & Audiobook
+            Listen to the Audiobook
           </h2>
           <p className="text-malumz-text-secondary mb-8">
-            Buy the eBook below, or stream the complete audiobook for free.
+            Stream the complete audiobook for free.
           </p>
-
-          <div className="mb-12 flex justify-center">
-            <button 
-              onClick={handleCheckout}
-              disabled={isCheckingOut}
-              className="bg-malumz-gold text-malumz-text-primary hover:bg-malumz-gold/90 rounded-full px-10 py-5 font-bold text-xl inline-flex items-center gap-3 transition-transform shadow-lg hover:scale-105 disabled:opacity-75 disabled:scale-100"
-            >
-              {isCheckingOut ? (
-                <Loader2 size={24} className="animate-spin" />
-              ) : (
-                <ShoppingCart size={24} />
-              )}
-              {isCheckingOut ? 'Opening Secure Checkout...' : 'Buy the eBook — R99'}
-            </button>
-          </div>
-          {checkoutError && (
-            <p className="text-red-500 text-center mb-8 text-sm font-medium">{checkoutError}</p>
-          )}
 
           <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black/5 border border-malumz-brown/10 mb-8" style={{ aspectRatio: '16/9' }}>
             <iframe
@@ -189,9 +129,6 @@ export const BookPage = () => {
               We make this audiobook available for free because this message needs to be heard. 
               If you found value in it, please consider donating. 100% of donations go directly towards running transformative camps for boys and men through the Malumz Movement.
             </p>
-            <a href="https://pay.yoco.com/malumz-movement" target="_blank" rel="noreferrer" className="text-malumz-orange font-bold hover:underline">
-              Donate via Yoco →
-            </a>
           </div>
         </div>
       </section>
@@ -315,18 +252,12 @@ export const BookPage = () => {
       <section className="py-16 bg-malumz-brown">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
           <h3 className="font-serif text-3xl font-bold text-white mb-4">
-            Not Ready to Buy?
+            Start Making an Impact
           </h3>
           <p className="text-white/90 text-lg mb-8">
-            Take the free Mind the Gap Test to see where you score out of 60.
+            Join the movement and help transform boys and men in your community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/gap-test"
-              className="bg-malumz-gold text-malumz-text-primary hover:bg-malumz-gold/90 rounded-full px-8 py-4 font-semibold text-lg transition-all inline-block"
-            >
-              Take the Gap Test (Free)
-            </Link>
             <Link
               to="/join"
               className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-malumz-text-primary rounded-full px-8 py-4 font-medium text-lg transition-all inline-block"

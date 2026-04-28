@@ -6,7 +6,6 @@ import { HomePage } from "@/pages/HomePage";
 import { AboutPage } from "@/pages/AboutPage";
 import { BookPage } from "@/pages/BookPage";
 import { ContactPage } from "@/pages/ContactPage";
-import { GapTestPage } from "@/pages/GapTestPage";
 import { JoinPage } from "@/pages/JoinPage";
 import { CrisisPage } from "@/pages/CrisisPage";
 import { ResourcesPage } from "@/pages/ResourcesPage";
@@ -41,7 +40,6 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/vision" element={<VisionPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/gap-test" element={<GapTestPage />} />
             <Route path="/purchase" element={<PurchasePage />} />
           </Routes>
         </main>
