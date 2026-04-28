@@ -9,6 +9,13 @@
 [build.environment]
   CI = "false"
 
+# Proxy the API to AWS to completely avoid CORS issues
+[[redirects]]
+  from = "/api/malumz/*"
+  to = "https://public-api.proprofile.co.za/public/malumz/:splat"
+  status = 200
+  force = true
+
 # This rewrite rule ensures React Router handles routing natively
 [[redirects]]
   from = "/*"

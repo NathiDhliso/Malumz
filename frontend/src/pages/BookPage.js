@@ -11,7 +11,7 @@ export const BookPage = () => {
     setCheckoutError('');
 
     try {
-      const response = await fetch('https://public-api.proprofile.co.za/public/malumz/checkout', {
+      const response = await fetch('/api/malumz/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export const BookPage = () => {
               ) : (
                 <ShoppingCart size={24} />
               )}
-              {isCheckingOut ? 'Opening Secure Checkout...' : 'Buy Audiobook — R250'}
+              {isCheckingOut ? 'Opening Secure Checkout...' : 'Buy Audiobook — R99'}
             </button>
             {checkoutError && (
               <p className="text-red-500 mt-4 text-sm font-medium">{checkoutError}</p>

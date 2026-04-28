@@ -42,7 +42,7 @@ export const PurchasePage = () => {
     const poll = async () => {
       attempts++;
       try {
-        const response = await fetch('https://public-api.proprofile.co.za/public/malumz/activate', {
+        const response = await fetch('/api/malumz/activate', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ export const PurchasePage = () => {
               <iframe
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
+                src="https://www.youtube-nocookie.com/embed/videoseries?list=PLXMZKAvB55UHibN9pB8f6xQ9clxCd14DK"
                 title="The Dog Trainer Audiobook"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
