@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, ExternalLink, Download, FileText, ShoppingCart, Loader2 } from 'lucide-react';
+import { BookOpen, ExternalLink, Download, FileText } from 'lucide-react';
 
 export const BookPage = () => {
   const narrativeChapters = [
