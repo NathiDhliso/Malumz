@@ -125,7 +125,7 @@ const { CURSOR_KEY } = require("../../lib/useCursorPreference");
 /**
  * Reusable entrance-animated components currently available in phase 2.
  * Phase 4 will extend this list to include `Hero`, `TrainerConnector`,
- * `TrainerSpotlight`, and `PullQuote`.
+ * and `PullQuote`.
  */
 const entranceAnimatedComponents = [
   "PageTransition",

@@ -166,9 +166,57 @@ jest.mock('@/lib/assets', () => ({
       type: 'image/jpeg',
       altPlaceholder: 'Mock hero card',
     },
+    VISION_NODE_1: {
+      src: '/Assets/mock-vision-1.jpeg',
+      width: 400,
+      height: 300,
+      type: 'image/jpeg',
+      altPlaceholder: 'Vision node 1',
+    },
+    VISION_NODE_2: {
+      src: '/Assets/mock-vision-2.jpeg',
+      width: 400,
+      height: 300,
+      type: 'image/jpeg',
+      altPlaceholder: 'Vision node 2',
+    },
+    VISION_NODE_3: {
+      src: '/Assets/mock-vision-3.jpeg',
+      width: 400,
+      height: 300,
+      type: 'image/jpeg',
+      altPlaceholder: 'Vision node 3',
+    },
+    ABOUT_COLLAGE_A: {
+      src: '/Assets/mock-collage-a.jpeg',
+      width: 600,
+      height: 800,
+      type: 'image/jpeg',
+      altPlaceholder: 'Collage A',
+    },
+    ABOUT_COLLAGE_B: {
+      src: '/Assets/mock-collage-b.jpeg',
+      width: 600,
+      height: 800,
+      type: 'image/jpeg',
+      altPlaceholder: 'Collage B',
+    },
+    ABOUT_COLLAGE_C: {
+      src: '/Assets/mock-collage-c.jpeg',
+      width: 600,
+      height: 800,
+      type: 'image/jpeg',
+      altPlaceholder: 'Collage C',
+    },
   },
   BOOK_ACCENT_VIDEO: '/Assets/mock-video.mp4',
   HERO_CARD_IMAGE: '/Assets/mock-image.jpeg',
+  VISION_NODE_1: '/Assets/mock-vision-1.jpeg',
+  VISION_NODE_2: '/Assets/mock-vision-2.jpeg',
+  VISION_NODE_3: '/Assets/mock-vision-3.jpeg',
+  ABOUT_COLLAGE_A: '/Assets/mock-collage-a.jpeg',
+  ABOUT_COLLAGE_B: '/Assets/mock-collage-b.jpeg',
+  ABOUT_COLLAGE_C: '/Assets/mock-collage-c.jpeg',
 }));
 
 const fc = require('fast-check');
@@ -178,7 +226,7 @@ const { gsap } = require('../../lib/gsap');
 
 // Lazy-load page components after mocks are in place.
 const { BookPage } = require('../BookPage');
-const { ContactPage: ContactPageComponent } = require('../ContactPage');
+const { AboutPage: AboutPageComponent } = require('../AboutPage');
 
 // ---------------------------------------------------------------------------
 // Constants mirroring the implementation.
@@ -193,7 +241,7 @@ const EXPECTED_LIFT_VARS = {
 const EXPECTED_REST_VARS = {
   y: 0,
   scale: 1,
-  color: '#907A61',
+  color: '#6B5B4F',
 };
 
 describe('Form label-lift behavior — Property 20', () => {
@@ -218,24 +266,23 @@ describe('Form label-lift behavior — Property 20', () => {
       fc.assert(
         fc.property(
           fc.record({
-            page: fc.constantFrom('book', 'contact'),
+            page: fc.constantFrom('book'),
             label: fc.string({ minLength: 1, maxLength: 60 }),
             name: fc.string({ minLength: 1, maxLength: 30 }),
           }),
           ({ page }) => {
             gsapToSpy.mockClear();
 
-            // Render the appropriate page.
-            const { unmount, getByTestId } = render(
-              React.createElement(
-                page === 'book' ? BookPage : ContactPageComponent
-              )
+            // Render the BookPage.
+            const { unmount, container } = render(
+              React.createElement(BookPage)
             );
 
-            // Target the first text input (name field) on each page.
-            const testId =
-              page === 'book' ? 'book-name-input' : 'contact-name-input';
-            const input = getByTestId(testId);
+            // Target the first text input (name field) on the page.
+            // Use querySelector to get the first match (avoids duplicate testid issue
+            // from responsive mobile/desktop form variants).
+            const input = container.querySelector('[data-testid="book-name-input"]');
+            expect(input).not.toBeNull();
 
             // The input should start with an empty value.
             expect(input.value).toBe('');
@@ -264,7 +311,7 @@ describe('Form label-lift behavior — Property 20', () => {
 
             // --- BLUR: dispatch blur with value still empty ---
             gsapToSpy.mockClear();
-            fireEvent.blur(input, { target: { value: '' } });
+            fireEvent.blur(input);
 
             // Assert gsap.to was called with the label element and rest vars.
             const blurCalls = gsapToSpy.mock.calls.filter((call) => {

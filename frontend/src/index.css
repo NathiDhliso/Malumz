@@ -7,7 +7,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #F9F7F2;
+    background-color: #FFFFFF;
 }
 
 code {
@@ -53,21 +53,14 @@ html {
 /*
  * Base `.gs-reveal` utility class for the Reveal Batch pipeline.
  *
- * Every element tagged with `.gs-reveal` starts hidden and offset so the
- * pre-reveal state is painted on first render with no flash of unstyled
- * content. The `useRevealBatch` hook (wired through `<RevealRoot>`) runs a
- * `ScrollTrigger.batch(...)` whose `onEnter` tweens each batch back to
- * identity (`opacity: 1`, `translate: 0 0`, `scale: 1`). The `translate`
- * and `scale` CSS shorthands map cleanly onto GSAP's `y` and `scale`
- * tween properties, so the initial visual state and the tween end state
- * describe the same transform space.
+ * Elements start visible by default. When GSAP ScrollTrigger is available
+ * and working, the useRevealBatch hook will set initial opacity/transform
+ * via JavaScript before animating to identity. This ensures content is
+ * always visible even if GSAP fails to load or initialize.
  *
  * Feature: e1-editorial-ui-overhaul
  * Requirements: 12.1, 12.2, 12.3, 12.4, 12.5
  */
 .gs-reveal {
-    opacity: 0;
-    translate: 0 50px;
-    scale: 0.96;
     will-change: transform, opacity;
 }

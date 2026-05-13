@@ -141,10 +141,6 @@ export const ST = Object.freeze({
   counterStart: "top 70%",
   /** TrainerConnector DrawSVG timeline entry trigger position. */
   trainerConnectorStart: "top 60%",
-  /** TrainerSpotlight pinned scroll duration (300vh). */
-  trainerSpotlightScrollDuration: "+=300%",
-  /** TrainerSpotlight scrub value (seconds of lag). */
-  trainerSpotlightScrub: 1,
   /** Shared desktop pin breakpoint in CSS pixels. */
   pinBreakpointPx: 1024,
   /** Window-resize debounce window before calling `ScrollTrigger.refresh()`. */

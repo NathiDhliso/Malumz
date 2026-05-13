@@ -43,35 +43,17 @@ export function PullQuote({ quote, attribution }) {
       const rule = ruleRef.current;
       if (!section || !rule) return;
 
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        ScrollTrigger.create({
-          trigger: section,
-          start: ST.pullQuoteStart,
-          onEnter: () => {
-            gsap.to(rule, {
-              scaleX: 1,
-              transformOrigin: "left center",
-              duration: 1.0,
-              ease: "power3.out",
-            });
-          },
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(rule, { scaleX: 1, opacity: 0 });
-        ScrollTrigger.create({
-          trigger: section,
-          start: ST.pullQuoteStart,
-          onEnter: () => {
-            gsap.to(rule, {
-              opacity: 1,
-              duration: 0.15,
-            });
-          },
-        });
+      ScrollTrigger.create({
+        trigger: section,
+        start: ST.pullQuoteStart,
+        onEnter: () => {
+          gsap.to(rule, {
+            scaleX: 1,
+            transformOrigin: "left center",
+            duration: 1.0,
+            ease: "power3.out",
+          });
+        },
       });
     },
     { scope: sectionRef }

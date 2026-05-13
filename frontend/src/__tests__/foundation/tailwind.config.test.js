@@ -11,13 +11,13 @@ const configPath = path.resolve(__dirname, "..", "..", "..", "tailwind.config.js
 const tailwindConfig = require(configPath);
 
 const EXPECTED_E1_COLORS = {
-  "e1-bg": "#09060A",
+  "e1-bg": "#FFFFFF",
   "e1-primary": "#C2491A",
   "e1-secondary": "#C8891E",
   "e1-highlight": "#E4BE6A",
-  "e1-text": "#F0E2CB",
-  "e1-text-muted": "#907A61",
-  "e1-surface": "#1E0D05",
+  "e1-text": "#1A1A1A",
+  "e1-text-muted": "#6B5B4F",
+  "e1-surface": "#FFF8F0",
 };
 
 describe("tailwind.config.js — E1 palette tokens (Requirement 1)", () => {

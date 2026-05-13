@@ -37,7 +37,6 @@ export const Marquee = ({
   // Build the tween inside a useGSAP context so cleanup is inherited.
   useGSAP(
     () => {
-      if (prefersReducedMotion()) return;
       const track = trackRef.current;
       if (!track) return;
 

@@ -138,7 +138,7 @@ export const BookPurchasePanel = () => {
                 className={`${styles.productCard} text-left border rounded-xl p-5 transition-all ${
                   active
                     ? styles.productCardSelected
-                    : `${styles.productCardUnselected} bg-e1-text border-e1-text-muted/20 hover:shadow-md`
+                    : styles.productCardUnselected
                 }`}
               >
                 {active && (
@@ -148,10 +148,10 @@ export const BookPurchasePanel = () => {
                 )}
                 <Icon size={24} className={`${active ? styles.selectedIcon : 'text-e1-primary'} mb-3`} />
                 <div className="flex items-baseline justify-between gap-3 mb-2">
-                  <span className={`font-serif text-xl font-bold ${active ? styles.selectedText : 'text-e1-surface'}`}>
+                  <span className={`font-serif text-xl font-bold ${active ? styles.selectedText : 'text-e1-text'}`}>
                     {product.title}
                   </span>
-                  <span className={`font-bold ${active ? styles.selectedPrice : 'text-e1-secondary'}`}>{product.price}</span>
+                  <span className={`font-bold ${active ? styles.selectedPrice : 'text-e1-primary'}`}>{product.price}</span>
                 </div>
                 <p className={`${active ? styles.selectedMutedText : 'text-e1-text-muted'} text-sm`}>{product.description}</p>
               </button>
@@ -168,7 +168,7 @@ export const BookPurchasePanel = () => {
             required
             value={buyerEmail}
             onChange={(event) => setBuyerEmail(event.target.value)}
-            className="w-full bg-e1-text border border-e1-text-muted/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-e1-primary focus:border-transparent transition-all"
+            className="w-full bg-e1-bg border border-e1-text-muted/30 rounded-lg px-4 py-3 text-e1-text focus:ring-2 focus:ring-e1-primary focus:border-transparent transition-all"
             placeholder="you@example.com"
           />
         </label>
@@ -182,7 +182,7 @@ export const BookPurchasePanel = () => {
         <button
           type="submit"
           disabled={isStartingCheckout || isActivating}
-          className="w-full bg-e1-primary text-white hover:bg-e1-surface rounded-full px-8 py-4 font-bold text-lg transition-all shadow-lg hover:shadow-xl disabled:opacity-50"
+          className="w-full bg-e1-primary text-white hover:bg-[#9f2f0b] rounded-full px-8 py-4 font-bold text-lg transition-all shadow-lg hover:shadow-xl disabled:opacity-50"
         >
           {isStartingCheckout ? 'Opening checkout...' : `Buy ${selected.title} for ${selected.price}`}
         </button>

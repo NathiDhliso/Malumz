@@ -21,21 +21,21 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F9F7F2;
+  background: #FFFFFF;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CC5500;
+  background: #C2491A;
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A04000;
+  background: #9A3814;
 }
 
 /* Focus styles */
 *:focus-visible {
-  outline: 2px solid #CC5500;
+  outline: 2px solid #C2491A;
   outline-offset: 2px;
 }
 

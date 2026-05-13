@@ -172,22 +172,20 @@ const { render, cleanup } = require("@testing-library/react");
 const { MemoryRouter, Route, Routes } = require("react-router-dom");
 
 const { JoinPage } = require("../../pages/JoinPage");
-const { CrisisPage } = require("../../pages/CrisisPage");
 const { ResourcesPage } = require("../../pages/ResourcesPage");
-const { SystemsPage } = require("../../pages/SystemsPage");
 const { SystemDetailPage } = require("../../pages/SystemDetailPage");
 const { SafetyPage } = require("../../pages/SafetyPage");
 
 // ---------------------------------------------------------------------------
 // Page registry — maps each page component to its name and route config
 // for the generator.
+// CrisisPage and SystemsPage removed after page-consolidation-and-animations
+// spec merged them into SafetyPage and ResourcesPage respectively.
 // ---------------------------------------------------------------------------
 
 const PAGE_ENTRIES = [
   { Component: JoinPage, name: "JoinPage", path: "/join" },
-  { Component: CrisisPage, name: "CrisisPage", path: "/crisis" },
   { Component: ResourcesPage, name: "ResourcesPage", path: "/resources" },
-  { Component: SystemsPage, name: "SystemsPage", path: "/systems" },
   {
     Component: SystemDetailPage,
     name: "SystemDetailPage",

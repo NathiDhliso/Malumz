@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const apiBase = '/api/malumz';
-const contactBase = '/api';
-const assetBase = '';
+const API_ORIGIN = process.env.REACT_APP_API_URL || 'https://mig0oad1ai.execute-api.af-south-1.amazonaws.com';
+const apiBase = `${API_ORIGIN}/public/malumz`;
+const contactBase = `${API_ORIGIN}/public/malumz`;
+const assetBase = API_ORIGIN;
 
 const withAssetBase = (url) => {
   if (!url || url.startsWith('http')) return url;

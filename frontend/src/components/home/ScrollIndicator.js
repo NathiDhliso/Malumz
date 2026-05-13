@@ -35,27 +35,15 @@ export const ScrollIndicator = () => {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const node = ref.current;
-        if (!node) return;
-        gsap.to(node, {
-          y: 10,
-          duration: 1.2,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-        });
+      const node = ref.current;
+      if (!node) return;
+      gsap.to(node, {
+        y: 10,
+        duration: 1.2,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
       });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        // Intentionally empty: Requirement 20.3 asks for a static chevron
-        // when reduced motion is requested. The branch is registered so
-        // future additions (e.g., a CSS-only emphasis) can hang here.
-      });
-
-      return () => mm.revert();
     },
     { scope: ref, dependencies: [] }
   );

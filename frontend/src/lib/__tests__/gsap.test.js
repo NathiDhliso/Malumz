@@ -28,7 +28,7 @@ if (!fs.existsSync(gsapModulePath)) {
     );
   });
 } else {
-  describe("src/lib/gsap.js — GSAP runtime singleton (Requirements 3.2–3.5)", () => {
+  describe("src/lib/gsap.js — GSAP runtime singleton (Requirements 5.1, 5.2)", () => {
     let registerPluginMock;
     let defaultsMock;
     let configMock;
@@ -41,18 +41,15 @@ if (!fs.existsSync(gsapModulePath)) {
       defaultsMock = jest.fn();
       configMock = jest.fn();
 
-      // Stable, identity-unique sentinel objects per plugin so we can assert
-      // the registration call captured the correct five arguments in order.
+      // After page-consolidation-and-animations spec, only ScrollTrigger
+      // is registered. All premium plugins (SplitText, DrawSVGPlugin, Flip,
+      // MorphSVGPlugin) have been removed.
       sentinels = {
         ScrollTrigger: {
           __sentinel: "ScrollTrigger",
           defaults: defaultsMock,
           config: configMock,
         },
-        SplitText: { __sentinel: "SplitText" },
-        DrawSVGPlugin: { __sentinel: "DrawSVGPlugin" },
-        Flip: { __sentinel: "Flip" },
-        MorphSVGPlugin: { __sentinel: "MorphSVGPlugin" },
       };
 
       jest.doMock("gsap", () => ({
@@ -62,22 +59,6 @@ if (!fs.existsSync(gsapModulePath)) {
       jest.doMock("gsap/ScrollTrigger", () => ({
         __esModule: true,
         ScrollTrigger: sentinels.ScrollTrigger,
-      }));
-      jest.doMock("gsap/SplitText", () => ({
-        __esModule: true,
-        SplitText: sentinels.SplitText,
-      }));
-      jest.doMock("gsap/DrawSVGPlugin", () => ({
-        __esModule: true,
-        DrawSVGPlugin: sentinels.DrawSVGPlugin,
-      }));
-      jest.doMock("gsap/Flip", () => ({
-        __esModule: true,
-        Flip: sentinels.Flip,
-      }));
-      jest.doMock("gsap/MorphSVGPlugin", () => ({
-        __esModule: true,
-        MorphSVGPlugin: sentinels.MorphSVGPlugin,
       }));
 
       // Import under the mocks — evaluates registration side effects.
@@ -89,14 +70,10 @@ if (!fs.existsSync(gsapModulePath)) {
       jest.resetModules();
     });
 
-    it("calls gsap.registerPlugin exactly once with the five E1 plugins in order", () => {
+    it("calls gsap.registerPlugin exactly once with only ScrollTrigger", () => {
       expect(registerPluginMock).toHaveBeenCalledTimes(1);
       expect(registerPluginMock).toHaveBeenCalledWith(
-        sentinels.ScrollTrigger,
-        sentinels.SplitText,
-        sentinels.DrawSVGPlugin,
-        sentinels.Flip,
-        sentinels.MorphSVGPlugin
+        sentinels.ScrollTrigger
       );
     });
 

@@ -12,11 +12,14 @@
 }
 
 .productCardUnselected {
-  opacity: 0.72;
+  background: #F5F0EB;
+  border-color: #E0D6CC;
 }
 
 .productCardUnselected:hover {
-  opacity: 1;
+  border-color: #C2491A;
+  box-shadow: 0 8px 20px rgba(194, 73, 26, 0.12);
+  transform: translateY(-1px);
 }
 
 .selectedBadge {

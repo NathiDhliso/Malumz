@@ -1,46 +1,29 @@
 import { useState } from 'react';
-import { ShieldAlert, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Phone } from 'lucide-react';
 import { submitContact } from '@/lib/malumzApi';
 import NotchedSection from '@/components/NotchedSection';
 import MagneticButton from '@/components/MagneticButton';
 
 /**
- * SafetyPage — E1 editorial inheritance.
+ * SafetyPage — Crisis essentials page.
  *
- * Task 7.8 rebases the safety page onto the E1 token palette, Fraunces
- * display / DM Sans typography, and wraps sections in
- * `<NotchedSection>` with alternating `tone` values. Section headings
- * and content blocks carry `.gs-reveal` so they participate in the
- * global Reveal Batch driven by `<RevealRoot>`. The primary CTA
- * (submit button) is wrapped in `<MagneticButton>`.
+ * Streamlined to focus on immediate crisis help: emergency numbers,
+ * SADAG provincial link, and anonymous reporting. All facilitator
+ * training content (tyrant profile, vetting checklist, exclusion guide)
+ * has been removed per conversion-focused simplification.
  *
- * All page copy and the `tyrantSigns` / `vettingChecklist` data
- * constants are preserved byte-for-byte. No page-specific GSAP
- * timelines are added.
+ * E1 editorial inheritance is preserved: Fraunces display / DM Sans
+ * typography, `<NotchedSection>` with alternating `tone` values,
+ * `.gs-reveal` classes for global Reveal Batch participation.
  *
- * Feature: e1-editorial-ui-overhaul
- * @see Requirements 1.*, 2.*, 7.*, 12.*, 28.*, 30.3
+ * Feature: conversion-focused-simplification
+ * @see Requirements 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9.1, 11.5, 12.4
  */
 
-const tyrantSigns = [
-  'Uses "I paid lobola" to justify controlling behaviour',
-  'Quotes the Core Rule to demand obedience instead of service',
-  'Isolates members from outside support systems',
-  'Punishes vulnerability or emotional expression',
-  'Uses Circle attendance as leverage in personal relationships',
-  'Refuses to submit to accountability from other facilitators',
-  'Dismisses women\'s input as "not understanding the programme"',
-  'Creates financial dependency within the Circle',
-];
-
-const vettingChecklist = [
-  'Completed full 6-month Brotherhood Circle programme',
-  'No history of domestic violence or sexual offences',
-  'Three community references checked and verified',
-  'Police clearance certificate obtained',
-  'Understands and accepts the Non-Negotiable rule',
-  'Willing to be supervised monthly by a senior facilitator',
-  'Completed Dark Room Protocol (self-accountability)',
+const emergencyNumbers = [
+  { name: 'Lifeline', number: '0861 322 322', available: '24/7' },
+  { name: 'SADAG', number: '0800 567 567', available: '24/7' },
+  { name: 'GBV Command Centre', number: '0800 428 428', available: '24/7' },
 ];
 
 export const SafetyPage = () => {
@@ -70,112 +53,68 @@ export const SafetyPage = () => {
 
   return (
     <div className="min-h-screen bg-e1-bg">
-      <NotchedSection tone="sienna" className="pt-32 pb-16">
+      {/* Crisis Hero — emergency CTA + Lifeline number */}
+      <NotchedSection tone="sienna" className="pt-32 pb-8">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <ShieldAlert size={64} className="text-red-600 mx-auto mb-6" />
+          <AlertTriangle size={64} className="text-red-400 mx-auto mb-6" />
           <h1 className="gs-reveal font-display text-4xl lg:text-5xl font-bold text-e1-text mb-4">
-            Safety
+            You Are Not Alone
           </h1>
-          <p className="text-lg text-e1-text-muted max-w-2xl mx-auto">
-            Protecting against weaponisation of the framework. This page exists because power corrupts, and any system built to help men can be twisted to control them.
+          <p className="text-lg text-e1-text-muted mb-4 max-w-2xl mx-auto">
+            If you are about to hurt someone or yourself, call Lifeline now. The Circle can wait. Your life cannot.
           </p>
+          <a
+            href="tel:0861322322"
+            className="inline-flex items-center gap-3 bg-red-600 text-white rounded-full px-10 py-5 text-xl font-bold shadow-lg hover:bg-red-700 transition-all"
+          >
+            <Phone size={28} />
+            Call Lifeline: 0861 322 322
+          </a>
         </div>
       </NotchedSection>
 
-      <NotchedSection tone="charcoal" className="py-16">
+      {/* Emergency Numbers Grid */}
+      <section className="py-16 bg-e1-bg">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <div className="gs-reveal bg-e1-surface border-l-4 border-red-600 rounded-r-xl p-8">
-            <h2 className="font-display text-2xl font-bold text-e1-text mb-4">
-              The Non-Negotiable
-            </h2>
-            <p className="text-lg text-e1-text-muted leading-relaxed font-semibold">
-              "If ANY man uses 'I paid lobola' or the Core Rule to justify abuse, the programme has failed for that man. Remove him."
-            </p>
-          </div>
-        </div>
-      </NotchedSection>
-
-      <NotchedSection tone="sienna" className="py-20">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <div className="flex items-center gap-3 mb-8">
-            <AlertTriangle size={28} className="text-red-600" />
-            <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text">
-              The Trained Tyrant Profile
-            </h2>
-          </div>
-          <p className="text-e1-text-muted mb-8">
-            Warning signs that a facilitator or member is using the teaching to control others. If you recognise these patterns, report immediately.
-          </p>
-          <div className="space-y-3">
-            {tyrantSigns.map((sign, index) => (
-              <div
-                key={index}
-                className="gs-reveal flex items-start gap-4 bg-e1-bg border border-e1-text/10 rounded-lg px-6 py-4"
+          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-8 text-center">
+            Emergency Numbers
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {emergencyNumbers.map((item) => (
+              <a
+                key={item.name}
+                href={`tel:${item.number.replace(/\s/g, '')}`}
+                className="gs-reveal flex items-center gap-4 bg-e1-surface border border-e1-text/10 rounded-xl p-6 hover:shadow-md transition-all"
               >
-                <AlertTriangle size={18} className="text-red-500 mt-0.5 flex-shrink-0" />
-                <p className="text-e1-text-muted">{sign}</p>
-              </div>
+                <div className="flex-shrink-0 w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
+                  <Phone size={24} className="text-red-400" />
+                </div>
+                <div>
+                  <p className="font-bold text-e1-text">{item.name}</p>
+                  <p className="text-e1-primary font-semibold text-lg">{item.number}</p>
+                  <p className="text-e1-text-muted text-sm">{item.available}</p>
+                </div>
+              </a>
             ))}
           </div>
-        </div>
-      </NotchedSection>
 
-      <NotchedSection tone="charcoal" className="py-20">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-4">
-            The Silent Exclusion Guide
-          </h2>
-          <p className="text-e1-text-muted mb-8">
-            How to safely remove a dangerous member without confrontation (Rule 38 compliance).
+          {/* SADAG provincial resources link */}
+          <p className="gs-reveal text-center text-e1-text-muted mt-8">
+            For provincial-specific resources, visit{' '}
+            <a
+              href="https://www.sadag.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-e1-primary underline hover:text-e1-highlight transition-colors"
+            >
+              www.sadag.org
+            </a>
           </p>
-          <div className="bg-e1-surface border border-e1-text/10 rounded-xl p-8 space-y-4">
-            <div className="flex items-start gap-3">
-              <span className="text-e1-highlight font-bold">1.</span>
-              <p className="text-e1-text-muted">Document the behaviour privately. Dates, witnesses, specific actions.</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-e1-highlight font-bold">2.</span>
-              <p className="text-e1-text-muted">Consult with at least one other facilitator before acting.</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-e1-highlight font-bold">3.</span>
-              <p className="text-e1-text-muted">Private conversation with the individual. State the concern without accusation.</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-e1-highlight font-bold">4.</span>
-              <p className="text-e1-text-muted">If behaviour continues, remove without group discussion. The group is told: "He has chosen to leave the Circle."</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-e1-highlight font-bold">5.</span>
-              <p className="text-e1-text-muted">If the person poses a danger to others, report to SAPS immediately. The Circle does not replace the law.</p>
-            </div>
-          </div>
         </div>
-      </NotchedSection>
+      </section>
 
+      {/* Anonymous Report Form */}
       <NotchedSection tone="sienna" className="py-20">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-8">
-            Facilitator Vetting Checklist
-          </h2>
-          <p className="text-e1-text-muted mb-8">
-            Based on the Dark Room Protocol. No one facilitates a Circle without meeting every requirement.
-          </p>
-          <div className="space-y-3">
-            {vettingChecklist.map((item, index) => (
-              <div
-                key={index}
-                className="gs-reveal flex items-start gap-4 bg-e1-bg border border-e1-text/10 rounded-lg px-6 py-4"
-              >
-                <CheckCircle2 size={20} className="text-e1-highlight mt-0.5 flex-shrink-0" />
-                <p className="text-e1-text-muted">{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </NotchedSection>
-
-      <NotchedSection tone="charcoal" className="py-20">
         <div className="max-w-2xl mx-auto px-4 md:px-8 lg:px-12">
           <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-4 text-center">
             Report a Circle

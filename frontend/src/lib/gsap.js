@@ -1,23 +1,20 @@
 /**
- * GSAP runtime singleton for the E1 Editorial UI Overhaul.
+ * GSAP runtime singleton.
  *
- * Imported once by `src/index.js` before `ReactDOM.createRoot().render(...)` so
- * that plugin registration and ScrollTrigger defaults take effect exactly once
- * per page load. Every downstream module imports `gsap` and its plugins from
- * this module rather than from `gsap/*` directly.
+ * Registers only the free ScrollTrigger plugin. All premium plugin
+ * dependencies (SplitText, DrawSVGPlugin, Flip, MorphSVGPlugin) have been
+ * removed — animations now use only gsap core + ScrollTrigger.
  *
- * Feature: e1-editorial-ui-overhaul
- * Requirements: 3.2, 3.3, 3.4, 3.5
+ * Feature: page-consolidation-and-animations
+ * Requirements: 5.1, 5.2, 5.5
  */
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-import { Flip } from "gsap/Flip";
-import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin, Flip, MorphSVGPlugin);
+gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.defaults({ markers: false });
 ScrollTrigger.config({ limitCallbacks: true });
 
-export { gsap, ScrollTrigger, SplitText, DrawSVGPlugin, Flip, MorphSVGPlugin };
+console.log("[gsap.js] GSAP registered. ScrollTrigger version:", ScrollTrigger.version);
+
+export { gsap, ScrollTrigger };

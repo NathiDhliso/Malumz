@@ -1,6 +1,6 @@
 import "@/App.css";
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollTrigger } from "@/lib/gsap";
 import { useRouteScrollRefresh } from "@/lib/useRouteScrollRefresh";
 import { useResizeRefreshDebounce } from "@/lib/useResizeRefreshDebounce";
@@ -12,15 +12,8 @@ import { RevealRoot } from "@/components/RevealRoot";
 import { HomePage } from "@/pages/HomePage";
 import { AboutPage } from "@/pages/AboutPage";
 import { BookPage } from "@/pages/BookPage";
-import { ContactPage } from "@/pages/ContactPage";
 import { JoinPage } from "@/pages/JoinPage";
-import { CrisisPage } from "@/pages/CrisisPage";
-import { ResourcesPage } from "@/pages/ResourcesPage";
-import { SystemsPage } from "@/pages/SystemsPage";
-import { SystemDetailPage } from "@/pages/SystemDetailPage";
 import { SafetyPage } from "@/pages/SafetyPage";
-import { ResultsPage } from "@/pages/ResultsPage";
-import { VisionPage } from "@/pages/VisionPage";
 
 /**
  * AppShell hosts everything that depends on the router context. Mounting it
@@ -57,18 +50,20 @@ function AppShell() {
         <main className="flex-grow">
           <PageTransition>
             <Routes>
+              {/* Active page routes (5 total) */}
               <Route path="/" element={<HomePage />} />
               <Route path="/book" element={<BookPage />} />
               <Route path="/join" element={<JoinPage />} />
-              <Route path="/crisis" element={<CrisisPage />} />
-              <Route path="/resources" element={<ResourcesPage />} />
-              <Route path="/systems" element={<SystemsPage />} />
-              <Route path="/systems/:slug" element={<SystemDetailPage />} />
-              <Route path="/safety" element={<SafetyPage />} />
-              <Route path="/results" element={<ResultsPage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/vision" element={<VisionPage />} />
-              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/safety" element={<SafetyPage />} />
+              {/* Redirects for removed routes */}
+              <Route path="/results" element={<Navigate to="/" replace />} />
+              <Route path="/resources" element={<Navigate to="/" replace />} />
+              <Route path="/systems/:slug" element={<Navigate to="/" replace />} />
+              <Route path="/systems" element={<Navigate to="/" replace />} />
+              <Route path="/vision" element={<Navigate to="/about" replace />} />
+              <Route path="/contact" element={<Navigate to="/about" replace />} />
+              <Route path="/crisis" element={<Navigate to="/safety" replace />} />
             </Routes>
           </PageTransition>
         </main>

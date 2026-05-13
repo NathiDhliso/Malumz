@@ -63,7 +63,7 @@ import { useCursorPreference } from "@/lib/useCursorPreference";
 
 const HOVER_SELECTOR = "a, button, [data-cursor-hover]";
 const DOT_COLOR = "#C2491A"; // e1-primary
-const HOVER_COLOR = "#F0E2CB"; // e1-text
+const HOVER_COLOR = "#1A1A1A"; // e1-text (dark on light mode)
 
 export default function Cursor() {
   const [preference] = useCursorPreference();

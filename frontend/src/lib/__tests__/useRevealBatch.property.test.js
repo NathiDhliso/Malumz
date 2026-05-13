@@ -9,13 +9,13 @@
  * the exact contract the design document assigns to Property 13:
  *
  *   - For `K` `.gs-reveal` descendants of the scope, `ScrollTrigger.batch`
- *     is called with all `K` elements, `start: "top 88%"`, and
+ *     is called with all `K` elements, `start: "top 85%"`, and
  *     `once: true` (the single-shot flag that guarantees a second scroll
- *     does not re-run the reveal tween, per Requirement 12.3).
+ *     does not re-run the reveal tween, per Requirement 7.3).
  *   - Invoking the captured `onEnter` callback with the batch tweens every
  *     element to the identity target
- *     `{ opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1,
- *        ease: "power3.out" }` (Requirement 12.2).
+ *     `{ opacity: 1, y: 0, scale: 1, duration: 1.0, stagger: 0.15,
+ *        ease: "power3.out" }` (Requirement 7.2).
  *   - When `K === 0`, the hook short-circuits and no `ScrollTrigger.batch`
  *     or `gsap.to` call is made (Requirement 12.1 vacuous case).
  *
@@ -33,6 +33,7 @@
 jest.mock("../gsap", () => ({
   __esModule: true,
   gsap: {
+    set: jest.fn(),
     to: jest.fn(),
     matchMedia: jest.fn(),
   },
@@ -83,6 +84,7 @@ describe("useRevealBatch — Property 13: Reveal Batch convergence to identity",
   const originalMatchMedia = window.matchMedia;
 
   beforeEach(() => {
+    gsap.set.mockReset();
     gsap.to.mockReset();
     gsap.matchMedia.mockReset();
     ScrollTrigger.batch.mockReset();
@@ -128,11 +130,11 @@ describe("useRevealBatch — Property 13: Reveal Batch convergence to identity",
    *   1. When `K === 0`, make no `ScrollTrigger.batch` / `gsap.to` calls
    *      (hook short-circuits on an empty selection).
    *   2. When `K > 0`, register exactly one `ScrollTrigger.batch` for the
-   *      no-preference branch, with all `K` elements, `start: "top 88%"`,
+   *      no-preference branch, with all `K` elements, `start: "top 85%"`,
    *      and `once: true`.
    *   3. When the captured `onEnter` is invoked with the batch, fire one
    *      `gsap.to` call targeting the batch with identity vars
-   *      `{ opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1,
+   *      `{ opacity: 1, y: 0, scale: 1, duration: 1.0, stagger: 0.15,
    *         ease: "power3.out" }`.
    *   4. The `once: true` flag on the registered batch guarantees a
    *      second simulated ScrollTrigger update cannot re-run the reveal
@@ -140,7 +142,7 @@ describe("useRevealBatch — Property 13: Reveal Batch convergence to identity",
    *
    * Validates: Requirements 12.1, 12.2, 12.3
    */
-  it("wires batch(start:'top 88%', once:true) for K elements and onEnter tweens to identity; K=0 short-circuits", () => {
+  it("wires batch(start:'top 85%', once:true) for K elements and onEnter tweens to identity; K=0 short-circuits", () => {
     fc.assert(
       fc.property(fc.integer({ min: 0, max: 20 }), (K) => {
         gsap.to.mockClear();
@@ -181,7 +183,7 @@ describe("useRevealBatch — Property 13: Reveal Batch convergence to identity",
         });
 
         // Trigger start and single-shot flag are exactly as specified.
-        expect(optsArg.start).toBe("top 88%");
+        expect(optsArg.start).toBe("top 85%");
         expect(optsArg.once).toBe(true);
         expect(typeof optsArg.onEnter).toBe("function");
 
@@ -200,8 +202,8 @@ describe("useRevealBatch — Property 13: Reveal Batch convergence to identity",
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.8,
-          stagger: 0.1,
+          duration: 1.0,
+          stagger: 0.15,
           ease: "power3.out",
         });
 

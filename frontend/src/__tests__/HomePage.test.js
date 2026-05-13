@@ -369,50 +369,9 @@ describe("HomePage — structural shape (Task 4.13)", () => {
   });
 
   // -------------------------------------------------------------------------
-  // 5. Hero card <img> carries width, height, and fetchpriority="high"
+  // 5. Hero card <img> — REMOVED
+  // The hero Flip card was removed during page-consolidation-and-animations
+  // spec (SplitText and premium plugins removed). The HeroSection now uses
+  // whole-element animation without a separate card image.
   // -------------------------------------------------------------------------
-
-  /**
-   * Validates: Requirements 14.5, 32.4
-   *
-   * The hero Flip card `<img>` references `HERO_CARD_IMAGE` and must
-   * serialize `width`, `height`, and `fetchpriority="high"` to the
-   * DOM so the browser reserves layout space (zero CLS) and elevates
-   * priority of the above-the-fold portrait.
-   *
-   * HTML attribute names are case-insensitive; `getAttribute` is
-   * likewise case-insensitive, so the assertion is robust to how
-   * React chooses to serialise the lowercase `fetchpriority` JSX
-   * prop.
-   */
-  it('Hero card <img>: carries width, height, and fetchpriority="high"', () => {
-    const { container, restoreMatchMedia } = renderHomePage();
-    try {
-      const heroCard = container.querySelector(
-        `img[src="${HERO_CARD_IMAGE}"]`
-      );
-      expect(heroCard).not.toBeNull();
-
-      // Intrinsic dimensions sourced from the Assets Module metadata
-      // default export so the check stays honest to the canonical
-      // `{ width, height }` values captured at asset intake.
-      const expectedWidth = String(assets.HERO_CARD_IMAGE.width);
-      const expectedHeight = String(assets.HERO_CARD_IMAGE.height);
-      expect(heroCard.getAttribute("width")).toBe(expectedWidth);
-      expect(heroCard.getAttribute("height")).toBe(expectedHeight);
-
-      // `fetchpriority` may be serialised by React with either
-      // case; `getAttribute` on HTMLElement is case-insensitive, but
-      // in a couple of React versions it surfaces under the camelCase
-      // form on the property side. Inspect both spellings and then
-      // normalize the resolved value to lowercase before comparing.
-      const fetchPriorityAttr =
-        heroCard.getAttribute("fetchpriority") ||
-        heroCard.getAttribute("fetchPriority");
-      expect(fetchPriorityAttr).not.toBeNull();
-      expect(fetchPriorityAttr.toLowerCase()).toBe("high");
-    } finally {
-      restoreMatchMedia();
-    }
-  });
 });

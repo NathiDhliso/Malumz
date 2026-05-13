@@ -41,16 +41,17 @@
 import { createRef, useMemo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 
-import { gsap, ScrollTrigger, DrawSVGPlugin } from "@/lib/gsap";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { ST } from "@/lib/motion";
 
-// Reference the plugin symbols so bundlers cannot tree-shake the
-// registration side-effects performed in `@/lib/gsap`. The plugins are
-// only consumed indirectly (via the `drawSVG` property name and the
-// `scrollTrigger` timeline config) so the static imports above would
-// otherwise appear unused.
+// Reference ScrollTrigger so bundlers cannot tree-shake the registration
+// side-effects performed in `@/lib/gsap`.
 void ScrollTrigger;
-void DrawSVGPlugin;
+
+/**
+ * CSS-based path draw replaces DrawSVGPlugin (Requirement 5.4).
+ * Uses stroke-dasharray/stroke-dashoffset animated via ScrollTrigger.
+ */
 
 /**
  * Six default trainer labels matching the Six Trainers narrative on the
@@ -104,41 +105,36 @@ export const TrainerConnector = ({ trainers = DEFAULT_TRAINERS }) => {
       const nodes = nodeRefs.map((r) => r.current).filter(Boolean);
       if (paths.length === 0 || nodes.length === 0) return;
 
-      const mm = gsap.matchMedia();
+      // CSS-based path draw: set stroke-dasharray/dashoffset per path.
+      paths.forEach((path) => {
+        const length = path.getTotalLength();
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+      });
+      gsap.set(nodes, { scale: 0, transformOrigin: "center" });
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.set(paths, { drawSVG: "0%" });
-        gsap.set(nodes, { scale: 0, transformOrigin: "center" });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: ST.trainerConnectorStart,
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        tl.to(paths, {
-          drawSVG: "100%",
-          duration: 1,
-          stagger: 0.12,
-          ease: "power2.inOut",
-        }).to(
-          nodes,
-          {
-            scale: 1,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "back.out(2)",
-          },
-          ">"
-        );
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: ST.trainerConnectorStart,
+          toggleActions: "play none none reverse",
+        },
       });
 
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(paths, { drawSVG: "100%" });
-        gsap.set(nodes, { scale: 1, transformOrigin: "center" });
-      });
+      tl.to(paths, {
+        strokeDashoffset: 0,
+        duration: 1,
+        stagger: 0.12,
+        ease: "power2.inOut",
+      }).to(
+        nodes,
+        {
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "back.out(2)",
+        },
+        ">"
+      );
     },
     { scope: sectionRef, dependencies: [trainers] }
   );

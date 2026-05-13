@@ -20,7 +20,10 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lhci:desktop": "lhci autorun --config=lighthouserc.desktop.js",
+    "lhci:mobile": "lhci autorun --config=lighthouserc.js",
+    "lhci": "npm run lhci:desktop && npm run lhci:mobile"
   },
   "jest": {
     "moduleNameMapper": {
@@ -91,11 +94,13 @@
   "devDependencies": {
     "@axe-core/react": "^4.11.3",
     "@craco/craco": "^7.1.0",
+    "@lhci/cli": "^0.14.0",
     "autoprefixer": "^10.4.14",
     "fast-check": "^3.23.2",
     "jest-axe": "^9.0.0",
     "postcss": "^8.4.24",
     "probe-image-size": "^7.3.0",
+    "serve": "^14.2.4",
     "tailwindcss": "^3.3.2"
   }
 }

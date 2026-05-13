@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Download, Mic, FileText, Users } from 'lucide-react';
+import { Download, Mic, FileText, Users, BookOpen } from 'lucide-react';
 import NotchedSection from '@/components/NotchedSection';
 
 /**
@@ -46,6 +46,72 @@ const specialGuides = [
     icon: Users,
   },
 ];
+
+const systems = [
+  {
+    slug: 'predator-protocol',
+    name: 'Predator Protocol',
+    trainer: 'Family Trainer',
+    description: 'Full 3-check walkthrough with examples of passing and failing each check.',
+  },
+  {
+    slug: '3-chair-tribunal',
+    name: '3-Chair Tribunal',
+    trainer: 'Family Trainer',
+    description: 'Detailed physical setup instructions, voice note recording method, debrief guide.',
+  },
+  {
+    slug: 'provision-audit',
+    name: 'Provision Audit',
+    trainer: 'Economic Trainer',
+    description: 'BREAD/SHIELD/FIRE diagnostic with the ATM metaphor, unemployment adaptation, weekly voice note template.',
+  },
+  {
+    slug: 'circuit-breaker',
+    name: 'Circuit Breaker',
+    trainer: 'Academic Trainer',
+    description: 'Common derailment types, notes for women reading, notes for men, detailed practice scenarios.',
+  },
+  {
+    slug: 'blacksmith',
+    name: 'Blacksmith',
+    trainer: 'Masculine Trainer',
+    description: 'Full forge process example (job loss scenario), isolation warning, Circle debrief format.',
+  },
+  {
+    slug: 'war-room',
+    name: 'War Room',
+    trainer: 'Community Trainer',
+    description: 'Round-by-round facilitation guide, safety protocol for suicidal disclosure, WhatsApp adaptation.',
+  },
+  {
+    slug: 'cool-head-drill',
+    name: 'Cool Head Drill',
+    trainer: 'Masculine Trainer',
+    description: '4-7-8 breathing science, role-play trigger drill instructions, pairing guide.',
+  },
+  {
+    slug: 'anchor-drop',
+    name: 'Anchor Drop',
+    trainer: 'Spiritual Trainer',
+    description: '2-minute compressed version for 4 AM shift workers.',
+  },
+  {
+    slug: 'dark-room-protocol',
+    name: 'Dark Room Protocol',
+    trainer: 'Spiritual Trainer',
+    description: 'Envelope method for men without accountability partners.',
+  },
+];
+
+const trainerColors = {
+  'Family Trainer': 'bg-e1-primary/15 text-e1-primary',
+  'Masculine Trainer': 'bg-red-500/15 text-red-400',
+  'Community Trainer': 'bg-e1-highlight/15 text-e1-highlight',
+  'Economic Trainer': 'bg-green-500/15 text-green-400',
+  'Academic Trainer': 'bg-blue-500/15 text-blue-300',
+  'Spiritual Trainer': 'bg-purple-500/15 text-purple-300',
+};
 
 export const ResourcesPage = () => {
   return (
@@ -150,20 +216,42 @@ export const ResourcesPage = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-e1-bg">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <h3 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-4">
-            Need the Expanded System Guides?
-          </h3>
-          <p className="text-e1-text-muted mb-8">
-            Every exercise from the book has a detailed online guide with breakdowns, Tier 1 adaptations, and practice scenarios.
-          </p>
-          <Link
-            to="/systems"
-            className="bg-e1-secondary text-e1-bg hover:bg-e1-secondary/90 rounded-full px-8 py-4 font-semibold text-lg transition-all inline-block"
-          >
-            View System Guides
-          </Link>
+      <section className="py-20 bg-e1-bg">
+        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
+          <div className="flex items-center gap-3 mb-8">
+            <BookOpen size={28} className="text-e1-highlight" />
+            <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text">
+              System Guides
+            </h2>
+          </div>
+          <div className="space-y-4">
+            {systems.map((system) => (
+              <Link
+                key={system.slug}
+                to={`/systems/${system.slug}`}
+                className="gs-reveal block bg-e1-surface border border-e1-text/10 rounded-lg p-6 hover:shadow-md transition-all group"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="font-display text-xl font-bold text-e1-text group-hover:text-e1-primary transition-colors">
+                        {system.name}
+                      </h3>
+                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${trainerColors[system.trainer] || 'bg-e1-text/10 text-e1-text-muted'}`}>
+                        {system.trainer}
+                      </span>
+                    </div>
+                    <p className="text-e1-text-muted text-sm">
+                      {system.description}
+                    </p>
+                  </div>
+                  <span className="text-e1-primary font-medium text-sm flex-shrink-0 group-hover:translate-x-1 transition-transform">
+                    View →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
     </div>

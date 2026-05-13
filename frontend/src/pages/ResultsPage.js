@@ -36,10 +36,14 @@ import { prefersReducedMotion } from '@/lib/motion';
  *     playback, honouring this requirement is simply "never call `play()`
  *     on mount", which mirrors the non-reduced-motion path.
  *
+ * Graceful fallback (Requirement 35.1): if the video fails to load, the
+ * component swaps to an `e1-surface`-colored placeholder block at the same
+ * declared dimensions. The swap is idempotent on repeat error events.
+ *
  * Feature: e1-editorial-ui-overhaul
  *
  * @see Requirements 1.1–1.8, 2.1, 4.6, 5.7, 5.8, 27.1, 27.2, 27.3, 27.4,
- *      27.5, 30.3, 32.1
+ *      27.5, 30.3, 32.1, 35.1
  */
 
 // Preserved page-level data — copy is byte-for-byte identical to the prior
@@ -83,6 +87,12 @@ const testimonialMeta = assets.RESULTS_TESTIMONIAL_VIDEO;
 export const ResultsPage = () => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  // Requirement 35.1: when the testimonial video fails to load, swap to
+  // an e1-surface-colored placeholder at the same dimensions.
+  const [videoError, setVideoError] = useState(false);
+  const handleVideoError = useCallback(() => {
+    setVideoError(true);
+  }, []);
   // Captured once on mount so the initial-render branch matches
   // Requirement 4.6 (video paused on first render under reduced motion).
   // Captured lazily via `useState(() => ...)` so the probe runs exactly
@@ -145,19 +155,32 @@ export const ResultsPage = () => {
 
           <NotchedSection tone="sienna" className="p-4 md:p-6">
             <figure className="relative">
-              <video
-                ref={videoRef}
-                src={RESULTS_TESTIMONIAL_VIDEO}
-                width={testimonialMeta.width}
-                height={testimonialMeta.height}
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                aria-label={testimonialMeta.altPlaceholder}
-                data-testid="results-testimonial-video"
-                className="block w-full h-auto"
-              />
+              {videoError ? (
+                <div
+                  style={{
+                    width: testimonialMeta.width,
+                    height: testimonialMeta.height,
+                  }}
+                  aria-hidden="true"
+                  data-testid="results-testimonial-video"
+                  className="block w-full h-auto bg-e1-surface"
+                />
+              ) : (
+                <video
+                  ref={videoRef}
+                  src={RESULTS_TESTIMONIAL_VIDEO}
+                  width={testimonialMeta.width}
+                  height={testimonialMeta.height}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  onError={handleVideoError}
+                  aria-label={testimonialMeta.altPlaceholder}
+                  data-testid="results-testimonial-video"
+                  className="block w-full h-auto"
+                />
+              )}
               <div className="mt-4 flex items-center justify-between gap-4">
                 <figcaption className="font-sans text-sm text-e1-text-muted italic">
                   {testimonialMeta.altPlaceholder}
