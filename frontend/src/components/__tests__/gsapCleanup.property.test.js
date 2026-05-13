@@ -121,11 +121,13 @@ const { CURSOR_KEY } = require("../../lib/useCursorPreference");
 
 /**
  * The set of reusable animated components currently available in this
- * phase of the feature. Extend this list as new animated components land.
+ * phase of the feature. `<PageTransition>` previously drove a GSAP
+ * timeline but was rewritten as a CSS-only crossfade for mobile-Safari
+ * stability (see src/components/PageTransition.js) and therefore no
+ * longer owns any GSAP state for this suite to assert on.
  */
 const animatedComponentsUnderTest = [
   "Cursor",
-  "PageTransition",
   "MagneticButton",
   "RevealRoot",
 ];

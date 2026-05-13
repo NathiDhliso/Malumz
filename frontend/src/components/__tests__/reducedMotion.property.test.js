@@ -123,11 +123,10 @@ const { CURSOR_KEY } = require("../../lib/useCursorPreference");
 
 /**
  * Reusable entrance-animated components currently available in phase 2.
- * Phase 4 will extend this list to include `Hero`, `TrainerConnector`,
- * and `PullQuote`.
+ * `<PageTransition>` was rewritten as a CSS-only crossfade and no longer
+ * performs any GSAP tweens, so it is out of scope for this property.
  */
 const entranceAnimatedComponents = [
-  "PageTransition",
   "RevealRoot",
   "MagneticButton",
   "Cursor",
