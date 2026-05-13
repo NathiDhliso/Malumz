@@ -6,6 +6,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { ST } from "@/lib/motion";
 import MagneticButton from "@/components/MagneticButton";
 import { submitContact } from "@/lib/malumzApi";
+import { reportError, reportEvent } from "@/lib/telemetry";
 
 /**
  * AboutPage — Conversion-focused simplification.
@@ -194,11 +195,12 @@ export const AboutPage = () => {
     setSubmitError('');
     try {
       await submitContact(formData);
+      reportEvent('contact_submit_success', { subject: formData.subject });
       setSubmitSuccess(true);
       setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
       setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
-      console.error('Contact form submission error:', error);
+      reportError(error, { source: 'AboutPage.submit' });
       setSubmitError(
         "We couldn't send that. Please try again, or email nkosinathi.dhliso@gmail.com directly."
       );

@@ -50,6 +50,7 @@ export const PageTransition = ({ children }) => {
   const [displayLocation, setDisplayLocation] = useState(location);
   const curtainRef = useRef(null);
   const contentRef = useRef(null);
+  const fallbackTimerRef = useRef(null);
 
   // React 18 does not pass the HTML `inert` attribute through JSX as a
   // boolean prop (that lands in React 19). Apply it imperatively so the
@@ -61,6 +62,14 @@ export const PageTransition = ({ children }) => {
     node.setAttribute("inert", "");
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (fallbackTimerRef.current) {
+        clearTimeout(fallbackTimerRef.current);
+      }
+    };
+  }, []);
+
   // Drive the curtain / crossfade timeline. `useGSAP`'s context is re-run
   // whenever `location.pathname` changes — the previous context reverts
   // first (killing any in-flight tween and restoring starting transforms),
@@ -69,6 +78,10 @@ export const PageTransition = ({ children }) => {
   useGSAP(
     () => {
       const curtain = curtainRef.current;
+      if (fallbackTimerRef.current) {
+        clearTimeout(fallbackTimerRef.current);
+        fallbackTimerRef.current = null;
+      }
       if (curtain) {
         gsap.set(curtain, { yPercent: 100 });
       }
@@ -79,6 +92,17 @@ export const PageTransition = ({ children }) => {
 
       const reduced = prefersReducedMotion();
       const nextLocation = location;
+      const releaseCurtain = () => {
+        if (curtainRef.current) {
+          gsap.set(curtainRef.current, { yPercent: -100, clearProps: "willChange" });
+        }
+        if (contentRef.current) {
+          gsap.set(contentRef.current, { opacity: 1, clearProps: "willChange" });
+        }
+        setDisplayLocation(nextLocation);
+      };
+
+      fallbackTimerRef.current = window.setTimeout(releaseCurtain, 2500);
 
       if (reduced) {
         // Reduced-motion branch — 150ms opacity crossfade on the content
@@ -91,6 +115,10 @@ export const PageTransition = ({ children }) => {
 
         gsap.timeline({
           onComplete: () => {
+            if (fallbackTimerRef.current) {
+              clearTimeout(fallbackTimerRef.current);
+              fallbackTimerRef.current = null;
+            }
             ScrollTrigger.refresh();
           },
         })
@@ -114,6 +142,10 @@ export const PageTransition = ({ children }) => {
 
       gsap.timeline({
         onComplete: () => {
+          if (fallbackTimerRef.current) {
+            clearTimeout(fallbackTimerRef.current);
+            fallbackTimerRef.current = null;
+          }
           // ScrollTrigger.refresh() is called exactly once per completed
           // sweep. Requirements 9.6, 21.2.
           ScrollTrigger.refresh();

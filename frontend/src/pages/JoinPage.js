@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Users, CheckCircle2 } from 'lucide-react';
 import { submitContact } from '@/lib/malumzApi';
+import { reportError, reportEvent } from '@/lib/telemetry';
 import NotchedSection from '@/components/NotchedSection';
 import MagneticButton from '@/components/MagneticButton';
 
@@ -42,9 +43,10 @@ export const JoinPage = () => {
         subject: 'Brotherhood Circle Interest',
         message: `Location: ${formData.location}`,
       });
+      reportEvent('join_submit_success');
       setSubmitSuccess(true);
     } catch (error) {
-      console.error('Registration error:', error);
+      reportError(error, { source: 'JoinPage.submit' });
       setSubmitError(
         "We couldn't submit that. Please try again, or email nkosinathi.dhliso@gmail.com directly."
       );

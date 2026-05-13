@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AlertTriangle, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { submitContact } from '@/lib/malumzApi';
+import { reportError, reportEvent } from '@/lib/telemetry';
 import NotchedSection from '@/components/NotchedSection';
 import MagneticButton from '@/components/MagneticButton';
 
@@ -43,10 +44,11 @@ export const SafetyPage = () => {
         subject: 'Safety Report - Anonymous',
         message: reportData.message,
       });
+      reportEvent('safety_report_submit_success');
       setSubmitSuccess(true);
       setReportData({ message: '' });
     } catch (error) {
-      console.error('Report error:', error);
+      reportError(error, { source: 'SafetyPage.submit' });
       setSubmitError(
         "We couldn't submit that report. Please email nkosinathi.dhliso@gmail.com directly."
       );

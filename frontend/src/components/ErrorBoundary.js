@@ -1,4 +1,5 @@
 import React from 'react';
+import { reportError } from '@/lib/telemetry';
 
 /**
  * Global ErrorBoundary — protects the whole app from single-component
@@ -6,8 +7,8 @@ import React from 'react';
  * drop-off.
  *
  * Renders a minimal branded fallback with an email CTA and a reload action.
- * All errors are logged to `console.error` so ops can still see them via
- * browser telemetry / Sentry / CloudWatch RUM if wired up later.
+ * All errors are forwarded to the provider-neutral telemetry shim so they
+ * can be swapped to Sentry / CloudWatch RUM later without touching this file.
  */
 export class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -20,9 +21,10 @@ export class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    // Emit structured log so ops tooling picks it up without leaking PII.
-    // eslint-disable-next-line no-console
-    console.error('[ErrorBoundary]', error, info?.componentStack);
+    reportError(error, {
+      source: 'ErrorBoundary',
+      componentStack: info && info.componentStack ? info.componentStack : undefined,
+    });
   }
 
   handleReload = () => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
@@ -6,6 +6,8 @@ export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const menuButtonRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +20,46 @@ export const Navigation = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+
+  // Close on Escape and on click outside the open menu. Return focus to the
+  // hamburger toggle on close so keyboard users aren't dumped on <body>.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return undefined;
+
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+        if (menuButtonRef.current) menuButtonRef.current.focus();
+      }
+    };
+
+    const handlePointerDown = (e) => {
+      const menu = mobileMenuRef.current;
+      const btn = menuButtonRef.current;
+      if (!menu) return;
+      if (menu.contains(e.target)) return;
+      if (btn && btn.contains(e.target)) return;
+      setIsMobileMenuOpen(false);
+    };
+
+    document.addEventListener('keydown', handleKey);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  // When the menu opens, move focus into the first interactive element so
+  // screen-reader and keyboard users land inside the menu rather than having
+  // to tab through the page.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const menu = mobileMenuRef.current;
+    if (!menu) return;
+    const first = menu.querySelector('a, button');
+    if (first && typeof first.focus === 'function') first.focus();
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -65,15 +107,27 @@ export const Navigation = () => {
             </div>
 
             <button
+              ref={menuButtonRef}
+              type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 text-e1-text"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
           {isMobileMenuOpen && (
-            <div className="lg:hidden absolute top-20 left-0 right-0 bg-e1-surface border-b border-e1-text-muted/10 shadow-lg max-h-[80vh] overflow-y-auto">
+            <div
+              id="mobile-menu"
+              ref={mobileMenuRef}
+              role="dialog"
+              aria-modal="false"
+              aria-label="Main menu"
+              className="lg:hidden absolute top-20 left-0 right-0 bg-e1-surface border-b border-e1-text-muted/10 shadow-lg max-h-[80vh] overflow-y-auto"
+            >
               <div className="px-4 py-6 space-y-2">
                 {navLinks.map((link) => (
                   <Link
