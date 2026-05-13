@@ -1,8 +1,26 @@
 import { useState } from 'react';
 import { ShieldAlert, AlertTriangle, CheckCircle2 } from 'lucide-react';
-import axios from 'axios';
+import { submitContact } from '@/lib/malumzApi';
+import NotchedSection from '@/components/NotchedSection';
+import MagneticButton from '@/components/MagneticButton';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+/**
+ * SafetyPage — E1 editorial inheritance.
+ *
+ * Task 7.8 rebases the safety page onto the E1 token palette, Fraunces
+ * display / DM Sans typography, and wraps sections in
+ * `<NotchedSection>` with alternating `tone` values. Section headings
+ * and content blocks carry `.gs-reveal` so they participate in the
+ * global Reveal Batch driven by `<RevealRoot>`. The primary CTA
+ * (submit button) is wrapped in `<MagneticButton>`.
+ *
+ * All page copy and the `tyrantSigns` / `vettingChecklist` data
+ * constants are preserved byte-for-byte. No page-specific GSAP
+ * timelines are added.
+ *
+ * Feature: e1-editorial-ui-overhaul
+ * @see Requirements 1.*, 2.*, 7.*, 12.*, 28.*, 30.3
+ */
 
 const tyrantSigns = [
   'Uses "I paid lobola" to justify controlling behaviour',
@@ -34,7 +52,7 @@ export const SafetyPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await axios.post(`${BACKEND_URL}/api/contact`, {
+      await submitContact({
         name: 'Anonymous Report',
         email: 'anonymous@malumz.co.za',
         subject: 'Safety Report - Anonymous',
@@ -51,134 +69,134 @@ export const SafetyPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <section className="pt-32 pb-16 bg-malumz-cream">
+    <div className="min-h-screen bg-e1-bg">
+      <NotchedSection tone="sienna" className="pt-32 pb-16">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
           <ShieldAlert size={64} className="text-red-600 mx-auto mb-6" />
-          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-malumz-text-primary mb-4">
+          <h1 className="gs-reveal font-display text-4xl lg:text-5xl font-bold text-e1-text mb-4">
             Safety
           </h1>
-          <p className="text-lg text-malumz-text-secondary max-w-2xl mx-auto">
+          <p className="text-lg text-e1-text-muted max-w-2xl mx-auto">
             Protecting against weaponisation of the framework. This page exists because power corrupts, and any system built to help men can be twisted to control them.
           </p>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-16 bg-red-50">
+      <NotchedSection tone="charcoal" className="py-16">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <div className="bg-white border-l-4 border-red-600 rounded-r-xl p-8">
-            <h2 className="font-serif text-2xl font-bold text-malumz-text-primary mb-4">
+          <div className="gs-reveal bg-e1-surface border-l-4 border-red-600 rounded-r-xl p-8">
+            <h2 className="font-display text-2xl font-bold text-e1-text mb-4">
               The Non-Negotiable
             </h2>
-            <p className="text-lg text-malumz-text-secondary leading-relaxed font-semibold">
+            <p className="text-lg text-e1-text-muted leading-relaxed font-semibold">
               "If ANY man uses 'I paid lobola' or the Core Rule to justify abuse, the programme has failed for that man. Remove him."
             </p>
           </div>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-20 bg-white">
+      <NotchedSection tone="sienna" className="py-20">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
           <div className="flex items-center gap-3 mb-8">
             <AlertTriangle size={28} className="text-red-600" />
-            <h2 className="font-serif text-3xl font-bold text-malumz-text-primary">
+            <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text">
               The Trained Tyrant Profile
             </h2>
           </div>
-          <p className="text-malumz-text-secondary mb-8">
+          <p className="text-e1-text-muted mb-8">
             Warning signs that a facilitator or member is using the teaching to control others. If you recognise these patterns, report immediately.
           </p>
           <div className="space-y-3">
             {tyrantSigns.map((sign, index) => (
               <div
                 key={index}
-                className="flex items-start gap-4 bg-red-50 border border-red-100 rounded-lg px-6 py-4"
+                className="gs-reveal flex items-start gap-4 bg-e1-bg border border-e1-text/10 rounded-lg px-6 py-4"
               >
                 <AlertTriangle size={18} className="text-red-500 mt-0.5 flex-shrink-0" />
-                <p className="text-malumz-text-secondary">{sign}</p>
+                <p className="text-e1-text-muted">{sign}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-20 bg-malumz-cream">
+      <NotchedSection tone="charcoal" className="py-20">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-3xl font-bold text-malumz-text-primary mb-4">
+          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-4">
             The Silent Exclusion Guide
           </h2>
-          <p className="text-malumz-text-secondary mb-8">
+          <p className="text-e1-text-muted mb-8">
             How to safely remove a dangerous member without confrontation (Rule 38 compliance).
           </p>
-          <div className="bg-white border border-malumz-brown/10 rounded-xl p-8 space-y-4">
+          <div className="bg-e1-surface border border-e1-text/10 rounded-xl p-8 space-y-4">
             <div className="flex items-start gap-3">
-              <span className="text-malumz-gold font-bold">1.</span>
-              <p className="text-malumz-text-secondary">Document the behaviour privately. Dates, witnesses, specific actions.</p>
+              <span className="text-e1-highlight font-bold">1.</span>
+              <p className="text-e1-text-muted">Document the behaviour privately. Dates, witnesses, specific actions.</p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-malumz-gold font-bold">2.</span>
-              <p className="text-malumz-text-secondary">Consult with at least one other facilitator before acting.</p>
+              <span className="text-e1-highlight font-bold">2.</span>
+              <p className="text-e1-text-muted">Consult with at least one other facilitator before acting.</p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-malumz-gold font-bold">3.</span>
-              <p className="text-malumz-text-secondary">Private conversation with the individual. State the concern without accusation.</p>
+              <span className="text-e1-highlight font-bold">3.</span>
+              <p className="text-e1-text-muted">Private conversation with the individual. State the concern without accusation.</p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-malumz-gold font-bold">4.</span>
-              <p className="text-malumz-text-secondary">If behaviour continues, remove without group discussion. The group is told: "He has chosen to leave the Circle."</p>
+              <span className="text-e1-highlight font-bold">4.</span>
+              <p className="text-e1-text-muted">If behaviour continues, remove without group discussion. The group is told: "He has chosen to leave the Circle."</p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-malumz-gold font-bold">5.</span>
-              <p className="text-malumz-text-secondary">If the person poses a danger to others, report to SAPS immediately. The Circle does not replace the law.</p>
+              <span className="text-e1-highlight font-bold">5.</span>
+              <p className="text-e1-text-muted">If the person poses a danger to others, report to SAPS immediately. The Circle does not replace the law.</p>
             </div>
           </div>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-20 bg-white">
+      <NotchedSection tone="sienna" className="py-20">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-3xl font-bold text-malumz-text-primary mb-8">
+          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-8">
             Facilitator Vetting Checklist
           </h2>
-          <p className="text-malumz-text-secondary mb-8">
+          <p className="text-e1-text-muted mb-8">
             Based on the Dark Room Protocol. No one facilitates a Circle without meeting every requirement.
           </p>
           <div className="space-y-3">
             {vettingChecklist.map((item, index) => (
               <div
                 key={index}
-                className="flex items-start gap-4 bg-malumz-cream border border-malumz-brown/10 rounded-lg px-6 py-4"
+                className="gs-reveal flex items-start gap-4 bg-e1-bg border border-e1-text/10 rounded-lg px-6 py-4"
               >
-                <CheckCircle2 size={20} className="text-malumz-gold mt-0.5 flex-shrink-0" />
-                <p className="text-malumz-text-secondary">{item}</p>
+                <CheckCircle2 size={20} className="text-e1-highlight mt-0.5 flex-shrink-0" />
+                <p className="text-e1-text-muted">{item}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-20 bg-malumz-cream">
+      <NotchedSection tone="charcoal" className="py-20">
         <div className="max-w-2xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-3xl font-bold text-malumz-text-primary mb-4 text-center">
+          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-4 text-center">
             Report a Circle
           </h2>
-          <p className="text-center text-malumz-text-secondary mb-8">
+          <p className="text-center text-e1-text-muted mb-8">
             Anonymous form for reporting abusive facilitators or members. Your identity will not be shared.
           </p>
           {submitSuccess ? (
-            <div className="bg-white border border-malumz-brown/10 rounded-xl p-8 text-center">
-              <CheckCircle2 size={48} className="text-malumz-gold mx-auto mb-4" />
-              <h3 className="font-serif text-xl font-bold text-malumz-text-primary mb-2">
+            <div className="bg-e1-surface border border-e1-text/10 rounded-xl p-8 text-center">
+              <CheckCircle2 size={48} className="text-e1-highlight mx-auto mb-4" />
+              <h3 className="font-display text-xl font-bold text-e1-text mb-2">
                 Report Received
               </h3>
-              <p className="text-malumz-text-secondary">
+              <p className="text-e1-text-muted">
                 Thank you for helping keep the programme safe. We will investigate.
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="bg-white border border-malumz-brown/10 rounded-xl p-8">
+            <form onSubmit={handleSubmit} className="bg-e1-surface border border-e1-text/10 rounded-xl p-8">
               <div className="mb-6">
-                <label className="block text-sm font-medium text-malumz-text-secondary mb-2">
+                <label className="block text-sm font-medium text-e1-text-muted mb-2">
                   Describe the situation (anonymous)
                 </label>
                 <textarea
@@ -187,20 +205,20 @@ export const SafetyPage = () => {
                   required
                   rows="6"
                   placeholder="What happened? Where? When? Include as much detail as you feel comfortable sharing."
-                  className="w-full bg-malumz-cream border border-malumz-brown/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-malumz-orange focus:border-transparent transition-all resize-none"
+                  className="w-full bg-e1-bg border border-e1-text/20 rounded-lg px-4 py-3 text-e1-text focus:ring-2 focus:ring-e1-primary focus:border-transparent transition-all resize-none"
                 />
               </div>
-              <button
+              <MagneticButton
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-red-600 text-white hover:bg-red-700 rounded-full px-8 py-4 font-semibold transition-all disabled:opacity-50"
+                className="w-full bg-red-600 text-e1-text hover:bg-red-700 rounded-full px-8 py-4 font-semibold transition-all disabled:opacity-50"
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Anonymous Report'}
-              </button>
+              </MagneticButton>
             </form>
           )}
         </div>
-      </section>
+      </NotchedSection>
     </div>
   );
 };

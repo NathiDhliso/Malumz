@@ -7,20 +7,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'malumz-orange': '#CC5500',
-        'malumz-orange-dark': '#A04000',
-        'malumz-brown': '#5C4033',
-        'malumz-gold': '#DAA520',
-        'malumz-cream': '#F9F7F2',
-        'malumz-paper': '#F0EBE0',
-        'malumz-text-primary': '#2D241E',
-        'malumz-text-secondary': '#5C4033',
-        'malumz-text-muted': '#8C7B70',
+        'e1-bg': '#09060A',
+        'e1-primary': '#C2491A',
+        'e1-secondary': '#C8891E',
+        'e1-highlight': '#E4BE6A',
+        'e1-text': '#F0E2CB',
+        'e1-text-muted': '#907A61',
+        'e1-surface': '#1E0D05',
       },
       fontFamily: {
-        'serif': ['Playfair Display', 'serif'],
-        'sans': ['Inter', 'sans-serif'],
-        'accent': ['Merriweather', 'serif'],
+        'display': ['Fraunces', 'serif'],
+        'sans': ['"DM Sans"', 'sans-serif'],
       },
       spacing: {
         '18': '4.5rem',

@@ -1,5 +1,24 @@
 import { Link } from 'react-router-dom';
 import { Download, Mic, FileText, Users } from 'lucide-react';
+import NotchedSection from '@/components/NotchedSection';
+
+/**
+ * ResourcesPage — E1 editorial inheritance.
+ *
+ * Task 7.8 rebases resources onto the E1 token palette, Fraunces
+ * display / DM Sans typography, and wraps the hero in
+ * `<NotchedSection tone="charcoal">`. Section headings and each
+ * tile / guide card carry `.gs-reveal` so they participate in the
+ * global Reveal Batch driven by `<RevealRoot>`.
+ *
+ * All copy strings and the `voiceNotePrompts` / `printablePDFs` /
+ * `specialGuides` page-level data constants are preserved byte-for-byte.
+ * No page-specific GSAP timelines are added; scroll reveal, cursor,
+ * and page-transition systems are inherited from the app shell.
+ *
+ * Feature: e1-editorial-ui-overhaul
+ * @see Requirements 1.*, 2.*, 7.*, 12.*, 25.*, 30.3
+ */
 
 const voiceNotePrompts = [
   { title: 'Week 1: Did you provide, protect, love?', duration: '60 sec' },
@@ -30,93 +49,83 @@ const specialGuides = [
 
 export const ResourcesPage = () => {
   return (
-    <div className="min-h-screen">
-      <section className="pt-32 pb-16 bg-malumz-cream">
+    <div className="min-h-screen bg-e1-bg">
+      <NotchedSection tone="charcoal" className="pt-32 pb-16">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <Download size={64} className="text-malumz-gold mx-auto mb-6" />
-          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-malumz-text-primary mb-4">
+          <Download size={64} className="text-e1-highlight mx-auto mb-6" />
+          <h1 className="gs-reveal font-display text-4xl lg:text-5xl font-bold text-e1-text mb-4">
             Resources
           </h1>
-          <p className="text-lg text-malumz-text-secondary max-w-2xl mx-auto">
+          <p className="text-lg text-e1-text-muted max-w-2xl mx-auto">
             Downloadable tools that respect the Oral Rule and Tier 1 reality. Everything here works for a shift worker in Lawley with R20 airtime.
           </p>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-e1-surface">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
           <div className="flex items-center gap-3 mb-8">
-            <Mic size={28} className="text-malumz-orange" />
-            <h2 className="font-serif text-3xl font-bold text-malumz-text-primary">
+            <Mic size={28} className="text-e1-primary" />
+            <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text">
               Voice Note Prompts
             </h2>
           </div>
-          <p className="text-malumz-text-secondary mb-8">
-            MP3 downloads, under 2MB each. For men who prefer listening over reading.
+          <p className="text-e1-text-muted mb-8">
+            Voice prompts for men who prefer listening over reading.
           </p>
           <div className="space-y-4">
             {voiceNotePrompts.map((prompt, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between bg-malumz-cream border border-malumz-brown/10 rounded-lg px-6 py-4"
+                className="gs-reveal flex items-center justify-between bg-e1-bg border border-e1-text/10 rounded-lg px-6 py-4"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-malumz-orange/10 rounded-full flex items-center justify-center">
-                    <Mic size={18} className="text-malumz-orange" />
+                  <div className="w-10 h-10 bg-e1-primary/10 rounded-full flex items-center justify-center">
+                    <Mic size={18} className="text-e1-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-malumz-text-primary">{prompt.title}</p>
-                    <p className="text-malumz-text-muted text-sm">{prompt.duration}</p>
+                    <p className="font-semibold text-e1-text">{prompt.title}</p>
+                    <p className="text-e1-text-muted text-sm">{prompt.duration}</p>
                   </div>
                 </div>
-                <button
-                  className="text-malumz-orange font-medium text-sm hover:underline flex-shrink-0"
-                >
-                  Download MP3
-                </button>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-malumz-cream">
+      <section className="py-20 bg-e1-bg">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
           <div className="flex items-center gap-3 mb-8">
-            <FileText size={28} className="text-malumz-gold" />
-            <h2 className="font-serif text-3xl font-bold text-malumz-text-primary">
+            <FileText size={28} className="text-e1-highlight" />
+            <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text">
               Printable PDFs
             </h2>
           </div>
-          <p className="text-malumz-text-secondary mb-8">
+          <p className="text-e1-text-muted mb-8">
             All under 1MB. Print at your local spaza shop or library.
           </p>
           <div className="grid md:grid-cols-2 gap-4">
             {printablePDFs.map((pdf, index) => (
               <div
                 key={index}
-                className="bg-white border border-malumz-brown/10 rounded-lg p-6 hover:shadow-md transition-all"
+                className="gs-reveal bg-e1-surface border border-e1-text/10 rounded-lg p-6 hover:shadow-md transition-all"
               >
-                <h3 className="font-serif text-lg font-bold text-malumz-text-primary mb-2">
+                <h3 className="font-display text-lg font-bold text-e1-text mb-2">
                   {pdf.title}
                 </h3>
-                <p className="text-malumz-text-secondary text-sm mb-4">
+                <p className="text-e1-text-muted text-sm mb-4">
                   {pdf.description}
                 </p>
-                <button
-                  className="text-malumz-orange font-medium text-sm hover:underline"
-                >
-                  Download PDF →
-                </button>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-e1-surface">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-3xl font-bold text-malumz-text-primary mb-8">
+          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-8">
             Special Guides
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
@@ -125,20 +134,15 @@ export const ResourcesPage = () => {
               return (
                 <div
                   key={index}
-                  className="bg-malumz-cream border border-malumz-brown/10 rounded-xl p-8"
+                  className="gs-reveal bg-e1-bg border border-e1-text/10 rounded-xl p-8"
                 >
-                  <Icon size={32} className="text-malumz-gold mb-4" />
-                  <h3 className="font-serif text-xl font-bold text-malumz-text-primary mb-3">
+                  <Icon size={32} className="text-e1-highlight mb-4" />
+                  <h3 className="font-display text-xl font-bold text-e1-text mb-3">
                     {guide.title}
                   </h3>
-                  <p className="text-malumz-text-secondary text-sm mb-4">
+                  <p className="text-e1-text-muted text-sm mb-4">
                     {guide.description}
                   </p>
-                  <button
-                    className="text-malumz-orange font-medium text-sm hover:underline"
-                  >
-                    Download PDF →
-                  </button>
                 </div>
               );
             })}
@@ -146,17 +150,17 @@ export const ResourcesPage = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-malumz-brown">
+      <section className="py-16 bg-e1-bg">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <h3 className="font-serif text-3xl font-bold text-white mb-4">
+          <h3 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-4">
             Need the Expanded System Guides?
           </h3>
-          <p className="text-white/90 mb-8">
+          <p className="text-e1-text-muted mb-8">
             Every exercise from the book has a detailed online guide with breakdowns, Tier 1 adaptations, and practice scenarios.
           </p>
           <Link
             to="/systems"
-            className="bg-malumz-gold text-malumz-text-primary hover:bg-malumz-gold/90 rounded-full px-8 py-4 font-semibold text-lg transition-all inline-block"
+            className="bg-e1-secondary text-e1-bg hover:bg-e1-secondary/90 rounded-full px-8 py-4 font-semibold text-lg transition-all inline-block"
           >
             View System Guides
           </Link>

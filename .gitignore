@@ -116,3 +116,6 @@ terraform/lambda_layer/lambda_layer.zip
 Dog_Trainer-AudioBook/
 *.mp3
 *.mp4
+/Dog Trainer.epub
+/Book Cover.pdf
+/Book Cover.png

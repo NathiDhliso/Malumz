@@ -55,7 +55,7 @@ export const Navigation = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'bg-white/80 backdrop-blur-md border-b border-malumz-brown/5 shadow-sm'
+            ? 'bg-e1-bg/80 backdrop-blur-md border-b border-e1-text-muted/10 shadow-sm'
             : 'bg-transparent'
         }`}
       >
@@ -63,9 +63,9 @@ export const Navigation = () => {
           <div className="flex items-center justify-between h-20">
             <Link
               to="/"
-              className="font-serif text-2xl font-bold text-malumz-text-primary tracking-tight"
+              className="font-display text-2xl font-bold text-e1-text tracking-tight"
             >
-              malumz<span className="text-malumz-gold">.co.za</span>
+              malumz<span className="text-e1-highlight">.co.za</span>
             </Link>
 
             <div className="hidden lg:flex items-center space-x-6">
@@ -78,23 +78,23 @@ export const Navigation = () => {
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
                     <button
-                      className={`font-sans text-sm font-medium transition-all hover:text-malumz-orange flex items-center gap-1 ${
-                        isActive(link) ? 'text-malumz-orange' : 'text-malumz-text-secondary'
+                      className={`font-sans text-sm font-medium transition-all hover:text-e1-secondary flex items-center gap-1 ${
+                        isActive(link) ? 'text-e1-primary' : 'text-e1-text'
                       }`}
                     >
                       {link.name}
                       <ChevronDown size={14} />
                     </button>
                     {openDropdown === link.name && (
-                      <div className="absolute top-full left-0 mt-1 bg-white border border-malumz-brown/10 rounded-lg shadow-lg py-2 min-w-[160px]">
+                      <div className="absolute top-full left-0 mt-1 bg-e1-surface border border-e1-text-muted/10 rounded-lg shadow-lg py-2 min-w-[160px]">
                         {link.children.map((child) => (
                           <Link
                             key={child.path}
                             to={child.path}
-                            className={`block px-4 py-2 text-sm transition-all hover:bg-malumz-cream hover:text-malumz-orange ${
+                            className={`block px-4 py-2 text-sm transition-all hover:bg-e1-bg hover:text-e1-secondary ${
                               location.pathname === child.path
-                                ? 'text-malumz-orange bg-malumz-cream'
-                                : 'text-malumz-text-secondary'
+                                ? 'text-e1-primary bg-e1-bg'
+                                : 'text-e1-text'
                             }`}
                           >
                             {child.name}
@@ -107,8 +107,8 @@ export const Navigation = () => {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`font-sans text-sm font-medium transition-all hover:text-malumz-orange ${
-                      isActive(link) ? 'text-malumz-orange' : 'text-malumz-text-secondary'
+                    className={`font-sans text-sm font-medium transition-all hover:text-e1-secondary ${
+                      isActive(link) ? 'text-e1-primary' : 'text-e1-text'
                     }`}
                   >
                     {link.name}
@@ -125,14 +125,14 @@ export const Navigation = () => {
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-malumz-text-primary"
+              className="lg:hidden p-2 text-e1-text"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
           {isMobileMenuOpen && (
-            <div className="lg:hidden absolute top-20 left-0 right-0 bg-white border-b border-malumz-brown/10 shadow-lg max-h-[80vh] overflow-y-auto">
+            <div className="lg:hidden absolute top-20 left-0 right-0 bg-e1-surface border-b border-e1-text-muted/10 shadow-lg max-h-[80vh] overflow-y-auto">
               <div className="px-4 py-6 space-y-2">
                 {navLinks.map((link) =>
                   link.children ? (
@@ -142,7 +142,7 @@ export const Navigation = () => {
                           setOpenDropdown(openDropdown === link.name ? null : link.name)
                         }
                         className={`w-full flex items-center justify-between py-2 font-sans text-base font-medium ${
-                          isActive(link) ? 'text-malumz-orange' : 'text-malumz-text-secondary'
+                          isActive(link) ? 'text-e1-primary' : 'text-e1-text'
                         }`}
                       >
                         {link.name}
@@ -161,8 +161,8 @@ export const Navigation = () => {
                               to={child.path}
                               className={`block py-2 text-sm ${
                                 location.pathname === child.path
-                                  ? 'text-malumz-orange'
-                                  : 'text-malumz-text-secondary'
+                                  ? 'text-e1-primary'
+                                  : 'text-e1-text'
                               }`}
                             >
                               {child.name}
@@ -176,7 +176,7 @@ export const Navigation = () => {
                       key={link.path}
                       to={link.path}
                       className={`block py-2 font-sans text-base font-medium ${
-                        isActive(link) ? 'text-malumz-orange' : 'text-malumz-text-secondary'
+                        isActive(link) ? 'text-e1-primary' : 'text-e1-text'
                       }`}
                     >
                       {link.name}

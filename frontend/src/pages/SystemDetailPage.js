@@ -1,5 +1,22 @@
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import NotchedSection from '@/components/NotchedSection';
+
+/**
+ * SystemDetailPage — E1 editorial inheritance.
+ *
+ * Task 7.8 rebases the detail view onto the E1 token palette, Fraunces
+ * display / DM Sans typography, and wraps the hero banner in
+ * `<NotchedSection tone="charcoal">`. The system headline and each
+ * section heading carry `.gs-reveal` so they participate in the global
+ * Reveal Batch driven by `<RevealRoot>`.
+ *
+ * The `systemsData` lookup and all copy strings are preserved
+ * byte-for-byte. No page-specific GSAP timelines are added.
+ *
+ * Feature: e1-editorial-ui-overhaul
+ * @see Requirements 1.*, 2.*, 7.*, 12.*, 25.*, 30.3
+ */
 
 const systemsData = {
   'predator-protocol': {
@@ -127,17 +144,17 @@ export const SystemDetailPage = () => {
 
   if (!system) {
     return (
-      <div className="min-h-screen pt-32 pb-16 bg-malumz-cream">
+      <div className="min-h-screen pt-32 pb-16 bg-e1-bg">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <h1 className="font-serif text-4xl font-bold text-malumz-text-primary mb-4">
+          <h1 className="gs-reveal font-display text-4xl font-bold text-e1-text mb-4">
             System Not Found
           </h1>
-          <p className="text-malumz-text-secondary mb-8">
+          <p className="text-e1-text-muted mb-8">
             This system guide is being prepared and will be available soon.
           </p>
           <Link
             to="/systems"
-            className="text-malumz-orange font-medium hover:underline"
+            className="text-e1-primary font-medium hover:underline"
           >
             ← Back to all systems
           </Link>
@@ -147,42 +164,42 @@ export const SystemDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen">
-      <section className="pt-32 pb-8 bg-malumz-cream">
+    <div className="min-h-screen bg-e1-bg">
+      <NotchedSection tone="charcoal" className="pt-32 pb-8">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
           <Link
             to="/systems"
-            className="inline-flex items-center gap-2 text-malumz-orange font-medium hover:underline mb-6"
+            className="inline-flex items-center gap-2 text-e1-primary font-medium hover:underline mb-6"
           >
             <ArrowLeft size={18} />
             All Systems
           </Link>
-          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-malumz-text-primary mb-3">
+          <h1 className="gs-reveal font-display text-4xl lg:text-5xl font-bold text-e1-text mb-3">
             {system.name}
           </h1>
           <div className="flex flex-wrap items-center gap-4 mb-4">
-            <span className="text-malumz-text-muted text-sm bg-white px-3 py-1 rounded-full">
+            <span className="text-e1-text-muted text-sm bg-e1-surface px-3 py-1 rounded-full">
               {system.trainer}
             </span>
-            <span className="text-malumz-text-muted text-sm bg-white px-3 py-1 rounded-full">
+            <span className="text-e1-text-muted text-sm bg-e1-surface px-3 py-1 rounded-full">
               {system.timeCommitment}
             </span>
           </div>
-          <p className="text-lg text-malumz-text-secondary leading-relaxed">
+          <p className="text-lg text-e1-text-muted leading-relaxed">
             {system.summary}
           </p>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-e1-bg">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 space-y-12">
           {system.sections.map((section, index) => (
-            <div key={index}>
-              <h2 className="font-serif text-2xl font-bold text-malumz-text-primary mb-4">
+            <div key={index} className="gs-reveal">
+              <h2 className="font-display text-2xl font-bold text-e1-text mb-4">
                 {section.heading}
               </h2>
-              <div className="bg-malumz-cream border-l-4 border-malumz-orange rounded-r-lg p-6">
-                <p className="text-malumz-text-secondary leading-relaxed">
+              <div className="bg-e1-surface border-l-4 border-e1-primary rounded-r-lg p-6">
+                <p className="text-e1-text-muted leading-relaxed">
                   {section.content}
                 </p>
               </div>
@@ -191,14 +208,14 @@ export const SystemDetailPage = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-malumz-cream">
+      <section className="py-12 bg-e1-surface">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <p className="text-malumz-text-muted text-sm italic mb-6">
+          <p className="text-e1-text-muted text-sm italic mb-6">
             Oral option: All content on this page can be consumed via voice note. Record yourself reading each section aloud and replay during your commute.
           </p>
           <Link
             to="/systems"
-            className="text-malumz-orange font-medium hover:underline"
+            className="text-e1-primary font-medium hover:underline"
           >
             ← Back to all systems
           </Link>

@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.0",
+    "gsap": "^3.15.0",
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,10 +22,58 @@
     "test": "craco test",
     "eject": "react-scripts eject"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "src/**/*.js",
+          "src/**/*.jsx"
+        ],
+        "rules": {
+          "no-restricted-syntax": [
+            "error",
+            {
+              "selector": "Literal[value=/\\bmalumz-/]",
+              "message": "Legacy malumz-* tokens are banned. Use e1-* tokens from tailwind.config.js."
+            },
+            {
+              "selector": "Literal[value=/\\b(Playfair Display|Inter|Merriweather)\\b/]",
+              "message": "Legacy fonts (Playfair Display, Inter, Merriweather) are banned. Use Fraunces (font-display) / DM Sans (font-sans) via Tailwind."
+            },
+            {
+              "selector": "Literal[value=/^\\/Assets\\//]",
+              "message": "Do not hardcode /Assets/ URLs. Import from src/lib/assets.js instead."
+            }
+          ]
+        }
+      },
+      {
+        "files": [
+          "src/lib/assets.js"
+        ],
+        "rules": {
+          "no-restricted-syntax": [
+            "error",
+            {
+              "selector": "Literal[value=/\\bmalumz-/]",
+              "message": "Legacy malumz-* tokens are banned. Use e1-* tokens from tailwind.config.js."
+            },
+            {
+              "selector": "Literal[value=/\\b(Playfair Display|Inter|Merriweather)\\b/]",
+              "message": "Legacy fonts (Playfair Display, Inter, Merriweather) are banned. Use Fraunces (font-display) / DM Sans (font-sans) via Tailwind."
+            }
+          ]
+        }
+      }
     ]
   },
   "browserslist": {
@@ -39,9 +89,13 @@
     ]
   },
   "devDependencies": {
+    "@axe-core/react": "^4.11.3",
     "@craco/craco": "^7.1.0",
     "autoprefixer": "^10.4.14",
+    "fast-check": "^3.23.2",
+    "jest-axe": "^9.0.0",
     "postcss": "^8.4.24",
+    "probe-image-size": "^7.3.0",
     "tailwindcss": "^3.3.2"
   }
 }

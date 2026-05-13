@@ -1,5 +1,24 @@
 import { Link } from 'react-router-dom';
 import { BookOpen } from 'lucide-react';
+import NotchedSection from '@/components/NotchedSection';
+
+/**
+ * SystemsPage — E1 editorial inheritance.
+ *
+ * Task 7.8 rebases the systems index onto the E1 token palette,
+ * Fraunces display / DM Sans typography, and wraps the hero in
+ * `<NotchedSection tone="charcoal">`. Section headings and each
+ * system card carry `.gs-reveal` so they participate in the global
+ * Reveal Batch driven by `<RevealRoot>`.
+ *
+ * The `systems` page-level data constant and `trainerColors` lookup
+ * are preserved byte-for-byte — the trainer-family colour pills are
+ * intentional editorial accents that map each system to its Trainer
+ * and are kept on the neutral tailwind palettes they were authored on.
+ *
+ * Feature: e1-editorial-ui-overhaul
+ * @see Requirements 1.*, 2.*, 7.*, 12.*, 25.*, 30.3
+ */
 
 const systems = [
   {
@@ -59,35 +78,35 @@ const systems = [
 ];
 
 const trainerColors = {
-  'Family Trainer': 'bg-malumz-orange/10 text-malumz-orange',
-  'Masculine Trainer': 'bg-red-50 text-red-600',
-  'Community Trainer': 'bg-malumz-gold/10 text-malumz-gold',
-  'Economic Trainer': 'bg-green-50 text-green-700',
-  'Academic Trainer': 'bg-blue-50 text-blue-700',
-  'Spiritual Trainer': 'bg-purple-50 text-purple-700',
+  'Family Trainer': 'bg-e1-primary/15 text-e1-primary',
+  'Masculine Trainer': 'bg-red-500/15 text-red-400',
+  'Community Trainer': 'bg-e1-highlight/15 text-e1-highlight',
+  'Economic Trainer': 'bg-green-500/15 text-green-400',
+  'Academic Trainer': 'bg-blue-500/15 text-blue-300',
+  'Spiritual Trainer': 'bg-purple-500/15 text-purple-300',
 };
 
 export const SystemsPage = () => {
   return (
-    <div className="min-h-screen">
-      <section className="pt-32 pb-16 bg-malumz-cream">
+    <div className="min-h-screen bg-e1-bg">
+      <NotchedSection tone="charcoal" className="pt-32 pb-16">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <BookOpen size={64} className="text-malumz-gold mx-auto mb-6" />
-          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-malumz-text-primary mb-4">
+          <BookOpen size={64} className="text-e1-highlight mx-auto mb-6" />
+          <h1 className="gs-reveal font-display text-4xl lg:text-5xl font-bold text-e1-text mb-4">
             System Guides
           </h1>
-          <p className="text-lg text-malumz-text-secondary max-w-2xl mx-auto">
+          <p className="text-lg text-e1-text-muted max-w-2xl mx-auto">
             The book gives each system's core action steps. These expanded guides provide detailed breakdowns, adaptations, practice scenarios, and examples.
           </p>
-          <p className="text-malumz-text-muted text-sm mt-4">
+          <p className="text-e1-text-muted text-sm mt-4">
             Every exercise can be done via voice note. URL pattern: malumz.co.za/systems/[system-name]
           </p>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-e1-surface">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-3xl font-bold text-malumz-text-primary mb-4">
+          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-4">
             What Every Guide Includes
           </h2>
           <div className="grid md:grid-cols-2 gap-4 mb-16">
@@ -99,14 +118,14 @@ export const SystemsPage = () => {
               'Practice Scenario — step-by-step worked example',
               'Circle Integration — how to use during Brotherhood Circle meetings',
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3 bg-malumz-cream rounded-lg p-4">
-                <span className="text-malumz-gold font-bold mt-0.5">-</span>
-                <span className="text-malumz-text-secondary text-sm">{item}</span>
+              <div key={i} className="gs-reveal flex items-start gap-3 bg-e1-bg rounded-lg p-4">
+                <span className="text-e1-highlight font-bold mt-0.5">-</span>
+                <span className="text-e1-text-muted text-sm">{item}</span>
               </div>
             ))}
           </div>
 
-          <h2 className="font-serif text-3xl font-bold text-malumz-text-primary mb-8">
+          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-8">
             All Systems
           </h2>
           <div className="space-y-4">
@@ -114,23 +133,23 @@ export const SystemsPage = () => {
               <Link
                 key={system.slug}
                 to={`/systems/${system.slug}`}
-                className="block bg-malumz-cream border border-malumz-brown/10 rounded-lg p-6 hover:shadow-md transition-all group"
+                className="gs-reveal block bg-e1-bg border border-e1-text/10 rounded-lg p-6 hover:shadow-md transition-all group"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-serif text-xl font-bold text-malumz-text-primary group-hover:text-malumz-orange transition-colors">
+                      <h3 className="font-display text-xl font-bold text-e1-text group-hover:text-e1-primary transition-colors">
                         {system.name}
                       </h3>
-                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${trainerColors[system.trainer] || 'bg-gray-100 text-gray-600'}`}>
+                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${trainerColors[system.trainer] || 'bg-e1-text/10 text-e1-text-muted'}`}>
                         {system.trainer}
                       </span>
                     </div>
-                    <p className="text-malumz-text-secondary text-sm">
+                    <p className="text-e1-text-muted text-sm">
                       {system.description}
                     </p>
                   </div>
-                  <span className="text-malumz-orange font-medium text-sm flex-shrink-0 group-hover:translate-x-1 transition-transform">
+                  <span className="text-e1-primary font-medium text-sm flex-shrink-0 group-hover:translate-x-1 transition-transform">
                     View →
                   </span>
                 </div>
@@ -140,9 +159,9 @@ export const SystemsPage = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-malumz-brown">
+      <section className="py-16 bg-e1-bg">
         <div className="max-w-3xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <p className="text-white/80 text-sm italic">
+          <p className="text-e1-text-muted text-sm italic">
             Content source: All expanded content was removed from the print/ebook appendices during the February 2026 trim. The original detailed versions are preserved and being migrated to these pages.
           </p>
         </div>

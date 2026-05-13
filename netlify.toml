@@ -16,6 +16,12 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/api/contact"
+  to = "https://public-api.proprofile.co.za/public/malumz/contact"
+  status = 200
+  force = true
+
 # This rewrite rule ensures React Router handles routing natively
 [[redirects]]
   from = "/*"

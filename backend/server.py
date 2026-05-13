@@ -1,13 +1,22 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Query
+from fastapi.responses import FileResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import base64
+import hashlib
+import hmac
+import json
+import smtplib
 from pathlib import Path
+from email.message import EmailMessage
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from typing import List, Optional, Dict
 import uuid
+import secrets
+import requests
 from datetime import datetime, timezone
 
 
@@ -21,6 +30,39 @@ in_memory_storage = {
     "purchases": [],
     "status_checks": []
 }
+
+PRODUCTS = {
+    "dog-trainer-ebook": {
+        "name": "The Dog Trainer eBook",
+        "amount_cents": 9900,
+        "asset": ROOT_DIR.parent / "Dog Trainer.epub",
+    },
+    "dog-trainer-audiobook": {
+        "name": "The Dog Trainer Audiobook",
+        "amount_cents": 19900,
+        "asset_dir": ROOT_DIR.parent / "Dog_Trainer-AudioBook",
+    },
+}
+
+AUDIO_TRACKS = [
+    "01_A NOTE ON THE METAPHOR.mp3",
+    "02_CHAPTER 0_ THE BIRTHDAY CARD.mp3",
+    "03_CHAPTER 1_ THE BANTU KENNEL.mp3",
+    "04_CHAPTER 2_ THE FIRE BEFORE ME.mp3",
+    "05_CHAPTER 3_ SEEK FIRST THE KINGDOM.mp3",
+    "06_CHAPTER 4_ THE FLOOR BENEATH THE LADDER.mp3",
+    "07_CHAPTER 5_ SAINTS, GATEKEEPERS AND THE OVERWHELMED.mp3",
+    "08_CHAPTER 6_ FIVE FRIENDS AND A KNIFE.mp3",
+    "09_CHAPTER 7_ THE VELVET MUZZLE.mp3",
+    "10_CHAPTER 8_ THE RAINBOW TRAP.mp3",
+    "11_CHAPTER 9_ THE SECOND EVICTION.mp3",
+    "12_CHAPTER 10_ THE BLUE-HAIRED GIRL.mp3",
+    "13_CHAPTER 11_ REAPING WHAT THEY PLANTED.mp3",
+    "14_CHAPTER 12_ THE SOFT CAGE.mp3",
+    "15_CHAPTER 13_ THE DOG WHO TRAINED HIMSELF.mp3",
+    "16_CHAPTER 14_ THE FIRST CIRCLE.mp3",
+    "17_THE CROSSING.mp3",
+]
 
 from contextlib import asynccontextmanager
 
@@ -117,6 +159,13 @@ class MockPurchaseResult(BaseModel):
     status: str = "pending"
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+class CheckoutRequest(BaseModel):
+    buyerEmail: EmailStr
+    productId: str
+
+class ActivateRequest(BaseModel):
+    checkoutId: str
+
 
 # Routes
 @api_router.get("/")
@@ -203,6 +252,10 @@ async def submit_contact_form(submission: ContactFormSubmission):
     doc['timestamp'] = doc['timestamp'].isoformat()
     
     in_memory_storage["contact_forms"].append(doc)
+    try:
+        send_contact_email(result)
+    except Exception as exc:
+        logging.error("Contact email failed: %s", exc)
     
     return result
 
@@ -221,6 +274,227 @@ async def submit_mock_purchase(submission: MockPurchaseSubmission):
     in_memory_storage["purchases"].append(doc)
     
     return result
+
+@api_router.post("/malumz/checkout")
+async def create_malumz_checkout(request: CheckoutRequest):
+    product = PRODUCTS.get(request.productId)
+    if not product:
+        raise HTTPException(status_code=400, detail="Invalid product")
+
+    secret_key = os.environ.get("YOCO_SECRET_KEY")
+    if not secret_key:
+        raise HTTPException(status_code=500, detail="Payment configuration missing")
+
+    frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:3000").rstrip("/")
+    checkout_body = {
+        "amount": product["amount_cents"],
+        "currency": "ZAR",
+        "lineItems": [
+            {
+                "displayName": product["name"],
+                "quantity": 1,
+                "pricingDetails": {"price": product["amount_cents"]},
+            }
+        ],
+        "metadata": {
+            "type": "malumz_product",
+            "productId": request.productId,
+            "buyerEmail": request.buyerEmail,
+        },
+        "successUrl": f"{frontend_url}/book?paid=true&product={request.productId}",
+        "cancelUrl": f"{frontend_url}/book",
+    }
+
+    response = requests.post(
+        "https://payments.yoco.com/api/checkouts",
+        json=checkout_body,
+        headers={
+            "Authorization": f"Bearer {secret_key}",
+            "Content-Type": "application/json",
+            "Idempotency-Key": f"{request.buyerEmail}-{request.productId}",
+        },
+        timeout=20,
+    )
+    if response.status_code not in (200, 201):
+        logging.error("Yoco checkout failed: %s", response.text)
+        raise HTTPException(status_code=502, detail="Checkout failed")
+
+    payload = response.json()
+    checkout_id = payload.get("id")
+    checkout_url = payload.get("redirectUrl") or payload.get("url")
+    if not checkout_id or not checkout_url:
+        raise HTTPException(status_code=502, detail="Invalid checkout response")
+
+    in_memory_storage["purchases"].append({
+        "id": str(uuid.uuid4()),
+        "checkout_id": checkout_id,
+        "buyer_email": request.buyerEmail,
+        "product_id": request.productId,
+        "amount_cents": product["amount_cents"],
+        "status": "pending",
+        "access_token": secrets.token_urlsafe(32),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    })
+
+    return {"checkoutUrl": checkout_url, "checkoutId": checkout_id}
+
+@api_router.post("/malumz/activate")
+async def activate_malumz_purchase(request: ActivateRequest):
+    purchase = next((item for item in in_memory_storage["purchases"] if item.get("checkout_id") == request.checkoutId), None)
+
+    if purchase and purchase["status"] == "completed":
+        return build_access_response(purchase)
+
+    secret_key = os.environ.get("YOCO_SECRET_KEY")
+    if not secret_key:
+        raise HTTPException(status_code=500, detail="Payment configuration missing")
+
+    response = requests.get(
+        f"https://payments.yoco.com/api/checkouts/{request.checkoutId}",
+        headers={"Authorization": f"Bearer {secret_key}"},
+        timeout=20,
+    )
+    if response.status_code != 200:
+        logging.error("Yoco activation failed: %s", response.text)
+        raise HTTPException(status_code=502, detail="Payment verification failed")
+
+    checkout = response.json()
+    if checkout.get("status") not in ("completed", "succeeded"):
+        return {"status": "pending"}
+
+    metadata = checkout.get("metadata") or {}
+    product_id = metadata.get("productId")
+    if metadata.get("type") != "malumz_product" or product_id not in PRODUCTS:
+        raise HTTPException(status_code=400, detail="Invalid checkout metadata")
+
+    if purchase:
+        if purchase["product_id"] != product_id:
+            raise HTTPException(status_code=400, detail="Invalid checkout metadata")
+        purchase["status"] = "completed"
+        purchase["completed_at"] = datetime.now(timezone.utc).isoformat()
+    else:
+        product = PRODUCTS[product_id]
+        purchase = {
+            "id": str(uuid.uuid4()),
+            "checkout_id": request.checkoutId,
+            "buyer_email": metadata.get("buyerEmail", ""),
+            "product_id": product_id,
+            "amount_cents": product["amount_cents"],
+            "status": "completed",
+            "access_token": secrets.token_urlsafe(32),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "completed_at": datetime.now(timezone.utc).isoformat(),
+        }
+        in_memory_storage["purchases"].append(purchase)
+
+    return build_access_response(purchase)
+
+@api_router.get("/malumz/access/{purchase_id}/ebook")
+async def download_ebook(purchase_id: str, token: str = Query(...)):
+    purchase = find_completed_purchase(purchase_id, token, "dog-trainer-ebook")
+    asset = PRODUCTS[purchase["product_id"]]["asset"]
+    if not asset.exists():
+        raise HTTPException(status_code=404, detail="eBook file not found")
+    return FileResponse(asset, media_type="application/epub+zip", filename="The Dog Trainer.epub")
+
+@api_router.get("/malumz/access/{purchase_id}/audio/{track_index}")
+async def stream_audio(purchase_id: str, track_index: int, token: str = Query(...)):
+    purchase = find_completed_purchase(purchase_id, token, "dog-trainer-audiobook")
+    if track_index < 0 or track_index >= len(AUDIO_TRACKS):
+        raise HTTPException(status_code=404, detail="Track not found")
+    audio_path = PRODUCTS[purchase["product_id"]]["asset_dir"] / AUDIO_TRACKS[track_index]
+    if not audio_path.exists():
+        raise HTTPException(status_code=404, detail="Audio file not found")
+    return FileResponse(audio_path, media_type="audio/mpeg", filename=AUDIO_TRACKS[track_index])
+
+def find_completed_purchase(purchase_id: str, token: str, product_id: str):
+    payload = verify_access_token(token)
+    if payload.get("purchase_id") != purchase_id or payload.get("product_id") != product_id:
+        raise HTTPException(status_code=403, detail="Access denied")
+    return {
+        "id": purchase_id,
+        "product_id": product_id,
+    }
+
+def build_access_response(purchase):
+    base = "/api/malumz/access"
+    purchase_id = purchase["id"]
+    token = create_access_token(purchase)
+    if purchase["product_id"] == "dog-trainer-ebook":
+        return {
+            "status": "completed",
+            "productId": purchase["product_id"],
+            "ebookUrl": f"{base}/{purchase_id}/ebook?token={token}",
+        }
+    return {
+        "status": "completed",
+        "productId": purchase["product_id"],
+        "audioTracks": [
+            {
+                "title": AUDIO_TRACKS[index].replace(".mp3", "").replace("_", " "),
+                "url": f"{base}/{purchase_id}/audio/{index}?token={token}",
+            }
+            for index in range(len(AUDIO_TRACKS))
+        ],
+    }
+
+def signing_secret():
+    secret_key = os.environ.get("ACCESS_TOKEN_SECRET") or os.environ.get("YOCO_SECRET_KEY")
+    if not secret_key:
+        raise HTTPException(status_code=500, detail="Access configuration missing")
+    return secret_key.encode("utf-8")
+
+def create_access_token(purchase):
+    payload = {
+        "purchase_id": purchase["id"],
+        "checkout_id": purchase.get("checkout_id", ""),
+        "product_id": purchase["product_id"],
+    }
+    payload_json = json.dumps(payload, separators=(",", ":"), sort_keys=True).encode("utf-8")
+    payload_b64 = base64.urlsafe_b64encode(payload_json).decode("utf-8").rstrip("=")
+    signature = hmac.new(signing_secret(), payload_b64.encode("utf-8"), hashlib.sha256).digest()
+    signature_b64 = base64.urlsafe_b64encode(signature).decode("utf-8").rstrip("=")
+    return f"{payload_b64}.{signature_b64}"
+
+def verify_access_token(token):
+    try:
+        payload_b64, signature_b64 = token.split(".", 1)
+        expected = hmac.new(signing_secret(), payload_b64.encode("utf-8"), hashlib.sha256).digest()
+        actual = base64.urlsafe_b64decode(signature_b64 + "=" * (-len(signature_b64) % 4))
+        if not hmac.compare_digest(expected, actual):
+            raise ValueError("Invalid signature")
+        payload_json = base64.urlsafe_b64decode(payload_b64 + "=" * (-len(payload_b64) % 4))
+        return json.loads(payload_json)
+    except Exception:
+        raise HTTPException(status_code=403, detail="Access denied")
+
+def send_contact_email(result: ContactFormResult):
+    smtp_host = os.environ.get("SMTP_HOST")
+    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
+    smtp_user = os.environ.get("SMTP_USER")
+    smtp_password = os.environ.get("SMTP_PASSWORD")
+    from_email = os.environ.get("FROM_EMAIL", smtp_user or "no-reply@malumz.co.za")
+    to_email = os.environ.get("CONTACT_TO_EMAIL", "nkosinathi.dhliso@gmail.com")
+    if not smtp_host or not smtp_user or not smtp_password:
+        logging.info("SMTP not configured; contact submission stored without email")
+        return
+
+    msg = EmailMessage()
+    msg["Subject"] = f"Malumz: {result.subject}"
+    msg["From"] = from_email
+    msg["To"] = to_email
+    msg["Reply-To"] = result.email
+    msg.set_content(
+        f"Name: {result.name}\n"
+        f"Email: {result.email}\n"
+        f"Subject: {result.subject}\n\n"
+        f"{result.message}\n"
+    )
+
+    with smtplib.SMTP(smtp_host, smtp_port, timeout=20) as server:
+        server.starttls()
+        server.login(smtp_user, smtp_password)
+        server.send_message(msg)
 
 
 # Include the router in the main app

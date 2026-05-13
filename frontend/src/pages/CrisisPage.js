@@ -1,4 +1,25 @@
 import { Phone, AlertTriangle, MapPin } from 'lucide-react';
+import NotchedSection from '@/components/NotchedSection';
+
+/**
+ * CrisisPage — E1 editorial inheritance.
+ *
+ * Task 7.8 rebases the crisis page onto the E1 token palette, Fraunces
+ * display / DM Sans typography, and wraps the hero alarm section in
+ * `<NotchedSection tone="sienna">`. The red emergency colour is kept
+ * on the action-critical "Call Lifeline" CTA and on the GBV /
+ * emergency-signal iconography — lifesaving affordances should remain
+ * visually unambiguous. Body sections adopt the editorial charcoal +
+ * sienna surfaces that the rest of the site uses.
+ *
+ * All page copy and the `emergencyNumbers` / `provinces` data
+ * constants are preserved byte-for-byte. Section headings and
+ * emergency tiles carry `.gs-reveal` so they participate in the
+ * global Reveal Batch. No page-specific GSAP timelines are added.
+ *
+ * Feature: e1-editorial-ui-overhaul
+ * @see Requirements 1.*, 2.*, 7.*, 12.*, 25.*, 30.3
+ */
 
 const emergencyNumbers = [
   { name: 'GBV Command Centre', number: '0800 428 428', available: '24/7' },
@@ -75,14 +96,14 @@ const provinces = [
 
 export const CrisisPage = () => {
   return (
-    <div className="min-h-screen">
-      <section className="pt-32 pb-8 bg-red-50">
+    <div className="min-h-screen bg-e1-bg">
+      <NotchedSection tone="sienna" className="pt-32 pb-8">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <AlertTriangle size={64} className="text-red-600 mx-auto mb-6" />
-          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-malumz-text-primary mb-4">
+          <AlertTriangle size={64} className="text-red-400 mx-auto mb-6" />
+          <h1 className="gs-reveal font-display text-4xl lg:text-5xl font-bold text-e1-text mb-4">
             You Are Not Alone
           </h1>
-          <p className="text-lg text-malumz-text-secondary mb-4 max-w-2xl mx-auto">
+          <p className="text-lg text-e1-text-muted mb-4 max-w-2xl mx-auto">
             If you are about to hurt someone or yourself, call Lifeline now. The Circle can wait. Your life cannot.
           </p>
           <a
@@ -93,11 +114,11 @@ export const CrisisPage = () => {
             Call Lifeline: 0861 322 322
           </a>
         </div>
-      </section>
+      </NotchedSection>
 
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-e1-bg">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
-          <h2 className="font-serif text-3xl font-bold text-malumz-text-primary mb-8 text-center">
+          <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-8 text-center">
             Emergency Numbers
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -105,15 +126,15 @@ export const CrisisPage = () => {
               <a
                 key={item.name}
                 href={`tel:${item.number.replace(/\s/g, '')}`}
-                className="flex items-center gap-4 bg-malumz-cream border border-malumz-brown/10 rounded-xl p-6 hover:shadow-md transition-all"
+                className="gs-reveal flex items-center gap-4 bg-e1-surface border border-e1-text/10 rounded-xl p-6 hover:shadow-md transition-all"
               >
-                <div className="flex-shrink-0 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <Phone size={24} className="text-red-600" />
+                <div className="flex-shrink-0 w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
+                  <Phone size={24} className="text-red-400" />
                 </div>
                 <div>
-                  <p className="font-bold text-malumz-text-primary">{item.name}</p>
-                  <p className="text-malumz-orange font-semibold text-lg">{item.number}</p>
-                  <p className="text-malumz-text-muted text-sm">{item.available}</p>
+                  <p className="font-bold text-e1-text">{item.name}</p>
+                  <p className="text-e1-primary font-semibold text-lg">{item.number}</p>
+                  <p className="text-e1-text-muted text-sm">{item.available}</p>
                 </div>
               </a>
             ))}
@@ -121,11 +142,11 @@ export const CrisisPage = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-malumz-cream">
+      <section className="py-16 bg-e1-surface">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
           <div className="flex items-center gap-3 mb-8 justify-center">
-            <MapPin size={28} className="text-malumz-orange" />
-            <h2 className="font-serif text-3xl font-bold text-malumz-text-primary">
+            <MapPin size={28} className="text-e1-primary" />
+            <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text">
               Find Help in Your Province
             </h2>
           </div>
@@ -133,14 +154,14 @@ export const CrisisPage = () => {
             {provinces.map((province) => (
               <details
                 key={province.name}
-                className="bg-white border border-malumz-brown/10 rounded-lg overflow-hidden group"
+                className="gs-reveal bg-e1-bg border border-e1-text/10 rounded-lg overflow-hidden group"
               >
-                <summary className="px-6 py-4 cursor-pointer font-serif font-bold text-malumz-text-primary hover:bg-malumz-cream transition-all">
+                <summary className="px-6 py-4 cursor-pointer font-display font-bold text-e1-text hover:bg-e1-surface transition-all">
                   {province.name}
                 </summary>
                 <div className="px-6 pb-4 space-y-2">
                   {province.resources.map((resource, i) => (
-                    <p key={i} className="text-malumz-text-secondary text-sm">
+                    <p key={i} className="text-e1-text-muted text-sm">
                       {resource}
                     </p>
                   ))}
@@ -151,12 +172,12 @@ export const CrisisPage = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-malumz-brown">
+      <section className="py-16 bg-e1-bg">
         <div className="max-w-3xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <h3 className="font-serif text-2xl font-bold text-white mb-4">
+          <h3 className="gs-reveal font-display text-2xl font-bold text-e1-text mb-4">
             For Men in Crisis
           </h3>
-          <p className="text-white/90 text-lg leading-relaxed">
+          <p className="text-e1-text-muted text-lg leading-relaxed">
             "If you are about to hurt someone or yourself, call Lifeline now. The Circle can wait. Your life cannot."
           </p>
         </div>
