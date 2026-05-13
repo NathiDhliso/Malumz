@@ -167,6 +167,7 @@ export const AboutPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   // Arrow-slide ref for the submit CTA
   const arrowRef = useRef(null);
@@ -190,6 +191,7 @@ export const AboutPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError('');
     try {
       await submitContact(formData);
       setSubmitSuccess(true);
@@ -197,7 +199,9 @@ export const AboutPage = () => {
       setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
       console.error('Contact form submission error:', error);
-      alert('Something went wrong. Please try again or email us directly.');
+      setSubmitError(
+        "We couldn't send that. Please try again, or email nkosinathi.dhliso@gmail.com directly."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -406,6 +410,14 @@ export const AboutPage = () => {
                       </span>
                     </MagneticButton>
                   </div>
+                  {submitError && (
+                    <p
+                      role="alert"
+                      className="mt-4 text-sm text-e1-primary bg-e1-primary/10 border border-e1-primary/30 rounded-lg px-4 py-3"
+                    >
+                      {submitError}
+                    </p>
+                  )}
                 </form>
               )}
             </div>

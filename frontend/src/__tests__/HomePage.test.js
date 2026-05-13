@@ -1,59 +1,31 @@
 /**
  * Unit tests — `HomePage` structural shape.
  *
- * Feature: e1-editorial-ui-overhaul, Task 4.13
+ * Feature: conversion-focused-simplification
  *
- * These assertions pin down the editorial composition contract of
- * `<HomePage>` and its constituent sections without exercising the
- * GSAP timelines authored on top of them:
+ * After the conversion-focused-simplification spec, the HomePage was
+ * radically simplified to: Hero (pitch + dual CTAs + crisis button) +
+ * optional single testimonial/stat. The following components were
+ * intentionally removed:
+ *   - TrainerConnector (SVG radial diagram)
+ *   - Marquee (infinite loop ribbon)
+ *   - ScrollIndicator (chevron affordance)
+ *   - HorizontalTrainers (scroll-pin section)
+ *   - PullQuote (full-bleed blockquote)
+ *   - StoryBridge (two-column filler)
  *
- *   1. `<TrainerConnector>` renders exactly one central `<text>`
- *      element containing the literal string "THE STUDENT", exactly
- *      six radiating `<path>` branches, exactly six `<circle>`
- *      trainer nodes, and exactly six `<text>` labels whose
- *      `textContent` is non-empty — the labels stay in the
- *      accessibility tree even when the DrawSVG plugin is
- *      unavailable (Requirements 16.1, 16.6).
- *   2. `<HomePage>` renders exactly one `<Marquee>` ribbon and the
- *      document order is `Hero → Marquee → TrainerConnector`
- *      (Requirements 19.1, 19.2).
- *   3. `<HomePage>` renders a scroll-indicator affordance (the
- *      chevron `<polyline>` with the canonical points attribute)
- *      that appears after the hero `<NotchedSection>` in document
- *      order (Requirement 20.1).
- *   4. The hero Flip card `<img>` carries `width`, `height`, and
- *      `fetchpriority="high"` for zero-CLS above-the-fold delivery
- *      (Requirements 14.5, 32.4).
+ * These tests validate the simplified structure:
+ *   1. Hero renders with dual CTAs ("Buy the Book" + "Join a Circle")
+ *   2. Crisis button is visible in the hero
+ *   3. Removed components are NOT rendered
  *
- * Strategy notes
- * --------------
- * This file follows the same GSAP plugin sub-path mocking pattern
- * established by the other HomePage-area property tests in
- * `src/components/__tests__/`: every plugin that the runtime
- * singleton registers (`ScrollTrigger`, `SplitText`, `DrawSVGPlugin`,
- * `Flip`, `MorphSVGPlugin`) is jest-mocked with a stub so the CJS-
- * incompatible ESM sub-paths never reach Jest's default transform.
- * `ScrollTrigger` is proxied through its `gsap/dist/ScrollTrigger`
- * UMD twin so the `getAll()` / matchMedia gating surfaces match the
- * real implementation used by the components under test.
- *
- * `gsap.matchMedia` is stubbed to a no-op `add`/`revert`/`kill` shim
- * so neither branch of any `useGSAP` effect fans out — none of the
- * assertions here depend on animation state, only on the static JSX
- * each component commits to the DOM on mount. `window.matchMedia`
- * and `window.scrollTo` are installed as permissive stubs because
- * jsdom does not ship either, and `<HeroSection>` consults
- * `matchMedia` during `useState` initialization.
- *
- * @see Requirements 14.5, 16.1, 16.6, 19.1, 19.2, 20.1, 32.4
+ * @see Requirements 4.1–4.11, 9.1, 9.2, 11.1, 12.1
  */
 
 /* eslint-disable global-require, import/first, import/newline-after-import */
 
 // ---------------------------------------------------------------------------
-// matchMedia / scrollTo stubs — installed before any module import so the
-// `@/lib/gsap` runtime singleton's import-time side effects see a
-// populated stub at module evaluation time.
+// matchMedia / scrollTo stubs
 // ---------------------------------------------------------------------------
 
 if (typeof window !== "undefined" && typeof window.matchMedia !== "function") {
@@ -73,14 +45,7 @@ if (typeof window !== "undefined") {
 }
 
 // ---------------------------------------------------------------------------
-// GSAP plugin sub-path mocks — plugin bundles ship ESM that Jest's
-// default transform cannot parse. `gsap/dist/ScrollTrigger` is the
-// CJS-compatible UMD twin; the remaining plugins only need a
-// registration-time surface so bare objects suffice. `SplitText` is
-// stubbed as a constructable class that leaves the headline text
-// intact so `<HeroSection>`'s `try { new SplitText(headlineEl) } catch`
-// path behaves like the real plugin would in a license-less environment
-// without crashing the mount.
+// GSAP plugin sub-path mocks
 // ---------------------------------------------------------------------------
 
 jest.mock("gsap/ScrollTrigger", () => {
@@ -94,11 +59,6 @@ jest.mock("gsap/ScrollTrigger", () => {
 jest.mock("gsap/SplitText", () => {
   class MockSplitText {
     constructor(el) {
-      // Keep the headline text in place so the hero DOM is stable; the
-      // structural assertions in this file never inspect per-character
-      // spans, but `chars` is still exposed as an empty array so the
-      // `split.chars.length > 0` check in `<HeroSection>` falls through
-      // cleanly to the plain-headline branch.
       this._el = el;
       this.chars = [];
     }
@@ -118,31 +78,19 @@ jest.mock("gsap/MorphSVGPlugin", () => ({
 }));
 
 // ---------------------------------------------------------------------------
-// Deferred requires — ES imports are hoisted above the matchMedia
-// bootstrap, so routing them through `require(...)` preserves the
-// initialization order.
+// Deferred requires
 // ---------------------------------------------------------------------------
 
 const React = require("react");
 const { cleanup, render } = require("@testing-library/react");
 const { MemoryRouter } = require("react-router-dom");
 const { gsap } = require("../lib/gsap");
-const assets = require("../lib/assets").default;
-const { HERO_CARD_IMAGE } = require("../lib/assets");
 const HomePage = require("../pages/HomePage").default;
 
 // ---------------------------------------------------------------------------
-// Shared harness — `gsap.matchMedia` no-op spy + mount + cleanup.
+// Shared harness
 // ---------------------------------------------------------------------------
 
-/**
- * Install a `gsap.matchMedia` spy whose returned shim records no
- * handlers, so neither the motion nor the reduced-motion branch of
- * any `useGSAP` effect fires during mount. Returns a restore
- * callback that reinstates the original implementation.
- *
- * @returns {() => void}
- */
 function installNoopMatchMedia() {
   const spy = jest.spyOn(gsap, "matchMedia").mockImplementation(() => ({
     add: () => {},
@@ -152,12 +100,6 @@ function installNoopMatchMedia() {
   return () => spy.mockRestore();
 }
 
-/**
- * Render `<HomePage />` inside a `<MemoryRouter>` with the
- * `gsap.matchMedia` no-op spy installed. Returns the RTL render
- * handle extended with a `restore()` helper so each test can tear
- * down the spy in a `try/finally`.
- */
 function renderHomePage() {
   const restoreMatchMedia = installNoopMatchMedia();
   const utils = render(
@@ -168,210 +110,103 @@ function renderHomePage() {
   return { ...utils, restoreMatchMedia };
 }
 
-describe("HomePage — structural shape (Task 4.13)", () => {
+describe("HomePage — structural shape (conversion-focused-simplification)", () => {
   afterEach(() => {
     cleanup();
   });
 
   // -------------------------------------------------------------------------
-  // 1. TrainerConnector central node
+  // 1. Hero renders with dual CTAs
   // -------------------------------------------------------------------------
 
   /**
-   * Validates: Requirements 16.1
+   * Validates: Requirements 4.1, 4.2, 11.1
    *
-   * The SVG must contain exactly one `<text>` element whose
-   * `textContent` is the literal string "THE STUDENT" (case-sensitive).
-   * This is the central student node the six trainer branches radiate
-   * out from; having more than one would violate the radial
-   * composition, and having zero would strand the diagram without its
-   * focal label.
+   * The hero section must contain "Buy the Book" and "Join a Circle"
+   * CTAs linking to /book and /join respectively.
    */
-  it('TrainerConnector: renders exactly one <text> containing "THE STUDENT"', () => {
+  it("HomePage: renders dual CTAs in the hero section", () => {
     const { container, restoreMatchMedia } = renderHomePage();
     try {
-      const textEls = Array.from(container.querySelectorAll("text"));
-      const studentNodes = textEls.filter(
-        (t) => t.textContent === "THE STUDENT"
+      const links = Array.from(container.querySelectorAll("a"));
+      const buyLink = links.find(
+        (a) => a.textContent.includes("Buy the Book") && a.getAttribute("href") === "/book"
       );
-      expect(studentNodes).toHaveLength(1);
+      const joinLink = links.find(
+        (a) => a.textContent.includes("Join a Circle") && a.getAttribute("href") === "/join"
+      );
+      expect(buyLink).toBeDefined();
+      expect(joinLink).toBeDefined();
     } finally {
       restoreMatchMedia();
     }
   });
 
   // -------------------------------------------------------------------------
-  // 2. TrainerConnector six branches + six nodes + six fallback-visible labels
+  // 2. Crisis button visible in hero
   // -------------------------------------------------------------------------
 
   /**
-   * Validates: Requirements 16.1, 16.6
+   * Validates: Requirement 4.3
    *
-   * The connector diagram authors its six radiating branches as
-   * `<path>` elements anchored at the SVG center, paired with a
-   * `<circle>` per trainer node and a `<text>` label. The labels are
-   * unconditionally written into the SVG so assistive tech can read
-   * every branch even when `DrawSVGPlugin` is unavailable and the
-   * paths render fully drawn from first paint — i.e., fallback-visible
-   * branch text. Each label's `textContent` must be non-empty.
+   * The hero section must contain a visible crisis button linking to /safety.
    */
-  it("TrainerConnector: renders exactly six branches, six nodes, and six non-empty labels", () => {
+  it("HomePage: renders a crisis button linking to /safety", () => {
     const { container, restoreMatchMedia } = renderHomePage();
     try {
-      // Locate the connector's SVG by its aria-label — `<svg role="img"
-      // aria-label="The student connected to six trainers">`. This is
-      // unique in the HomePage tree; the scroll indicator chevron is
-      // aria-hidden and the NotchedSection silhouette fallback SVG is
-      // aria-hidden as well.
+      const links = Array.from(container.querySelectorAll("a"));
+      const crisisLink = links.find(
+        (a) => a.getAttribute("href") === "/safety"
+      );
+      expect(crisisLink).toBeDefined();
+    } finally {
+      restoreMatchMedia();
+    }
+  });
+
+  // -------------------------------------------------------------------------
+  // 3. Removed components are NOT rendered
+  // -------------------------------------------------------------------------
+
+  /**
+   * Validates: Requirements 4.5, 4.6, 4.7, 4.8, 4.9
+   *
+   * TrainerConnector, Marquee, ScrollIndicator, HorizontalTrainers,
+   * PullQuote, and StoryBridge are all removed from the HomePage.
+   */
+  it("HomePage: does NOT render TrainerConnector SVG", () => {
+    const { container, restoreMatchMedia } = renderHomePage();
+    try {
       const svg = container.querySelector(
         'svg[aria-label="The student connected to six trainers"]'
       );
-      expect(svg).not.toBeNull();
-
-      // Exactly six radiating branches.
-      const paths = svg.querySelectorAll("path");
-      expect(paths.length).toBe(6);
-
-      // Exactly six trainer nodes.
-      const circles = svg.querySelectorAll("circle");
-      expect(circles.length).toBe(6);
-
-      // Seven total `<text>` elements: six trainer labels + the
-      // central "THE STUDENT" node.
-      const allTextEls = Array.from(svg.querySelectorAll("text"));
-      expect(allTextEls.length).toBe(7);
-
-      // Six labels (everything except the central node). Each label's
-      // `textContent` must be a non-empty string — the connector's
-      // fallback-visible contract (Requirement 16.6).
-      const labels = allTextEls.filter(
-        (t) => t.textContent !== "THE STUDENT"
-      );
-      expect(labels.length).toBe(6);
-      labels.forEach((label, i) => {
-        const text = label.textContent || "";
-        expect(text.length).toBeGreaterThan(0);
-        // Guard against whitespace-only labels too: the accessibility
-        // contract is that each branch is legibly named.
-        expect(text.trim().length).toBeGreaterThan(0);
-        // Include the index in the matcher context so any failure
-        // points directly at the offending label.
-        expect({ index: i, text }).toMatchObject({ index: i });
-      });
+      expect(svg).toBeNull();
     } finally {
       restoreMatchMedia();
     }
   });
 
-  // -------------------------------------------------------------------------
-  // 3. HomePage document order — Hero → Marquee → TrainerConnector, exactly
-  //    one Marquee in the tree.
-  // -------------------------------------------------------------------------
-
-  /**
-   * Validates: Requirements 19.1, 19.2
-   *
-   * `<HomePage>` must render:
-   *   - The hero `<NotchedSection>` first (identified by its `h1`
-   *     whose `aria-label` mirrors the default headline).
-   *   - Exactly one `<Marquee>` ribbon, after the hero.
-   *   - The `<TrainerConnector>` section after the marquee.
-   *
-   * Document order is asserted via `compareDocumentPosition` so the
-   * test is robust to intervening nodes (e.g., the scroll indicator
-   * between the hero and the marquee).
-   */
-  it("HomePage: renders exactly one <Marquee> between the hero and TrainerConnector", () => {
+  it("HomePage: does NOT render Marquee ribbon", () => {
     const { container, restoreMatchMedia } = renderHomePage();
     try {
-      // Hero anchor: the h1 with the default headline. Walking up to
-      // its closest `<section>` lands on the `<NotchedSection
-      // tone="charcoal">` wrapper.
-      const headline = container.querySelector(
-        'h1[aria-label="Rebuilding what apartheid destroyed."]'
-      );
-      expect(headline).not.toBeNull();
-      const heroSection = headline.closest("section");
-      expect(heroSection).not.toBeNull();
-
-      // TrainerConnector anchor: the text "THE STUDENT" sits inside
-      // the connector `<section>`.
-      const studentText = Array.from(container.querySelectorAll("text")).find(
-        (t) => t.textContent === "THE STUDENT"
-      );
-      expect(studentText).not.toBeNull();
-      const connectorSection = studentText.closest("section");
-      expect(connectorSection).not.toBeNull();
-
-      // Marquee anchor: the root `<div>` carries the unique
-      // `overflow-hidden whitespace-nowrap` class combo on HomePage
-      // (the hero NotchedSection uses `overflow-hidden` but not
-      // `whitespace-nowrap`, and nothing else pairs the two).
       const marquees = container.querySelectorAll(
         ".overflow-hidden.whitespace-nowrap"
       );
-      expect(marquees.length).toBe(1);
-      const marquee = marquees[0];
-
-      // Marquee comes after the hero and before the trainer connector
-      // in document order.
-      expect(
-        heroSection.compareDocumentPosition(marquee) &
-          Node.DOCUMENT_POSITION_FOLLOWING
-      ).toBeTruthy();
-      expect(
-        marquee.compareDocumentPosition(connectorSection) &
-          Node.DOCUMENT_POSITION_FOLLOWING
-      ).toBeTruthy();
+      expect(marquees.length).toBe(0);
     } finally {
       restoreMatchMedia();
     }
   });
 
-  // -------------------------------------------------------------------------
-  // 4. Scroll indicator below the hero NotchedSection
-  // -------------------------------------------------------------------------
-
-  /**
-   * Validates: Requirement 20.1
-   *
-   * `<ScrollIndicator>` renders a chevron SVG containing a
-   * `<polyline points="6 9 12 15 18 9" />`. The affordance must
-   * appear after the hero `<NotchedSection>` in document order so
-   * users see it directly below the fold-height hero.
-   */
-  it("HomePage: renders a scroll indicator chevron after the hero NotchedSection", () => {
+  it("HomePage: does NOT render ScrollIndicator chevron", () => {
     const { container, restoreMatchMedia } = renderHomePage();
     try {
       const chevron = container.querySelector(
         'polyline[points="6 9 12 15 18 9"]'
       );
-      expect(chevron).not.toBeNull();
-
-      const headline = container.querySelector(
-        'h1[aria-label="Rebuilding what apartheid destroyed."]'
-      );
-      const heroSection = headline.closest("section");
-      expect(heroSection).not.toBeNull();
-
-      // The chevron element is strictly after the hero NotchedSection.
-      expect(
-        heroSection.compareDocumentPosition(chevron) &
-          Node.DOCUMENT_POSITION_FOLLOWING
-      ).toBeTruthy();
-      // And it is not a descendant of the hero section — the
-      // indicator is a sibling "below" the notched hero, not nested
-      // inside it.
-      expect(heroSection.contains(chevron)).toBe(false);
+      expect(chevron).toBeNull();
     } finally {
       restoreMatchMedia();
     }
   });
-
-  // -------------------------------------------------------------------------
-  // 5. Hero card <img> — REMOVED
-  // The hero Flip card was removed during page-consolidation-and-animations
-  // spec (SplitText and premium plugins removed). The HeroSection now uses
-  // whole-element animation without a separate card image.
-  // -------------------------------------------------------------------------
 });

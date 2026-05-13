@@ -61,7 +61,6 @@ export function CursorSettingsToggle({ className = "" } = {}) {
     <button
       type="button"
       role="switch"
-      aria-pressed={isOn}
       aria-checked={isOn}
       onClick={handleClick}
       className={merged}

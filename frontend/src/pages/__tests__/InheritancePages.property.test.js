@@ -172,8 +172,6 @@ const { render, cleanup } = require("@testing-library/react");
 const { MemoryRouter, Route, Routes } = require("react-router-dom");
 
 const { JoinPage } = require("../../pages/JoinPage");
-const { ResourcesPage } = require("../../pages/ResourcesPage");
-const { SystemDetailPage } = require("../../pages/SystemDetailPage");
 const { SafetyPage } = require("../../pages/SafetyPage");
 
 // ---------------------------------------------------------------------------
@@ -181,17 +179,11 @@ const { SafetyPage } = require("../../pages/SafetyPage");
 // for the generator.
 // CrisisPage and SystemsPage removed after page-consolidation-and-animations
 // spec merged them into SafetyPage and ResourcesPage respectively.
+// ResourcesPage and SystemDetailPage removed after conversion-focused-simplification.
 // ---------------------------------------------------------------------------
 
 const PAGE_ENTRIES = [
   { Component: JoinPage, name: "JoinPage", path: "/join" },
-  { Component: ResourcesPage, name: "ResourcesPage", path: "/resources" },
-  {
-    Component: SystemDetailPage,
-    name: "SystemDetailPage",
-    path: "/systems/:slug",
-    initialEntry: "/systems/predator-protocol",
-  },
   { Component: SafetyPage, name: "SafetyPage", path: "/safety" },
 ];
 

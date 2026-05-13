@@ -120,7 +120,6 @@ export const HeroSection = ({
       const parallaxEl = parallaxRef.current;
       if (!section || !parallaxEl) return undefined;
 
-      console.log("[HeroSection] Setting up parallax animation");
       gsap.to(parallaxEl, {
         y: -100,
         ease: "none",

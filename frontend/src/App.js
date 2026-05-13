@@ -9,11 +9,13 @@ import { Footer } from "@/components/Footer";
 import Cursor from "@/components/Cursor";
 import { PageTransition } from "@/components/PageTransition";
 import { RevealRoot } from "@/components/RevealRoot";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HomePage } from "@/pages/HomePage";
 import { AboutPage } from "@/pages/AboutPage";
 import { BookPage } from "@/pages/BookPage";
 import { JoinPage } from "@/pages/JoinPage";
 import { SafetyPage } from "@/pages/SafetyPage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 
 /**
  * AppShell hosts everything that depends on the router context. Mounting it
@@ -64,6 +66,8 @@ function AppShell() {
               <Route path="/vision" element={<Navigate to="/about" replace />} />
               <Route path="/contact" element={<Navigate to="/about" replace />} />
               <Route path="/crisis" element={<Navigate to="/safety" replace />} />
+              {/* Catch-all — keeps stale/unknown URLs in the funnel */}
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </PageTransition>
         </main>
@@ -105,14 +109,16 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter
-      future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true
-      }}
-    >
-      <AppShell />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true
+        }}
+      >
+        <AppShell />
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 

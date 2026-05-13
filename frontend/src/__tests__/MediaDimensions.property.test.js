@@ -205,10 +205,7 @@ const PAGE_REGISTRY = {
   HomePage: () => require("../pages/HomePage").HomePage || require("../pages/HomePage").default,
   AboutPage: () => require("../pages/AboutPage").AboutPage || require("../pages/AboutPage").default,
   BookPage: () => require("../pages/BookPage").BookPage || require("../pages/BookPage").default,
-  ResultsPage: () => require("../pages/ResultsPage").ResultsPage || require("../pages/ResultsPage").default,
   JoinPage: () => require("../pages/JoinPage").JoinPage || require("../pages/JoinPage").default,
-  ResourcesPage: () => require("../pages/ResourcesPage").ResourcesPage || require("../pages/ResourcesPage").default,
-  SystemDetailPage: () => require("../pages/SystemDetailPage").SystemDetailPage || require("../pages/SystemDetailPage").default,
   SafetyPage: () => require("../pages/SafetyPage").SafetyPage || require("../pages/SafetyPage").default,
 };
 

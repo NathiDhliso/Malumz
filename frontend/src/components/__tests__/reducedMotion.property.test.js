@@ -113,7 +113,6 @@ jest.mock("gsap/MorphSVGPlugin", () => ({
 const { gsap, ScrollTrigger } = require("../../lib/gsap");
 const Cursor = require("../Cursor").default;
 const { PageTransition } = require("../PageTransition");
-const { Marquee } = require("../Marquee");
 const MagneticButton = require("../MagneticButton").default;
 const { RevealRoot } = require("../RevealRoot");
 const { CURSOR_KEY } = require("../../lib/useCursorPreference");
@@ -130,7 +129,6 @@ const { CURSOR_KEY } = require("../../lib/useCursorPreference");
 const entranceAnimatedComponents = [
   "PageTransition",
   "RevealRoot",
-  "Marquee",
   "MagneticButton",
   "Cursor",
 ];
@@ -284,11 +282,6 @@ function mountScenario(name) {
         </MemoryRouter>
       );
     }
-    case "Marquee":
-      // Marquee bails out of its useGSAP setup under reduced motion; the
-      // static render still mounts so we can observe the zero-tween
-      // invariant.
-      return render(<Marquee phrases={["alpha", "beta", "gamma"]} />);
     case "MagneticButton":
       // Under reduced motion the gate fails and the component renders a
       // plain <button> with no pointer tracking.

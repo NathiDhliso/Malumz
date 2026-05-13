@@ -83,7 +83,6 @@ describe("Footer — E1 restyle unit tests", () => {
       { name: "Results", path: "/results" },
       { name: "The Vision", path: "/about" },
       { name: "Safety", path: "/safety" },
-      { name: "I Need Help Now", path: "/safety" },
     ];
 
     const EXPECTED_FOOTER_EXTERNAL_LINKS = [

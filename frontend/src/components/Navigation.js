@@ -60,7 +60,7 @@ export const Navigation = () => {
                 to="/safety"
                 className="bg-red-600 text-white hover:bg-red-700 rounded-full px-5 py-2 text-sm font-medium transition-all"
               >
-                I Need Help
+                Rules First
               </Link>
             </div>
 
@@ -91,7 +91,7 @@ export const Navigation = () => {
                     to="/safety"
                     className="block bg-red-600 text-white text-center rounded-full px-6 py-3 font-medium"
                   >
-                    I Need Help
+                    Rules First
                   </Link>
                 </div>
               </div>

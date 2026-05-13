@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_ORIGIN = process.env.REACT_APP_API_URL || 'https://mig0oad1ai.execute-api.af-south-1.amazonaws.com';
+const API_ORIGIN = process.env.REACT_APP_API_URL || 'https://public-api.proprofile.co.za';
 const apiBase = `${API_ORIGIN}/public/malumz`;
 const contactBase = `${API_ORIGIN}/public/malumz`;
 const assetBase = API_ORIGIN;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AlertTriangle, CheckCircle2, Phone } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { submitContact } from '@/lib/malumzApi';
 import NotchedSection from '@/components/NotchedSection';
 import MagneticButton from '@/components/MagneticButton';
@@ -20,20 +20,22 @@ import MagneticButton from '@/components/MagneticButton';
  * @see Requirements 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9.1, 11.5, 12.4
  */
 
-const emergencyNumbers = [
-  { name: 'Lifeline', number: '0861 322 322', available: '24/7' },
-  { name: 'SADAG', number: '0800 567 567', available: '24/7' },
-  { name: 'GBV Command Centre', number: '0800 428 428', available: '24/7' },
+const safetyPrinciples = [
+  { title: 'Rules Before Rulers', text: 'No man, facilitator, or circle sits above the principles.' },
+  { title: 'Discipline Before Emotion', text: 'When pressure rises, the standard does not move.' },
+  { title: 'Accountability Before Authority', text: 'Leadership is earned through conduct, not demanded through position.' },
 ];
 
 export const SafetyPage = () => {
   const [reportData, setReportData] = useState({ message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError('');
     try {
       await submitContact({
         name: 'Anonymous Report',
@@ -45,7 +47,9 @@ export const SafetyPage = () => {
       setReportData({ message: '' });
     } catch (error) {
       console.error('Report error:', error);
-      alert('Something went wrong. Please email nkosinathi.dhliso@gmail.com directly.');
+      setSubmitError(
+        "We couldn't submit that report. Please email nkosinathi.dhliso@gmail.com directly."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -56,20 +60,13 @@ export const SafetyPage = () => {
       {/* Crisis Hero — emergency CTA + Lifeline number */}
       <NotchedSection tone="sienna" className="pt-32 pb-8">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <AlertTriangle size={64} className="text-red-400 mx-auto mb-6" />
+          <AlertTriangle size={64} className="text-e1-primary mx-auto mb-6" />
           <h1 className="gs-reveal font-display text-4xl lg:text-5xl font-bold text-e1-text mb-4">
-            You Are Not Alone
+            Anchored on Rules, Not Rulers
           </h1>
           <p className="text-lg text-e1-text-muted mb-4 max-w-2xl mx-auto">
-            If you are about to hurt someone or yourself, call Lifeline now. The Circle can wait. Your life cannot.
+            Malumz circles are built on standards, discipline, and accountability. The mission is not therapy. The mission is formation.
           </p>
-          <a
-            href="tel:0861322322"
-            className="inline-flex items-center gap-3 bg-red-600 text-white rounded-full px-10 py-5 text-xl font-bold shadow-lg hover:bg-red-700 transition-all"
-          >
-            <Phone size={28} />
-            Call Lifeline: 0861 322 322
-          </a>
         </div>
       </NotchedSection>
 
@@ -77,44 +74,29 @@ export const SafetyPage = () => {
       <section className="py-16 bg-e1-bg">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12">
           <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-8 text-center">
-            Emergency Numbers
+            Safety Principles
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {emergencyNumbers.map((item) => (
-              <a
-                key={item.name}
-                href={`tel:${item.number.replace(/\s/g, '')}`}
-                className="gs-reveal flex items-center gap-4 bg-e1-surface border border-e1-text/10 rounded-xl p-6 hover:shadow-md transition-all"
+            {safetyPrinciples.map((item) => (
+              <div
+                key={item.title}
+                className="gs-reveal flex items-start gap-4 bg-e1-surface border border-e1-text/10 rounded-xl p-6"
               >
-                <div className="flex-shrink-0 w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
-                  <Phone size={24} className="text-red-400" />
+                <div className="flex-shrink-0 w-12 h-12 bg-e1-primary/20 rounded-full flex items-center justify-center">
+                  <ShieldCheck size={24} className="text-e1-primary" />
                 </div>
                 <div>
-                  <p className="font-bold text-e1-text">{item.name}</p>
-                  <p className="text-e1-primary font-semibold text-lg">{item.number}</p>
-                  <p className="text-e1-text-muted text-sm">{item.available}</p>
+                  <p className="font-bold text-e1-text">{item.title}</p>
+                  <p className="text-e1-text-muted text-sm">{item.text}</p>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
-
-          {/* SADAG provincial resources link */}
-          <p className="gs-reveal text-center text-e1-text-muted mt-8">
-            For provincial-specific resources, visit{' '}
-            <a
-              href="https://www.sadag.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-e1-primary underline hover:text-e1-highlight transition-colors"
-            >
-              www.sadag.org
-            </a>
-          </p>
         </div>
       </section>
 
       {/* Anonymous Report Form */}
-      <NotchedSection tone="sienna" className="py-20">
+      <NotchedSection tone="charcoal" className="py-20">
         <div className="max-w-2xl mx-auto px-4 md:px-8 lg:px-12">
           <h2 className="gs-reveal font-display text-3xl font-bold text-e1-text mb-4 text-center">
             Report a Circle
@@ -154,6 +136,14 @@ export const SafetyPage = () => {
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Anonymous Report'}
               </MagneticButton>
+              {submitError && (
+                <p
+                  role="alert"
+                  className="mt-4 text-sm text-e1-primary bg-e1-primary/10 border border-e1-primary/30 rounded-lg px-4 py-3"
+                >
+                  {submitError}
+                </p>
+              )}
             </form>
           )}
         </div>

@@ -25,6 +25,7 @@ export const JoinPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,6 +34,7 @@ export const JoinPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError('');
     try {
       await submitContact({
         name: formData.name,
@@ -43,7 +45,9 @@ export const JoinPage = () => {
       setSubmitSuccess(true);
     } catch (error) {
       console.error('Registration error:', error);
-      alert('Something went wrong. Please try again.');
+      setSubmitError(
+        "We couldn't submit that. Please try again, or email nkosinathi.dhliso@gmail.com directly."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -133,6 +137,14 @@ export const JoinPage = () => {
               >
                 {isSubmitting ? 'Submitting...' : 'Submit'}
               </MagneticButton>
+              {submitError && (
+                <p
+                  role="alert"
+                  className="mt-4 text-sm text-e1-primary bg-e1-primary/10 border border-e1-primary/30 rounded-lg px-4 py-3"
+                >
+                  {submitError}
+                </p>
+              )}
             </form>
           )}
         </div>

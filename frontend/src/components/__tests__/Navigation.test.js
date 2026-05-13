@@ -1,16 +1,15 @@
 /**
- * Unit tests for the Navigation component restyle.
+ * Unit tests for the simplified Navigation component.
  *
  * Validates:
- * - No `malumz-*` class names appear in rendered output (Requirement 29.1)
- * - No legacy font references (Playfair Display, Inter, Merriweather) (Requirement 29.1)
- * - The link set is preserved (frozen snapshot comparison) (Requirement 29.3)
- * - Every existing `lucide-react` icon import is retained (Requirement 29.5)
+ * - Exactly 4 flat text links rendered: Home, Book, Join, About (Requirement 2.1)
+ * - "I Need Help" button links to `/safety` (Requirement 2.2)
+ * - No dropdown menus or ChevronDown icons rendered (Requirement 2.3, 2.6)
  *
- * **Validates: Requirements 29.1, 29.3, 29.5**
+ * **Validates: Requirements 2.1, 2.2, 2.3, 2.6**
  */
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Navigation } from "../Navigation";
 
@@ -21,151 +20,127 @@ jest.mock("lucide-react", () => ({
   ChevronDown: (props) => <svg data-testid="icon-ChevronDown" {...props} />,
 }));
 
-function renderNavigation() {
+function renderNavigation(initialRoute = "/") {
   return render(
-    <MemoryRouter initialEntries={["/"]}>
+    <MemoryRouter initialEntries={[initialRoute]}>
       <Navigation />
     </MemoryRouter>
   );
 }
 
-describe("Navigation — E1 restyle unit tests", () => {
-  describe("No legacy class names", () => {
-    it("does not contain any malumz-* class names in the rendered output", () => {
-      const { container } = renderNavigation();
-      const html = container.innerHTML;
-      expect(html).not.toMatch(/malumz-/);
-    });
-
-    it("does not reference Playfair Display font", () => {
-      const { container } = renderNavigation();
-      const html = container.innerHTML;
-      expect(html).not.toMatch(/Playfair Display/i);
-    });
-
-    it("does not reference Inter font", () => {
-      const { container } = renderNavigation();
-      const html = container.innerHTML;
-      expect(html).not.toMatch(/\bInter\b/);
-    });
-
-    it("does not reference Merriweather font", () => {
-      const { container } = renderNavigation();
-      const html = container.innerHTML;
-      expect(html).not.toMatch(/Merriweather/i);
-    });
-  });
-
-  describe("Link set preservation (frozen snapshot)", () => {
-    /**
-     * The expected navigation link set (frozen snapshot).
-     * Includes the logo link, top-level nav links, and the crisis CTA.
-     * Dropdown children are rendered as <button> elements (not <a>) until
-     * the dropdown is opened, so only the always-visible links are asserted.
-     *
-     * The logo link ("malumz.co.za" pointing to "/") is part of the
-     * component's structure and is included in the snapshot.
-     */
-    const EXPECTED_NAV_LINKS = [
-      { name: "malumz.co.za", path: "/" },
-      { name: "Home", path: "/" },
-      { name: "The Book", path: "/book" },
-      { name: "Start a Circle", path: "/join" },
-      { name: "About", path: "/about" },
-      { name: "Safety", path: "/safety" },
-      { name: "I Need Help Now", path: "/safety" },
-    ];
-
-    it("renders the expected always-visible navigation links (frozen snapshot)", () => {
+describe("Navigation — Conversion-Focused Simplification", () => {
+  describe("Requirement 2.1: Exactly 4 flat text links", () => {
+    it("renders exactly 4 navigation text links: Home, Book, Join, About", () => {
       const { container } = renderNavigation();
 
-      // Collect all <a> elements with href (Link renders as <a>)
-      const allLinks = Array.from(container.querySelectorAll("a[href]"));
-
-      // Extract internal links (those starting with /)
-      const internalLinks = allLinks
-        .filter((a) => a.getAttribute("href").startsWith("/"))
-        .map((a) => ({
-          name: a.textContent.trim(),
-          path: a.getAttribute("href"),
-        }));
-
-      // Deduplicate (mobile menu renders same links)
-      const uniqueLinks = [];
-      const seen = new Set();
-      for (const link of internalLinks) {
-        const key = `${link.name}::${link.path}`;
-        if (!seen.has(key)) {
-          seen.add(key);
-          uniqueLinks.push(link);
-        }
-      }
-
-      expect(uniqueLinks).toEqual(EXPECTED_NAV_LINKS);
-    });
-
-    it("preserves dropdown menu items for Learn group", () => {
-      const { container } = renderNavigation();
-      // The Learn dropdown button should exist
-      const buttons = Array.from(container.querySelectorAll("button"));
-      const learnButton = buttons.find(
-        (b) => b.textContent.replace(/\s+/g, " ").trim().startsWith("Learn")
+      // Get the desktop nav links (inside the hidden lg:flex container)
+      // These are the internal links excluding the logo and the crisis button
+      const allInternalLinks = Array.from(
+        container.querySelectorAll('a[href^="/"]')
       );
-      expect(learnButton).not.toBeNull();
+
+      // Filter out the logo link (malumz.co.za) and the "I Need Help" button
+      // and the Quick Exit link, and mobile menu duplicates
+      const desktopNav = container.querySelector(".hidden.lg\\:flex");
+      expect(desktopNav).not.toBeNull();
+
+      const desktopNavLinks = Array.from(
+        desktopNav.querySelectorAll('a[href^="/"]')
+      );
+
+      // Exclude the "I Need Help" crisis button from the count
+      const textLinks = desktopNavLinks.filter(
+        (a) => !a.textContent.includes("Rules First")
+      );
+
+      expect(textLinks).toHaveLength(4);
+
+      const linkNames = textLinks.map((a) => a.textContent.trim());
+      expect(linkNames).toEqual(["Home", "Book", "Join", "About"]);
     });
 
-    it("preserves dropdown menu items for About group", () => {
+    it("links Home to /", () => {
       const { container } = renderNavigation();
-      // After page-consolidation-and-animations, About is a direct link
-      // (no longer a dropdown). Verify it exists as a link.
-      const links = Array.from(container.querySelectorAll("a[href]"));
-      const aboutLink = links.find(
-        (a) => a.getAttribute("href") === "/about" && a.textContent.trim() === "About"
-      );
+      const desktopNav = container.querySelector(".hidden.lg\\:flex");
+      const homeLink = Array.from(
+        desktopNav.querySelectorAll('a[href="/"]')
+      ).find((a) => a.textContent.trim() === "Home");
+      expect(homeLink).not.toBeNull();
+    });
+
+    it("links Book to /book", () => {
+      const { container } = renderNavigation();
+      const desktopNav = container.querySelector(".hidden.lg\\:flex");
+      const bookLink = desktopNav.querySelector('a[href="/book"]');
+      expect(bookLink).not.toBeNull();
+      expect(bookLink.textContent.trim()).toBe("Book");
+    });
+
+    it("links Join to /join", () => {
+      const { container } = renderNavigation();
+      const desktopNav = container.querySelector(".hidden.lg\\:flex");
+      const joinLink = desktopNav.querySelector('a[href="/join"]');
+      expect(joinLink).not.toBeNull();
+      expect(joinLink.textContent.trim()).toBe("Join");
+    });
+
+    it("links About to /about", () => {
+      const { container } = renderNavigation();
+      const desktopNav = container.querySelector(".hidden.lg\\:flex");
+      const aboutLink = desktopNav.querySelector('a[href="/about"]');
       expect(aboutLink).not.toBeNull();
-    });
-
-    it("preserves the Quick Exit external link", () => {
-      const { container } = renderNavigation();
-      const quickExit = container.querySelector(
-        'a[href="https://www.google.com"]'
-      );
-      expect(quickExit).not.toBeNull();
-      expect(quickExit.textContent.trim()).toBe("Quick Exit");
+      expect(aboutLink.textContent.trim()).toBe("About");
     });
   });
 
-  describe("lucide-react icon retention", () => {
-    it("renders the Menu icon (mobile toggle)", () => {
+  describe('Requirement 2.2: safety button', () => {
+    it('renders a "Rules First" button linking to /safety', () => {
       const { container } = renderNavigation();
-      const menuIcon = container.querySelector('[data-testid="icon-Menu"]');
-      expect(menuIcon).not.toBeNull();
+      const desktopNav = container.querySelector(".hidden.lg\\:flex");
+      const crisisLink = desktopNav.querySelector('a[href="/safety"]');
+      expect(crisisLink).not.toBeNull();
+      expect(crisisLink.textContent.trim()).toBe("Rules First");
     });
 
-    it("renders ChevronDown icons (dropdown indicators)", () => {
+    it("crisis button is visually distinct (has bg-red styling)", () => {
+      const { container } = renderNavigation();
+      const desktopNav = container.querySelector(".hidden.lg\\:flex");
+      const crisisLink = desktopNav.querySelector('a[href="/safety"]');
+      expect(crisisLink.className).toMatch(/bg-red/);
+    });
+  });
+
+  describe("Requirement 2.3 & 2.6: No dropdown menus or ChevronDown icons", () => {
+    it("does not render any ChevronDown icons", () => {
       const { container } = renderNavigation();
       const chevrons = container.querySelectorAll(
         '[data-testid="icon-ChevronDown"]'
       );
-      expect(chevrons.length).toBeGreaterThan(0);
+      expect(chevrons).toHaveLength(0);
     });
 
-    it("imports Menu, X, and ChevronDown from lucide-react", () => {
-      // This test validates that the component source imports these icons.
-      // The mock intercepts them — if the component stopped importing any,
-      // the mock wouldn't render the corresponding data-testid.
-      // Menu and ChevronDown are visible by default; X is only visible when
-      // mobile menu is open, but the import itself is validated by the mock
-      // not throwing on the import statement.
+    it("does not render any dropdown menu containers", () => {
       const { container } = renderNavigation();
-      // Menu icon present (mobile toggle shows Menu when closed)
-      expect(
-        container.querySelector('[data-testid="icon-Menu"]')
-      ).not.toBeNull();
-      // ChevronDown present in dropdown buttons
-      expect(
-        container.querySelector('[data-testid="icon-ChevronDown"]')
-      ).not.toBeNull();
+      // No elements with role="menu" or dropdown-like containers
+      const menus = container.querySelectorAll('[role="menu"]');
+      expect(menus).toHaveLength(0);
+    });
+
+    it('does not render a "Learn" dropdown button', () => {
+      const { container } = renderNavigation();
+      const buttons = Array.from(container.querySelectorAll("button"));
+      const learnButton = buttons.find((b) =>
+        b.textContent.trim().startsWith("Learn")
+      );
+      expect(learnButton).toBeUndefined();
+    });
+
+    it("all navigation items are flat links (no nested children)", () => {
+      const { container } = renderNavigation();
+      const desktopNav = container.querySelector(".hidden.lg\\:flex");
+      // All children should be direct <a> links, no <button> elements for dropdowns
+      const dropdownButtons = desktopNav.querySelectorAll("button");
+      expect(dropdownButtons).toHaveLength(0);
     });
   });
 });

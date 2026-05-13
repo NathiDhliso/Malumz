@@ -108,7 +108,6 @@ const {
   VISION_NODE_2,
   VISION_NODE_3,
   BOOK_ACCENT_VIDEO,
-  RESULTS_TESTIMONIAL_VIDEO,
 } = require("../../lib/assets");
 const { gsap } = require("../../lib/gsap");
 
@@ -119,7 +118,6 @@ const { gsap } = require("../../lib/gsap");
 const { HeroSection } = require("../home/HeroSection");
 const { AboutPage } = require("../../pages/AboutPage");
 const { BookPage } = require("../../pages/BookPage");
-const { ResultsPage } = require("../../pages/ResultsPage");
 
 // ---------------------------------------------------------------------------
 // Asset key → consuming component and assertion logic mapping.
@@ -268,26 +266,6 @@ const ASSET_TEST_CONFIG = {
       const hasSurfacePlaceholder = Array.from(placeholders).some(
         (el) =>
           el.style.width === `${assetsDefault.BOOK_ACCENT_VIDEO.width}px`
-      );
-      expect(hasSurfacePlaceholder).toBe(true);
-    },
-  },
-  RESULTS_TESTIMONIAL_VIDEO: {
-    component: ResultsPage,
-    route: "/results",
-    getMediaElement: (container) =>
-      container.querySelector(`video[src="${RESULTS_TESTIMONIAL_VIDEO}"]`),
-    assertFallback: (container) => {
-      // After error, video should be gone and e1-surface div should appear
-      const video = container.querySelector(
-        `video[src="${RESULTS_TESTIMONIAL_VIDEO}"]`
-      );
-      expect(video).toBeNull();
-      const placeholders = container.querySelectorAll("div.bg-e1-surface");
-      const hasSurfacePlaceholder = Array.from(placeholders).some(
-        (el) =>
-          el.style.width ===
-          `${assetsDefault.RESULTS_TESTIMONIAL_VIDEO.width}px`
       );
       expect(hasSurfacePlaceholder).toBe(true);
     },

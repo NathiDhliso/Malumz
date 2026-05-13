@@ -35,7 +35,7 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
     - Retain `CursorSettingsToggle`
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-- [~] 4. Checkpoint - Verify navigation and routing
+- [x] 4. Checkpoint - Verify navigation and routing
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 5. Simplify HomePage
@@ -79,7 +79,7 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
     - Keep `.gs-reveal` on heading
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 11.3, 12.3_
 
-- [~] 8. Checkpoint - Verify page simplifications
+- [x] 8. Checkpoint - Verify page simplifications
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 9. Reduce AboutPage content
@@ -114,8 +114,8 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
     - Keep `.gs-reveal` animations on remaining content
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9.1, 11.5, 12.4_
 
-- [ ] 11. Delete unused component files
-  - [-] 11.1 Remove component and page files from codebase
+- [x] 11. Delete unused component files
+  - [x] 11.1 Remove component and page files from codebase
     - Delete `src/components/home/HorizontalTrainers.js`
     - Delete `src/components/home/TrainerConnector.js`
     - Delete `src/components/home/StoryBridge.js`
@@ -128,11 +128,11 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
     - Verify no remaining imports reference these deleted files
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 9.4, 9.5, 9.6_
 
-- [~] 12. Checkpoint - Verify full simplification
+- [x] 12. Checkpoint - Verify full simplification
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 13. Write unit and integration tests
-  - [~] 13.1 Write route redirect integration tests
+  - [x] 13.1 Write route redirect integration tests
     - Test `/results` redirects to `/`
     - Test `/resources` redirects to `/`
     - Test `/systems/any-slug` redirects to `/`
@@ -141,13 +141,13 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
     - Test `/crisis` redirects to `/safety`
     - _Requirements: 1.2, 1.3, 1.4, 1.5, 1.6, 1.7_
 
-  - [~] 13.2 Write Navigation unit tests
+  - [x] 13.2 Write Navigation unit tests
     - Verify exactly 4 flat text links rendered: Home, Book, Join, About
     - Verify "I Need Help" button links to `/safety`
     - Verify no dropdown menus or ChevronDown icons rendered
     - _Requirements: 2.1, 2.2, 2.3, 2.6_
 
-  - [~] 13.3 Write page content unit tests
+  - [x] 13.3 Write page content unit tests
     - Verify HomePage renders dual CTAs and crisis button, does NOT render Marquee/StoryBridge/TrainerConnector/HorizontalTrainers/PullQuote
     - Verify BookPage renders BookPurchasePanel as first content section, does NOT render video hero or signed copy form
     - Verify JoinPage renders exactly 3 form fields (Name, Email, City/Area) and submit button, does NOT render model selection or 7-step process
@@ -155,7 +155,7 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
     - Verify SafetyPage renders crisis numbers as tappable `tel:` links and report form, does NOT render accordion/tyrant/vetting sections
     - _Requirements: 4.1–4.9, 5.1–5.5, 6.1–6.8, 7.1–7.7, 8.1–8.8, 11.1–11.5_
 
-- [~] 14. Final checkpoint - Verify build and bundle
+- [x] 14. Final checkpoint - Verify build and bundle
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

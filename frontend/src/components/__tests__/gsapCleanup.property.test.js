@@ -109,8 +109,6 @@ const Cursor = require("../Cursor").default;
 // eslint-disable-next-line import/first
 const { PageTransition } = require("../PageTransition");
 // eslint-disable-next-line import/first
-const { Marquee } = require("../Marquee");
-// eslint-disable-next-line import/first
 const MagneticButton = require("../MagneticButton").default;
 // eslint-disable-next-line import/first
 const { RevealRoot } = require("../RevealRoot");
@@ -128,7 +126,6 @@ const { CURSOR_KEY } = require("../../lib/useCursorPreference");
 const animatedComponentsUnderTest = [
   "Cursor",
   "PageTransition",
-  "Marquee",
   "MagneticButton",
   "RevealRoot",
 ];

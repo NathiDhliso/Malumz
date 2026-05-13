@@ -41,6 +41,14 @@ export const Footer = () => {
                   immanueldhliso
                 </a>
               </li>
+              <li>
+                <a href="https://www.tiktok.com/@dogtrainersa" target="_blank" rel="noopener noreferrer" className="text-e1-text/80 hover:text-e1-highlight transition-colors flex items-center gap-2 text-sm font-sans">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.88 2.89 2.89 0 0 1-2.88-2.88 2.89 2.89 0 0 1 2.88-2.88c.28 0 .56.04.82.1v-3.5a6.37 6.37 0 0 0-.82-.05A6.34 6.34 0 0 0 3.15 15.7a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V9.4a8.16 8.16 0 0 0 4.76 1.52v-3.4a4.85 4.85 0 0 1-1-.83z"/>
+                  </svg>
+                  @dogtrainersa
+                </a>
+              </li>
             </ul>
           </div>
 

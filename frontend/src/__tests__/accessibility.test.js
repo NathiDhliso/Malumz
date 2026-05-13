@@ -90,10 +90,7 @@ expect.extend(toHaveNoViolations);
 const { HomePage } = require("../pages/HomePage");
 const { BookPage } = require("../pages/BookPage");
 const { JoinPage } = require("../pages/JoinPage");
-const { ResourcesPage } = require("../pages/ResourcesPage");
-const { SystemDetailPage } = require("../pages/SystemDetailPage");
 const { SafetyPage } = require("../pages/SafetyPage");
-const { ResultsPage } = require("../pages/ResultsPage");
 const { AboutPage } = require("../pages/AboutPage");
 
 // ---------------------------------------------------------------------------
@@ -106,10 +103,7 @@ const ROUTES = [
   { path: "/", component: HomePage, label: "HomePage (/)" },
   { path: "/book", component: BookPage, label: "BookPage (/book)" },
   { path: "/join", component: JoinPage, label: "JoinPage (/join)" },
-  { path: "/resources", component: ResourcesPage, label: "ResourcesPage (/resources)" },
-  { path: "/systems/example-slug", component: SystemDetailPage, label: "SystemDetailPage (/systems/:slug)", routePath: "/systems/:slug" },
   { path: "/safety", component: SafetyPage, label: "SafetyPage (/safety)" },
-  { path: "/results", component: ResultsPage, label: "ResultsPage (/results)" },
   { path: "/about", component: AboutPage, label: "AboutPage (/about)" },
 ];
 

@@ -68,6 +68,11 @@ export const PageTransition = ({ children }) => {
   // change and restart from yPercent: 100" contract.
   useGSAP(
     () => {
+      const curtain = curtainRef.current;
+      if (curtain) {
+        gsap.set(curtain, { yPercent: 100 });
+      }
+
       // First render (and any spurious re-run without a pathname change):
       // there is no transition to play yet.
       if (location.pathname === displayLocation.pathname) return;
@@ -101,7 +106,6 @@ export const PageTransition = ({ children }) => {
       }
 
       // Full-motion branch — terracotta curtain sweep.
-      const curtain = curtainRef.current;
       if (!curtain) return;
 
       // Always start each cycle from `yPercent: 100` regardless of where

@@ -15,6 +15,4 @@ gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.defaults({ markers: false });
 ScrollTrigger.config({ limitCallbacks: true });
 
-console.log("[gsap.js] GSAP registered. ScrollTrigger version:", ScrollTrigger.version);
-
 export { gsap, ScrollTrigger };
