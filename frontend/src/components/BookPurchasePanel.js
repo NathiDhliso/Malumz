@@ -174,7 +174,7 @@ export const BookPurchasePanel = () => {
         </label>
 
         {error && (
-          <div className="bg-e1-primary/10 border border-e1-primary/20 rounded-lg px-4 py-3 text-e1-surface text-sm">
+          <div className="bg-e1-primary/10 border border-e1-primary/30 rounded-lg px-4 py-3 text-e1-primary font-medium text-sm">
             {error}
           </div>
         )}
