@@ -82,8 +82,8 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
 - [~] 8. Checkpoint - Verify page simplifications
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Reduce AboutPage content
-  - [-] 9.1 Strip AboutPage to founder story + contact form
+- [x] 9. Reduce AboutPage content
+  - [x] 9.1 Strip AboutPage to founder story + contact form
     - Remove "The Story" timeline section
     - Remove "The Roadmap" vision timeline section
     - Remove "Formal Infrastructure Vision" section
@@ -100,8 +100,8 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
     - Keep `.gs-reveal` and scroll reveal animations on remaining content
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9, 9.1, 9.3, 11.4, 12.5_
 
-- [ ] 10. Streamline SafetyPage
-  - [-] 10.1 Reduce SafetyPage to crisis essentials
+- [x] 10. Streamline SafetyPage
+  - [x] 10.1 Reduce SafetyPage to crisis essentials
     - Remove provincial resources accordion (`provinces` data + `<details>` section)
     - Remove "Trained Tyrant Profile" section (`tyrantSigns` data)
     - Remove "Silent Exclusion Guide" section
@@ -115,7 +115,7 @@ Radically simplify the Malumz website from 7+ pages to exactly 5 pages by removi
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9.1, 11.5, 12.4_
 
 - [ ] 11. Delete unused component files
-  - [~] 11.1 Remove component and page files from codebase
+  - [-] 11.1 Remove component and page files from codebase
     - Delete `src/components/home/HorizontalTrainers.js`
     - Delete `src/components/home/TrainerConnector.js`
     - Delete `src/components/home/StoryBridge.js`
