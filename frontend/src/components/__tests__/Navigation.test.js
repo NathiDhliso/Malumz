@@ -39,8 +39,8 @@ describe("Navigation — Conversion-Focused Simplification", () => {
         container.querySelectorAll('a[href^="/"]')
       );
 
-      // Filter out the logo link (malumz.co.za) and the "I Need Help" button
-      // and the Quick Exit link, and mobile menu duplicates
+      // Filter out the logo link (malumz.co.za), the "Rules First"
+      // button, and mobile menu duplicates
       const desktopNav = container.querySelector(".hidden.lg\\:flex");
       expect(desktopNav).not.toBeNull();
 

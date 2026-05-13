@@ -24,50 +24,66 @@ import { BookPurchasePanel } from '@/components/BookPurchasePanel';
 export const BookPage = () => {
   const pageRef = useRef(null);
 
-  // Storytelling animations — sections slide in, headings reveal from left
+  // Storytelling animations — sections fade/slide in, with content visible
+  // by default so mobile Safari ScrollTrigger stalls never leave the page
+  // blank. `gsap.from` animates FROM the offset state back to the element's
+  // natural state, so if GSAP never runs, content stays at its natural
+  // (visible) position.
   useGSAP(
     () => {
       const page = pageRef.current;
       if (!page) return;
 
-      // Animate section headings from the left
       const headings = page.querySelectorAll("[data-animate='heading']");
       headings.forEach((heading) => {
-        gsap.set(heading, { opacity: 0, x: -60 });
         ScrollTrigger.create({
           trigger: heading,
-          start: "top 80%",
+          start: "top 90%",
           once: true,
           onEnter: () => {
-            gsap.to(heading, { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" });
+            gsap.from(heading, {
+              opacity: 0,
+              x: -40,
+              duration: 0.7,
+              ease: "power3.out",
+              immediateRender: false,
+            });
           },
         });
       });
 
-      // Animate preview cards with a scale-up effect
       const previewCards = page.querySelectorAll("[data-animate='preview']");
       previewCards.forEach((card) => {
-        gsap.set(card, { opacity: 0, scale: 0.9, y: 30 });
         ScrollTrigger.create({
           trigger: card,
-          start: "top 85%",
+          start: "top 90%",
           once: true,
           onEnter: () => {
-            gsap.to(card, { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: "power3.out" });
+            gsap.from(card, {
+              opacity: 0,
+              y: 30,
+              duration: 0.8,
+              ease: "power3.out",
+              immediateRender: false,
+            });
           },
         });
       });
 
-      // Animate the purchase panel with a dramatic entrance
       const purchasePanel = page.querySelector("[data-animate='purchase']");
       if (purchasePanel) {
-        gsap.set(purchasePanel, { opacity: 0, y: 60 });
         ScrollTrigger.create({
           trigger: purchasePanel,
-          start: "top 85%",
+          start: "top 90%",
           once: true,
           onEnter: () => {
-            gsap.to(purchasePanel, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" });
+            gsap.from(purchasePanel, {
+              opacity: 0,
+              y: 40,
+              duration: 0.9,
+              ease: "power3.out",
+              immediateRender: false,
+            });
           },
         });
       }

@@ -142,10 +142,11 @@ export const HeroSection = ({
     >
       {/* Parallax decorative background element (Requirements 6.1, 6.3, 6.4).
           A large blurred circle that translates at a slower rate than the
-          page scroll, creating depth. Reduced-motion: stays at CSS position. */}
+          page scroll, creating depth. Sized with viewport units so it
+          never overflows small mobile viewports. */}
       <div
         ref={parallaxRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-e1-primary/10 blur-3xl pointer-events-none will-change-transform"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,80vw)] h-[min(600px,80vw)] rounded-full bg-e1-primary/10 blur-3xl pointer-events-none will-change-transform"
         aria-hidden="true"
       />
 

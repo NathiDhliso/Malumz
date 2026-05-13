@@ -2,65 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    /* Prevent iOS Safari auto-zooming text on orientation change. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 body {
     margin: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+    /* Use the Tailwind font-sans stack (DM Sans) by default, with system
+       fallbacks for the brief moment before web fonts load. The previous
+       value hard-coded `Inter`, which the eslint rules ban because the
+       site uses Fraunces (display) / DM Sans (body). */
+    font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #FFFFFF;
+    /* Prevent horizontal overflow on mobile — decorative elements
+       occasionally bleed past the viewport before clamp() kicks in. */
+    overflow-x: hidden;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-@layer base {
-    [data-debug-wrapper="true"] {
-        display: contents !important;
-    }
-
-    [data-debug-wrapper="true"] > * {
-        margin-left: inherit;
-        margin-right: inherit;
-        margin-top: inherit;
-        margin-bottom: inherit;
-        padding-left: inherit;
-        padding-right: inherit;
-        padding-top: inherit;
-        padding-bottom: inherit;
-        column-gap: inherit;
-        row-gap: inherit;
-        gap: inherit;
-        border-left-width: inherit;
-        border-right-width: inherit;
-        border-top-width: inherit;
-        border-bottom-width: inherit;
-        border-left-style: inherit;
-        border-right-style: inherit;
-        border-top-style: inherit;
-        border-bottom-style: inherit;
-        border-left-color: inherit;
-        border-right-color: inherit;
-        border-top-color: inherit;
-        border-bottom-color: inherit;
-    }
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 
 /*
- * Base `.gs-reveal` utility class for the Reveal Batch pipeline.
- *
- * Elements start visible by default. When GSAP ScrollTrigger is available
- * and working, the useRevealBatch hook will set initial opacity/transform
- * via JavaScript before animating to identity. This ensures content is
- * always visible even if GSAP fails to load or initialize.
- *
- * Feature: e1-editorial-ui-overhaul
- * Requirements: 12.1, 12.2, 12.3, 12.4, 12.5
+ * `.gs-reveal` utility class. Elements start visible by default; the
+ * `useRevealBatch` hook sets opacity: 0 via GSAP before animating in.
+ * `will-change` is omitted here so we do not keep a compositor layer
+ * alive indefinitely on every revealable element; the hook adds it
+ * transiently via gsap.set if needed.
  */
-.gs-reveal {
-    will-change: transform, opacity;
-}

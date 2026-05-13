@@ -243,17 +243,20 @@ export const AboutPage = () => {
       });
 
       // --- Pull-quote paragraphs (whole-element reveal) --------------------
-      gsap.set(paragraphEls, { opacity: 0, y: 40 });
+      // Use `gsap.from` with `immediateRender: false` so if ScrollTrigger
+      // never fires (mobile Safari rAF stall), the paragraphs stay at
+      // their natural visible state instead of being locked at opacity 0.
       ScrollTrigger.batch(paragraphEls, {
-        start: "top 70%",
+        start: "top 85%",
         once: true,
         onEnter: (batch) =>
-          gsap.to(batch, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.2,
+          gsap.from(batch, {
+            opacity: 0,
+            y: 30,
+            duration: 0.7,
+            stagger: 0.15,
             ease: "power3.out",
+            immediateRender: false,
           }),
       });
     },

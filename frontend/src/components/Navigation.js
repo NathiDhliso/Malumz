@@ -153,14 +153,6 @@ export const Navigation = () => {
           )}
         </div>
       </nav>
-
-      <a
-        href="https://www.google.com"
-        className="fixed bottom-4 right-4 z-[100] bg-red-600 text-white text-xs font-bold px-3 py-2 rounded-full shadow-lg hover:bg-red-700 transition-all opacity-70 hover:opacity-100"
-        aria-label="Quick exit"
-      >
-        Quick Exit
-      </a>
     </>
   );
 };
