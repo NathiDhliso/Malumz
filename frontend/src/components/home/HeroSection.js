@@ -39,8 +39,8 @@ void ScrollTrigger;
  * @see Requirements 4.1, 4.2, 4.3, 4.10, 4.11, 9.2, 11.1, 12.1
  */
 export const HeroSection = ({
-  headline = "Rebuilding what apartheid destroyed.",
-  subtitle = "Through the Six Trainers framework.",
+  headline = "Unearthing the Roots of Recourse.",
+  subtitle = "A Six Trainers framework for men who are ready to rebuild.",
   primaryCtaLabel = "Buy the Book",
   primaryCtaHref = "/book",
   secondaryCtaLabel = "Join a Circle",
@@ -228,11 +228,11 @@ export const HeroSection = ({
         {showCrisisButton && (
           <div className="mt-8">
             <MagneticButton
-              className="font-sans text-sm tracking-wider px-6 py-3 bg-red-700 text-white hover:bg-red-600 transition-colors rounded"
+              className="font-sans text-sm tracking-wider px-6 py-3 border border-e1-text-muted/40 text-e1-text-muted hover:border-e1-primary hover:text-e1-primary transition-colors rounded"
               onClick={() => navigate('/safety')}
-              aria-label="I Need Help"
+              aria-label="Our Standards"
             >
-              I Need Help
+              Our Standards
             </MagneticButton>
           </div>
         )}

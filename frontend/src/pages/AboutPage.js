@@ -38,9 +38,9 @@ const COUNTER_LABEL = "Men in the 2026–2030 pilot";
  * Animated as whole elements via ScrollTrigger.batch.
  */
 const PULL_QUOTE_PARAGRAPHS = [
-  "We cannot fix the cycle by only treating the symptoms. We must address the root: untrained men mass-producing broken families.",
-  "The Dog Trainer is a memoir and framework. It tells the story of growing up across seven schools in post-apartheid South Africa and formalises the Six Trainers framework — the six dimensions every man needs to rebuild.",
-  "The community-based model where 20 men meet weekly for 6 months to rebuild themselves across all six dimensions. The book is the constitution. The Circles are the practice.",
+  "Every man carries the imprint of those who raised him — and those who didn't. The Six Trainers framework names what was missing and maps the path forward.",
+  "The Dog Trainer is a memoir and framework. It tells the story of growing up across seven schools in post-apartheid South Africa and formalises the Six Trainers — the six dimensions every man needs to rebuild.",
+  "Brotherhood Circles are the practice: 20 men meet weekly for 6 months to rebuild themselves across all six dimensions. The book is the constitution. The Circle is the forge.",
 ];
 
 /**
@@ -433,27 +433,6 @@ export const AboutPage = () => {
                     </a>
                     <p className="text-e1-text-muted text-sm mt-1">
                       We respond within 48 hours
-                    </p>
-                  </div>
-                </div>
-
-                {/* Crisis Resources */}
-                <div className="bg-e1-surface border-l-4 border-e1-primary p-6 rounded-lg mt-12">
-                  <h3 className="font-display text-xl font-bold text-e1-text mb-4">
-                    In Crisis? Get Help Now
-                  </h3>
-                  <div className="space-y-3 text-e1-text-muted">
-                    <p>
-                      <strong className="text-e1-text">SADAG (24/7):</strong>{' '}
-                      <a href="tel:0800567567" className="text-e1-primary hover:underline">
-                        0800 567 567
-                      </a>
-                    </p>
-                    <p>
-                      <strong className="text-e1-text">Suicide Crisis:</strong> SMS 31393
-                    </p>
-                    <p className="text-sm italic mt-4">
-                      This movement can wait. Your life can't.
                     </p>
                   </div>
                 </div>
