@@ -7,7 +7,6 @@ import { useResizeRefreshDebounce } from "@/lib/useResizeRefreshDebounce";
 import { useScrollToHash } from "@/lib/useScrollToHash";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import Cursor from "@/components/Cursor";
 import ScrollProgress from "@/components/home/ScrollProgress";
 import { PageTransition } from "@/components/PageTransition";
 import { RevealRoot } from "@/components/RevealRoot";
@@ -80,7 +79,6 @@ function AppShell() {
           </PageTransition>
         </main>
         <Footer />
-        <Cursor />
       </div>
     </RevealRoot>
   );

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Mail, Linkedin, Instagram } from 'lucide-react';
-import { CursorSettingsToggle } from '@/components/CursorSettingsToggle';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,7 +7,7 @@ export const Footer = () => {
   return (
     <footer className="bg-e1-surface text-e1-text">
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 mb-12">
           <div>
             <h3 className="font-display text-lg font-bold mb-4 text-e1-primary">Navigate</h3>
             <ul className="space-y-2">
@@ -51,18 +50,13 @@ export const Footer = () => {
               </li>
             </ul>
           </div>
-
-          <div>
-            <h3 className="font-display text-lg font-bold mb-4 text-e1-primary">Settings</h3>
-            <CursorSettingsToggle />
-          </div>
         </div>
 
         <div className="border-t border-e1-text/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-e1-text-muted text-sm font-sans">
             &copy; {currentYear} Malumz. All rights reserved.
           </p>
-          <p className="text-e1-text/80 text-sm font-display italic">
+          <p className="text-e1-text-muted text-sm font-display italic">
             "Built with ubuntu. Measured with honesty."
           </p>
         </div>
