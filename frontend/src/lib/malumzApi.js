@@ -20,7 +20,9 @@ const normaliseAccess = (data) => ({
 });
 
 export const checkoutProduct = async ({ productId, buyerEmail }) => {
-  const response = await axios.post(`${apiBase}/checkout`, { productId, buyerEmail });
+  const body = { productId };
+  if (buyerEmail && buyerEmail.trim()) body.buyerEmail = buyerEmail.trim();
+  const response = await axios.post(`${apiBase}/checkout`, body);
   return response.data;
 };
 

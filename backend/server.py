@@ -160,7 +160,7 @@ class MockPurchaseResult(BaseModel):
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class CheckoutRequest(BaseModel):
-    buyerEmail: EmailStr
+    buyerEmail: Optional[EmailStr] = None
     productId: str
 
 class ActivateRequest(BaseModel):
@@ -286,6 +286,13 @@ async def create_malumz_checkout(request: CheckoutRequest):
         raise HTTPException(status_code=500, detail="Payment configuration missing")
 
     frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:3000").rstrip("/")
+    metadata = {
+        "type": "malumz_product",
+        "productId": request.productId,
+    }
+    if request.buyerEmail:
+        metadata["buyerEmail"] = request.buyerEmail
+
     checkout_body = {
         "amount": product["amount_cents"],
         "currency": "ZAR",
@@ -296,11 +303,7 @@ async def create_malumz_checkout(request: CheckoutRequest):
                 "pricingDetails": {"price": product["amount_cents"]},
             }
         ],
-        "metadata": {
-            "type": "malumz_product",
-            "productId": request.productId,
-            "buyerEmail": request.buyerEmail,
-        },
+        "metadata": metadata,
         "successUrl": f"{frontend_url}/book?paid=true&product={request.productId}",
         "cancelUrl": f"{frontend_url}/book",
     }
@@ -311,7 +314,7 @@ async def create_malumz_checkout(request: CheckoutRequest):
         headers={
             "Authorization": f"Bearer {secret_key}",
             "Content-Type": "application/json",
-            "Idempotency-Key": f"{request.buyerEmail}-{request.productId}",
+            "Idempotency-Key": f"{request.productId}-{secrets.token_urlsafe(16)}",
         },
         timeout=20,
     )
@@ -328,7 +331,7 @@ async def create_malumz_checkout(request: CheckoutRequest):
     in_memory_storage["purchases"].append({
         "id": str(uuid.uuid4()),
         "checkout_id": checkout_id,
-        "buyer_email": request.buyerEmail,
+        "buyer_email": request.buyerEmail or "",
         "product_id": request.productId,
         "amount_cents": product["amount_cents"],
         "status": "pending",
