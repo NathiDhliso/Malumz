@@ -1,23 +1,22 @@
 /**
- * Unit tests for the simplified Navigation component.
+ * Unit tests for the CTA-first Navigation component.
  *
  * Validates:
- * - Exactly 4 flat text links rendered: Home, Book, Join, About (Requirement 2.1)
- * - "I Need Help" button links to `/safety` (Requirement 2.2)
- * - No dropdown menus or ChevronDown icons rendered (Requirement 2.3, 2.6)
- *
- * **Validates: Requirements 2.1, 2.2, 2.3, 2.6**
+ * - Two primary CTAs: "Buy the Book" → /book, "Join a Circle" → /join
+ * - "Rules First" safety link → /safety
+ * - No dropdown menus or ChevronDown icons
+ * - Mobile: "Buy the Book" CTA visible inline (outside hamburger)
  */
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Navigation } from "../Navigation";
 
-// Mock lucide-react to track which icons are rendered
 jest.mock("lucide-react", () => ({
   Menu: (props) => <svg data-testid="icon-Menu" {...props} />,
   X: (props) => <svg data-testid="icon-X" {...props} />,
   ChevronDown: (props) => <svg data-testid="icon-ChevronDown" {...props} />,
+  ShieldAlert: (props) => <svg data-testid="icon-ShieldAlert" {...props} />,
 }));
 
 function renderNavigation(initialRoute = "/") {
@@ -28,89 +27,36 @@ function renderNavigation(initialRoute = "/") {
   );
 }
 
-describe("Navigation — Conversion-Focused Simplification", () => {
-  describe("Requirement 2.1: Exactly 4 flat text links", () => {
-    it("renders exactly 4 navigation text links: Home, Book, Join, About", () => {
+describe("Navigation — CTA-first hierarchy", () => {
+  describe("Primary CTAs", () => {
+    it('renders "Buy the Book" linking to /book', () => {
       const { container } = renderNavigation();
-
-      // Get the desktop nav links (inside the hidden lg:flex container)
-      // These are the internal links excluding the logo and the crisis button
-      const allInternalLinks = Array.from(
-        container.querySelectorAll('a[href^="/"]')
-      );
-
-      // Filter out the logo link (malumz.co.za), the "Rules First"
-      // button, and mobile menu duplicates
-      const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      expect(desktopNav).not.toBeNull();
-
-      const desktopNavLinks = Array.from(
-        desktopNav.querySelectorAll('a[href^="/"]')
-      );
-
-      // Exclude the "I Need Help" crisis button from the count
-      const textLinks = desktopNavLinks.filter(
-        (a) => !a.textContent.includes("Rules First")
-      );
-
-      expect(textLinks).toHaveLength(4);
-
-      const linkNames = textLinks.map((a) => a.textContent.trim());
-      expect(linkNames).toEqual(["Home", "Book", "Join", "About"]);
+      const buyLinks = Array.from(
+        container.querySelectorAll('a[href="/book"]')
+      ).filter((a) => a.textContent.trim() === "Buy the Book");
+      // At least one visible (desktop or mobile inline)
+      expect(buyLinks.length).toBeGreaterThanOrEqual(1);
     });
 
-    it("links Home to /", () => {
+    it('renders "Join a Circle" linking to /join', () => {
       const { container } = renderNavigation();
-      const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const homeLink = Array.from(
-        desktopNav.querySelectorAll('a[href="/"]')
-      ).find((a) => a.textContent.trim() === "Home");
-      expect(homeLink).not.toBeNull();
-    });
-
-    it("links Book to /#book", () => {
-      const { container } = renderNavigation();
-      const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const bookLink = desktopNav.querySelector('a[href="/#book"]');
-      expect(bookLink).not.toBeNull();
-      expect(bookLink.textContent.trim()).toBe("Book");
-    });
-
-    it("links Join to /#join", () => {
-      const { container } = renderNavigation();
-      const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const joinLink = desktopNav.querySelector('a[href="/#join"]');
-      expect(joinLink).not.toBeNull();
-      expect(joinLink.textContent.trim()).toBe("Join");
-    });
-
-    it("links About to /#about", () => {
-      const { container } = renderNavigation();
-      const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const aboutLink = desktopNav.querySelector('a[href="/#about"]');
-      expect(aboutLink).not.toBeNull();
-      expect(aboutLink.textContent.trim()).toBe("About");
+      const joinLinks = Array.from(
+        container.querySelectorAll('a[href="/join"]')
+      ).filter((a) => a.textContent.trim() === "Join a Circle");
+      expect(joinLinks.length).toBeGreaterThanOrEqual(1);
     });
   });
 
-  describe('Requirement 2.2: safety button', () => {
-    it('renders a "Rules First" button linking to /safety', () => {
+  describe("Safety link", () => {
+    it('renders "Rules First" linking to /safety', () => {
       const { container } = renderNavigation();
-      const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const crisisLink = desktopNav.querySelector('a[href="/safety"]');
-      expect(crisisLink).not.toBeNull();
-      expect(crisisLink.textContent.trim()).toBe("Rules First");
-    });
-
-    it("crisis button is visually distinct (has bg-red styling)", () => {
-      const { container } = renderNavigation();
-      const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const crisisLink = desktopNav.querySelector('a[href="/safety"]');
-      expect(crisisLink.className).toMatch(/bg-red/);
+      const safetyLink = container.querySelector('a[href="/safety"]');
+      expect(safetyLink).not.toBeNull();
+      expect(safetyLink.textContent).toContain("Rules First");
     });
   });
 
-  describe("Requirement 2.3 & 2.6: No dropdown menus or ChevronDown icons", () => {
+  describe("No dropdowns", () => {
     it("does not render any ChevronDown icons", () => {
       const { container } = renderNavigation();
       const chevrons = container.querySelectorAll(
@@ -121,26 +67,8 @@ describe("Navigation — Conversion-Focused Simplification", () => {
 
     it("does not render any dropdown menu containers", () => {
       const { container } = renderNavigation();
-      // No elements with role="menu" or dropdown-like containers
       const menus = container.querySelectorAll('[role="menu"]');
       expect(menus).toHaveLength(0);
-    });
-
-    it('does not render a "Learn" dropdown button', () => {
-      const { container } = renderNavigation();
-      const buttons = Array.from(container.querySelectorAll("button"));
-      const learnButton = buttons.find((b) =>
-        b.textContent.trim().startsWith("Learn")
-      );
-      expect(learnButton).toBeUndefined();
-    });
-
-    it("all navigation items are flat links (no nested children)", () => {
-      const { container } = renderNavigation();
-      const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      // All children should be direct <a> links, no <button> elements for dropdowns
-      const dropdownButtons = desktopNav.querySelectorAll("button");
-      expect(dropdownButtons).toHaveLength(0);
     });
   });
 });

@@ -46,7 +46,6 @@ export const HeroSection = ({
   primaryCtaHref = "/book",
   secondaryCtaLabel = "Join a Circle",
   secondaryCtaHref = "/join",
-  showCrisisButton = true,
 }) => {
   // Sample motion / save-data preference once at mount. Re-probing on every
   // render would risk a mid-session background swap, which is out of scope.
@@ -206,31 +205,20 @@ export const HeroSection = ({
         </p>
         <div ref={ctaRef} className="mt-10 flex flex-col sm:flex-row gap-4 items-center">
           <MagneticButton
-            className="font-sans uppercase text-sm tracking-wider px-8 py-4 border border-e1-primary text-e1-primary hover:bg-e1-primary hover:text-e1-text transition-colors"
+            className="font-sans uppercase text-sm tracking-wider px-8 py-4 bg-e1-primary text-white hover:bg-[#9f2f0b] rounded-full transition-colors"
             onClick={() => navigate(primaryCtaHref)}
             aria-label={primaryCtaLabel}
           >
             {primaryCtaLabel}
           </MagneticButton>
           <MagneticButton
-            className="font-sans uppercase text-sm tracking-wider px-8 py-4 border border-e1-text-muted text-e1-text-muted hover:bg-e1-text-muted hover:text-e1-bg transition-colors"
+            className="font-sans uppercase text-sm tracking-wider px-8 py-4 border border-e1-text-muted text-e1-text-muted hover:bg-e1-text-muted hover:text-e1-bg rounded-full transition-colors"
             onClick={() => navigate(secondaryCtaHref)}
             aria-label={secondaryCtaLabel}
           >
             {secondaryCtaLabel}
           </MagneticButton>
         </div>
-        {showCrisisButton && (
-          <div className="mt-8">
-            <MagneticButton
-              className="font-sans text-sm tracking-wider px-6 py-3 border border-e1-text-muted/40 text-e1-text-muted hover:border-e1-primary hover:text-e1-primary transition-colors rounded"
-              onClick={() => navigate('/safety')}
-              aria-label="Our Standards"
-            >
-              Our Standards
-            </MagneticButton>
-          </div>
-        )}
       </div>
     </NotchedSection>
     </div>

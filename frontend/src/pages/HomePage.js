@@ -190,17 +190,23 @@ export const HomePage = () => {
                   Circles run the practice.
                 </p>
               </div>
-              <div data-narrative-cta>
+              <div data-narrative-cta className="flex items-center gap-4">
                 <Link
-                  to="/about"
-                  className="group inline-flex items-center gap-2 font-sans uppercase text-sm tracking-wider text-e1-primary border-b border-e1-primary pb-1 transition-all"
+                  to="/book"
+                  className="group inline-flex items-center gap-2 font-sans uppercase text-sm tracking-wider px-5 py-2.5 bg-e1-primary text-white rounded-full hover:bg-[#9f2f0b] transition-colors"
                 >
-                  Read the full story
+                  Buy the Book
                   <ArrowRight
-                    size={16}
+                    size={14}
                     aria-hidden="true"
                     className="transition-transform group-hover:translate-x-1"
                   />
+                </Link>
+                <Link
+                  to="/about"
+                  className="font-sans text-xs text-e1-text-muted hover:text-e1-primary transition-colors"
+                >
+                  Full story →
                 </Link>
               </div>
             </div>
@@ -249,7 +255,7 @@ export const HomePage = () => {
                   needs to produce functional men."
                 </p>
               </div>
-              <div data-narrative-cta className="flex flex-wrap gap-4 mt-2">
+              <div data-narrative-cta className="flex items-center gap-4 mt-2">
                 <Link
                   to="/book"
                   className="group inline-flex items-center gap-2 font-sans uppercase text-sm tracking-wider px-6 py-3 bg-e1-primary text-white rounded-full hover:bg-[#9f2f0b] transition-colors"
@@ -263,9 +269,9 @@ export const HomePage = () => {
                 </Link>
                 <Link
                   to="/book"
-                  className="inline-flex items-center gap-2 font-sans uppercase text-sm tracking-wider px-6 py-3 border border-e1-text-muted text-e1-text-muted rounded-full hover:bg-e1-text-muted/10 transition-colors"
+                  className="font-sans text-xs text-e1-text-muted hover:text-e1-primary transition-colors"
                 >
-                  Read a free chapter
+                  Free chapter →
                 </Link>
               </div>
             </div>
