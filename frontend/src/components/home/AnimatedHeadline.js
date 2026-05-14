@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 
 import { gsap, ScrollTrigger } from "@/lib/gsap";
@@ -11,8 +11,9 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
  * lifts and fades in. This is the gsap-core replacement for SplitText
  * (which is a premium plugin that was stripped from the runtime).
  *
- * Uses `immediateRender: false` so if GSAP never runs the words stay at
- * their natural visible state — the headline is never invisible.
+ * The start state is locked synchronously via `gsap.set()` inside the
+ * useLayoutEffect-based useGSAP hook — so the words never paint at their
+ * natural state before the reveal animation runs.
  *
  * Props:
  *  - `text`       — the headline string. Newlines are preserved by the
@@ -48,16 +49,19 @@ export default function AnimatedHeadline({
       const wordEls = root.querySelectorAll("[data-headline-word]");
       if (!wordEls.length) return undefined;
 
+      // Lock the start state synchronously so the words never paint at
+      // their natural position before the reveal runs.
+      gsap.set(wordEls, { opacity: 0, yPercent: 110, rotate: 4 });
+
       const animate = () =>
-        gsap.from(wordEls, {
-          opacity: 0,
-          yPercent: 110,
-          rotate: 4,
+        gsap.to(wordEls, {
+          opacity: 1,
+          yPercent: 0,
+          rotate: 0,
           duration,
           stagger,
           delay,
           ease: "power3.out",
-          immediateRender: false,
         });
 
       if (triggerOnScroll) {
@@ -75,6 +79,28 @@ export default function AnimatedHeadline({
     },
     { dependencies: [text, triggerOnScroll] }
   );
+
+  // Mobile-Safari safety net. ScrollTrigger is rAF-driven and can stall during
+  // scroll gestures or tab visibility changes, leaving the words stuck at
+  // opacity 0. After 2 seconds, force every word visible so the headline
+  // cannot be permanently invisible.
+  useEffect(() => {
+    if (!triggerOnScroll) return undefined;
+    const timer = setTimeout(() => {
+      const root = ref.current;
+      if (!root) return;
+      const wordEls = root.querySelectorAll("[data-headline-word]");
+      if (!wordEls.length) return;
+      gsap.to(wordEls, {
+        opacity: 1,
+        yPercent: 0,
+        rotate: 0,
+        duration: 0.3,
+        overwrite: "auto",
+      });
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [triggerOnScroll, text]);
 
   return (
     <Tag ref={ref} className={className} {...rest}>

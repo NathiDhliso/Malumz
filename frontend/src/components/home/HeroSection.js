@@ -75,28 +75,31 @@ export const HeroSection = ({
       const ctaEl = ctaRef.current;
       if (!subtitleEl || !ctaEl) return undefined;
 
+      // Lock the start state synchronously (useGSAP runs in useLayoutEffect,
+      // so this runs after commit but before paint — the elements never
+      // appear at their natural state).
+      gsap.set([subtitleEl, ctaEl], { opacity: 0, yPercent: 40 });
+
       // Headline runs its own word-stagger via <AnimatedHeadline />.
       // Sequence the subtitle and CTAs with a short delay so the whole
       // hero feels choreographed rather than three independent reveals.
       const tl = gsap.timeline({ delay: 0.4 });
 
-      tl.from(
+      tl.to(
         subtitleEl,
         {
-          opacity: 0,
-          yPercent: 40,
+          opacity: 1,
+          yPercent: 0,
           duration: 0.6,
           ease: "power3.out",
-          immediateRender: false,
         },
-      ).from(
+      ).to(
         ctaEl,
         {
-          opacity: 0,
-          yPercent: 40,
+          opacity: 1,
+          yPercent: 0,
           duration: 0.6,
           ease: "power3.out",
-          immediateRender: false,
         },
         "-=0.3",
       );

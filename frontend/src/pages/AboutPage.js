@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Mail, CheckCircle2, ArrowRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 
@@ -243,25 +243,44 @@ export const AboutPage = () => {
       });
 
       // --- Pull-quote paragraphs (whole-element reveal) --------------------
-      // Use `gsap.from` with `immediateRender: false` so if ScrollTrigger
-      // never fires (mobile Safari rAF stall), the paragraphs stay at
-      // their natural visible state instead of being locked at opacity 0.
+      // Lock the start state synchronously so paragraphs never paint at
+      // their natural position before the scroll-triggered reveal runs.
+      gsap.set(paragraphEls, { opacity: 0, y: 30 });
       ScrollTrigger.batch(paragraphEls, {
         start: "top 85%",
         once: true,
         onEnter: (batch) =>
-          gsap.from(batch, {
-            opacity: 0,
-            y: 30,
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
             duration: 0.7,
             stagger: 0.15,
             ease: "power3.out",
-            immediateRender: false,
           }),
       });
     },
     { scope: pageRef },
   );
+
+  // Mobile-Safari safety net. ScrollTrigger is rAF-driven and can stall during
+  // scroll gestures or tab visibility changes, leaving pull-quote paragraphs
+  // stuck at opacity 0. After 2 seconds, force every paragraph back to its
+  // natural state so the founder story cannot be permanently invisible.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const container = paragraphsContainerRef.current;
+      if (!container) return;
+      const paragraphs = container.querySelectorAll("[data-pull-quote]");
+      if (!paragraphs.length) return;
+      gsap.to(paragraphs, {
+        opacity: 1,
+        y: 0,
+        duration: 0.3,
+        overwrite: "auto",
+      });
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div ref={pageRef} className="min-h-screen bg-e1-bg text-e1-text">

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { ArrowRight, BookOpen, Users, Compass } from 'lucide-react';
@@ -34,50 +34,55 @@ export const HomePage = () => {
 
       // Body / aside / cta entrance per section. Headings handle their
       // own word stagger via <AnimatedHeadline triggerOnScroll />.
+      //
+      // Lock initial states synchronously at mount so the elements never
+      // paint at their natural state before the scroll-triggered reveal —
+      // otherwise the user sees a flash when the section enters viewport.
       const sections = root.querySelectorAll('[data-narrative-section]');
       sections.forEach((section) => {
+        const body = section.querySelector('[data-narrative-body]');
+        const aside = section.querySelector('[data-narrative-aside]');
+        const cta = section.querySelector('[data-narrative-cta]');
+
+        if (aside) gsap.set(aside, { opacity: 0, x: 24 });
+        if (body) gsap.set(body.children, { opacity: 0, y: 20 });
+        if (cta) gsap.set(cta, { opacity: 0, y: 16 });
+
         ScrollTrigger.create({
           trigger: section,
           start: 'top 88%',
           once: true,
           onEnter: () => {
-            const body = section.querySelector('[data-narrative-body]');
-            const aside = section.querySelector('[data-narrative-aside]');
-            const cta = section.querySelector('[data-narrative-cta]');
-
             const tl = gsap.timeline();
             if (aside) {
-              tl.from(aside, {
-                opacity: 0,
-                x: 24,
+              tl.to(aside, {
+                opacity: 1,
+                x: 0,
                 duration: 0.7,
                 ease: 'power3.out',
-                immediateRender: false,
               });
             }
             if (body) {
-              tl.from(
+              tl.to(
                 body.children,
                 {
-                  opacity: 0,
-                  y: 20,
+                  opacity: 1,
+                  y: 0,
                   duration: 0.5,
                   stagger: 0.08,
                   ease: 'power2.out',
-                  immediateRender: false,
                 },
                 aside ? '-=0.4' : 0
               );
             }
             if (cta) {
-              tl.from(
+              tl.to(
                 cta,
                 {
-                  opacity: 0,
-                  y: 16,
+                  opacity: 1,
+                  y: 0,
                   duration: 0.4,
                   ease: 'power2.out',
-                  immediateRender: false,
                 },
                 '-=0.2'
               );
@@ -133,6 +138,36 @@ export const HomePage = () => {
     },
     { scope: pageRef }
   );
+
+  // Mobile-Safari safety net. ScrollTrigger is rAF-driven and can stall during
+  // scroll gestures or tab visibility changes, leaving narrative sections
+  // stuck at opacity 0. After 2 seconds, force every locked element back to
+  // its natural state so the page cannot be permanently invisible.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const root = pageRef.current;
+      if (!root) return;
+      const sections = root.querySelectorAll('[data-narrative-section]');
+      sections.forEach((section) => {
+        const aside = section.querySelector('[data-narrative-aside]');
+        const body = section.querySelector('[data-narrative-body]');
+        const cta = section.querySelector('[data-narrative-cta]');
+        const targets = [];
+        if (aside) targets.push(aside);
+        if (body) targets.push(...body.children);
+        if (cta) targets.push(cta);
+        if (!targets.length) return;
+        gsap.to(targets, {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          duration: 0.3,
+          overwrite: 'auto',
+        });
+      });
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div ref={pageRef} className="min-h-screen bg-e1-bg">
