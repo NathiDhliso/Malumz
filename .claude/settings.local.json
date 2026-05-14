@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/nathi/OneDrive/Documents/Projects/Profile/profile-backend/**)",
+      "Bash(go build *)"
+    ]
+  }
+}
