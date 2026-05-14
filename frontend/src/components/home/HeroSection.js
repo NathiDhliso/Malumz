@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 
 import NotchedSection from "@/components/NotchedSection";
 import MagneticButton from "@/components/MagneticButton";
+import AnimatedHeadline from "@/components/home/AnimatedHeadline";
 import assets, {
   HERO_AMBIENT_VIDEO,
   HERO_POSTER_IMAGE,
@@ -64,7 +65,6 @@ export const HeroSection = ({
   const sectionRef = useRef(null);
   const parallaxRef = useRef(null);
   const foregroundRef = useRef(null);
-  const headlineRef = useRef(null);
   const subtitleRef = useRef(null);
   const ctaRef = useRef(null);
 
@@ -72,21 +72,14 @@ export const HeroSection = ({
 
   useGSAP(
     () => {
-      const headlineEl = headlineRef.current;
       const subtitleEl = subtitleRef.current;
       const ctaEl = ctaRef.current;
-      if (!headlineEl || !subtitleEl || !ctaEl) return undefined;
+      if (!subtitleEl || !ctaEl) return undefined;
 
-      gsap.set(headlineEl, { transformPerspective: 600 });
-
-      // Full animation timeline — always plays regardless of OS motion settings.
-      const tl = gsap.timeline();
-
-      tl.from(headlineEl, {
-        opacity: 0,
-        duration: 1,
-        ease: "expo.out",
-      });
+      // Headline runs its own word-stagger via <AnimatedHeadline />.
+      // Sequence the subtitle and CTAs with a short delay so the whole
+      // hero feels choreographed rather than three independent reveals.
+      const tl = gsap.timeline({ delay: 0.4 });
 
       tl.from(
         subtitleEl,
@@ -95,8 +88,8 @@ export const HeroSection = ({
           yPercent: 40,
           duration: 0.6,
           ease: "power3.out",
+          immediateRender: false,
         },
-        "-=0.3",
       ).from(
         ctaEl,
         {
@@ -104,6 +97,7 @@ export const HeroSection = ({
           yPercent: 40,
           duration: 0.6,
           ease: "power3.out",
+          immediateRender: false,
         },
         "-=0.3",
       );
@@ -196,13 +190,14 @@ export const HeroSection = ({
         ref={foregroundRef}
         className="relative z-10 flex flex-col items-center justify-center min-h-[90vh] px-8 py-24 text-center"
       >
-        <h1
-          ref={headlineRef}
+        <AnimatedHeadline
+          as="h1"
+          text={headline}
           className="font-display text-e1-text text-5xl md:text-7xl lg:text-8xl leading-none"
           aria-label={headline}
-        >
-          {headline}
-        </h1>
+          stagger={0.07}
+          duration={0.8}
+        />
         <p
           ref={subtitleRef}
           className="mt-6 font-sans text-e1-text-muted text-lg md:text-xl uppercase tracking-wider"

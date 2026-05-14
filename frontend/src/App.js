@@ -8,6 +8,7 @@ import { useScrollToHash } from "@/lib/useScrollToHash";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import Cursor from "@/components/Cursor";
+import ScrollProgress from "@/components/home/ScrollProgress";
 import { PageTransition } from "@/components/PageTransition";
 import { RevealRoot } from "@/components/RevealRoot";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -54,6 +55,7 @@ function AppShell() {
   return (
     <RevealRoot>
       <div className="App min-h-screen flex flex-col">
+        <ScrollProgress />
         <Navigation />
         <main className="flex-grow">
           <PageTransition>
