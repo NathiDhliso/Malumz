@@ -68,26 +68,26 @@ describe("Navigation — Conversion-Focused Simplification", () => {
       expect(homeLink).not.toBeNull();
     });
 
-    it("links Book to /book", () => {
+    it("links Book to /#book", () => {
       const { container } = renderNavigation();
       const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const bookLink = desktopNav.querySelector('a[href="/book"]');
+      const bookLink = desktopNav.querySelector('a[href="/#book"]');
       expect(bookLink).not.toBeNull();
       expect(bookLink.textContent.trim()).toBe("Book");
     });
 
-    it("links Join to /join", () => {
+    it("links Join to /#join", () => {
       const { container } = renderNavigation();
       const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const joinLink = desktopNav.querySelector('a[href="/join"]');
+      const joinLink = desktopNav.querySelector('a[href="/#join"]');
       expect(joinLink).not.toBeNull();
       expect(joinLink.textContent.trim()).toBe("Join");
     });
 
-    it("links About to /about", () => {
+    it("links About to /#about", () => {
       const { container } = renderNavigation();
       const desktopNav = container.querySelector(".hidden.lg\\:flex");
-      const aboutLink = desktopNav.querySelector('a[href="/about"]');
+      const aboutLink = desktopNav.querySelector('a[href="/#about"]');
       expect(aboutLink).not.toBeNull();
       expect(aboutLink.textContent.trim()).toBe("About");
     });

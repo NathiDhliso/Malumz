@@ -62,10 +62,10 @@ export const Navigation = () => {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Book', path: '/book' },
-    { name: 'Join', path: '/join' },
-    { name: 'About', path: '/about' },
+    { name: 'Home', path: '/', match: '/' },
+    { name: 'Book', path: '/#book', match: '/book' },
+    { name: 'Join', path: '/#join', match: '/join' },
+    { name: 'About', path: '/#about', match: '/about' },
   ];
 
   return (
@@ -92,7 +92,7 @@ export const Navigation = () => {
                   key={link.path}
                   to={link.path}
                   className={`font-sans text-sm font-medium transition-all hover:text-e1-secondary ${
-                    location.pathname === link.path ? 'text-e1-primary' : 'text-e1-text'
+                    location.pathname === link.match ? 'text-e1-primary' : 'text-e1-text'
                   }`}
                 >
                   {link.name}
@@ -134,7 +134,7 @@ export const Navigation = () => {
                     key={link.path}
                     to={link.path}
                     className={`block py-2 font-sans text-base font-medium ${
-                      location.pathname === link.path ? 'text-e1-primary' : 'text-e1-text'
+                      location.pathname === link.match ? 'text-e1-primary' : 'text-e1-text'
                     }`}
                   >
                     {link.name}

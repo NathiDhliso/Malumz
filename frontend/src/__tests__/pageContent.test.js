@@ -115,8 +115,11 @@ describe("Page Content — Conversion-Focused Simplification (Task 13.3)", () =>
     it("renders dual CTAs: 'Buy the Book' and 'Join a Circle'", () => {
       const { container, restoreMatchMedia } = renderWithRouter(HomePage);
       try {
-        expect(screen.getByText("Buy the Book")).toBeInTheDocument();
-        expect(screen.getByText("Join a Circle")).toBeInTheDocument();
+        // Both CTAs may appear more than once: in the hero and in the
+        // single-page preview sections. Use getAllByText so the
+        // assertion stays correct as the narrative grows.
+        expect(screen.getAllByText("Buy the Book").length).toBeGreaterThan(0);
+        expect(screen.getAllByText("Join a Circle").length).toBeGreaterThan(0);
       } finally {
         restoreMatchMedia();
       }

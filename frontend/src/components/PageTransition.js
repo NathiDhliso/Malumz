@@ -60,7 +60,9 @@ export const PageTransition = ({ children }) => {
 
     if (prefersReduced) {
       setDisplayLocation(location);
-      if (typeof window !== "undefined") window.scrollTo(0, 0);
+      if (typeof window !== "undefined" && !location.hash) {
+        window.scrollTo(0, 0);
+      }
       pendingLocationRef.current = null;
       if (typeof ScrollTrigger?.refresh === "function") ScrollTrigger.refresh();
       return undefined;
@@ -86,7 +88,12 @@ export const PageTransition = ({ children }) => {
       setDisplayLocation(target);
       pendingLocationRef.current = null;
 
-      if (typeof window !== "undefined") window.scrollTo(0, 0);
+      // Only scroll to top when navigating to a fresh page without a
+      // hash. When the URL carries `#section`, useScrollToHash takes
+      // over and scrolls to the anchor, so we must not stomp it.
+      if (typeof window !== "undefined" && !target.hash) {
+        window.scrollTo(0, 0);
+      }
 
       // Fade back in on the very next frame so React has committed
       // the new route's DOM before the transition runs.

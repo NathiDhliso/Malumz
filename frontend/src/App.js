@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollTrigger } from "@/lib/gsap";
 import { useRouteScrollRefresh } from "@/lib/useRouteScrollRefresh";
 import { useResizeRefreshDebounce } from "@/lib/useResizeRefreshDebounce";
+import { useScrollToHash } from "@/lib/useScrollToHash";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import Cursor from "@/components/Cursor";
@@ -34,6 +35,11 @@ function AppShell() {
   // route change — curtain or not — still produces exactly one refresh
   // deferred until after the new route has mounted and painted.
   useRouteScrollRefresh();
+
+  // Smooth-scroll to `#section` when the URL carries a hash (used by the
+  // single-page narrative on Home — Navigation links emit /#book, /#join,
+  // /#about and the page scrolls to the matching preview section).
+  useScrollToHash();
 
   // Requirement 22.3: when the viewport crosses the 1024px pin breakpoint
   // via resize, call `ScrollTrigger.refresh()` within 250ms of the resize
