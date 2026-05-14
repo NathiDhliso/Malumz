@@ -160,12 +160,11 @@ export const BookPurchasePanel = () => {
         </div>
 
         <label className="block">
-          <span className="flex items-center gap-2 text-sm font-semibold text-e1-text-muted mb-2">
-            <Mail size={16} /> Email for your receipt
+          <span className="flex items-center gap-2 text-sm text-e1-text-muted mb-2">
+            <Mail size={16} /> Email for receipt (optional)
           </span>
           <input
             type="email"
-            required
             value={buyerEmail}
             onChange={(event) => setBuyerEmail(event.target.value)}
             className="w-full bg-e1-bg border border-e1-text-muted/30 rounded-lg px-4 py-3 text-e1-text focus:ring-2 focus:ring-e1-primary focus:border-transparent transition-all"
