@@ -83,8 +83,8 @@ export const BookPurchasePanel = () => {
   return (
     <div className="bg-white border border-e1-text-muted/20 rounded-xl p-6 md:p-8 shadow-lg">
       <div className="flex items-center gap-3 mb-4">
-        <Lock size={22} className="text-e1-secondary" />
-        <h3 className="font-serif text-2xl font-bold text-e1-surface">
+        <Lock size={22} className="text-e1-primary" />
+        <h3 className="font-display text-2xl font-bold text-e1-text">
           Buy Directly
         </h3>
       </div>
@@ -93,7 +93,7 @@ export const BookPurchasePanel = () => {
       </p>
 
       {isActivating && (
-        <div className="bg-e1-text border border-e1-text-muted/20 rounded-lg px-4 py-3 text-e1-surface text-sm mb-6">
+        <div className="bg-e1-text border border-e1-text-muted/20 rounded-lg px-4 py-3 text-white text-sm mb-6">
           Confirming your payment...
         </div>
       )}
@@ -101,7 +101,7 @@ export const BookPurchasePanel = () => {
       {access?.ebookUrl && (
         <a
           href={access.ebookUrl}
-          className="flex items-center justify-between bg-e1-secondary text-e1-surface rounded-lg px-5 py-4 font-bold mb-6"
+          className="flex items-center justify-between bg-e1-primary text-white rounded-lg px-5 py-4 font-bold mb-6"
         >
           <span>Download your eBook</span>
           <Download size={18} />
@@ -110,12 +110,12 @@ export const BookPurchasePanel = () => {
 
       {access?.audioTracks?.length > 0 && (
         <div className="space-y-3 mb-6">
-          <h4 className="font-serif text-lg font-bold text-e1-surface">
+          <h4 className="font-display text-lg font-bold text-e1-text">
             Your Audiobook
           </h4>
           {access.audioTracks.map((track, index) => (
             <div key={track.url} className="bg-e1-text border border-e1-text-muted/20 rounded-lg p-4">
-              <p className="font-semibold text-e1-surface text-sm mb-2">
+              <p className="font-semibold text-white text-sm mb-2">
                 {index + 1}. {track.title}
               </p>
               <audio controls preload="none" src={track.url} className="w-full" />

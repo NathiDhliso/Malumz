@@ -334,7 +334,7 @@ export const AboutPage = () => {
                   className="bg-e1-surface border-l-4 border-e1-highlight p-8 rounded-lg"
                   data-testid="contact-success-message"
                 >
-                  <CheckCircle2 size={48} className="text-e1-highlight mb-4" />
+                  <CheckCircle2 size={48} className="text-e1-primary mb-4" />
                   <h3 className="font-display text-2xl font-bold text-e1-text mb-2">
                     Message Received!
                   </h3>
@@ -436,7 +436,7 @@ export const AboutPage = () => {
               <div className="space-y-8">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-12 h-12 bg-e1-highlight/10 rounded-full flex items-center justify-center">
-                    <Mail className="text-e1-highlight" size={24} />
+                    <Mail className="text-e1-primary" size={24} />
                   </div>
                   <div>
                     <h3 className="font-display text-xl font-bold text-e1-text mb-2">

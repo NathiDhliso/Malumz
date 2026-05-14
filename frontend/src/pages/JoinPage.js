@@ -59,7 +59,7 @@ export const JoinPage = () => {
     <div className="min-h-screen bg-e1-bg">
       <NotchedSection tone="charcoal" className="pt-32 pb-16">
         <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 text-center">
-          <Users size={64} className="text-e1-highlight mx-auto mb-6" />
+          <Users size={64} className="text-e1-primary mx-auto mb-6" />
           <h1 className="gs-reveal font-display text-4xl lg:text-5xl font-bold text-e1-text mb-4">
             Join a Brotherhood Circle
           </h1>
@@ -73,7 +73,7 @@ export const JoinPage = () => {
         <div className="max-w-2xl mx-auto px-4 md:px-8 lg:px-12">
           {submitSuccess ? (
             <div className="bg-e1-surface border border-e1-text/10 rounded-xl p-8 text-center">
-              <CheckCircle2 size={48} className="text-e1-highlight mx-auto mb-4" />
+              <CheckCircle2 size={48} className="text-e1-primary mx-auto mb-4" />
               <h3 className="font-display text-2xl font-bold text-e1-text mb-2">
                 Interest Received
               </h3>

@@ -108,7 +108,7 @@ export const Navigation = () => {
             className="font-display text-2xl font-bold text-e1-text tracking-tight"
             aria-label="Malumz home"
           >
-            malumz<span className="text-e1-highlight">.co.za</span>
+            malumz<span className="text-e1-primary">.co.za</span>
           </Link>
 
           {/* Desktop CTAs (>= lg) — only the two primary actions plus the

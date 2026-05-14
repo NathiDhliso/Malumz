@@ -108,7 +108,7 @@ export const SafetyPage = () => {
           </p>
           {submitSuccess ? (
             <div className="bg-e1-surface border border-e1-text/10 rounded-xl p-8 text-center">
-              <CheckCircle2 size={48} className="text-e1-highlight mx-auto mb-4" />
+              <CheckCircle2 size={48} className="text-e1-primary mx-auto mb-4" />
               <h3 className="font-display text-xl font-bold text-e1-text mb-2">
                 Report Received
               </h3>
