@@ -211,16 +211,14 @@ describe("Page Content — Conversion-Focused Simplification (Task 13.3)", () =>
     it("renders BookPurchasePanel before the chapter preview section", () => {
       const { container, restoreMatchMedia } = renderWithRouter(BookPage);
       try {
-        // The purchase panel has data-animate="purchase" and comes before "What's Inside"
-        const purchaseSection = container.querySelector('[data-animate="purchase"]');
-        expect(purchaseSection).not.toBeNull();
-
+        // The purchase panel section comes before "What's Inside" in DOM order
         const whatsInside = screen.getByText("What's Inside");
         expect(whatsInside).toBeInTheDocument();
 
-        // Purchase panel should come before "What's Inside" in document order
+        // eBook text (from BookPurchasePanel) should appear before "What's Inside"
+        const eBookEl = screen.getByText("eBook");
         expect(
-          purchaseSection.compareDocumentPosition(whatsInside) &
+          eBookEl.compareDocumentPosition(whatsInside) &
             Node.DOCUMENT_POSITION_FOLLOWING
         ).toBeTruthy();
       } finally {
